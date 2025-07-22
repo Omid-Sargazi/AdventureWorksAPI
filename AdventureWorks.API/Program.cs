@@ -16,6 +16,8 @@ builder.Services.AddMiniProfiler(options =>
     options.EnableMvcFilterProfiling = true; // رصد فیلترهای MVC
 }).AddEntityFramework();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {

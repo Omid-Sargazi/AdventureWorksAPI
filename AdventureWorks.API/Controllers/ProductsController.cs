@@ -1,7 +1,9 @@
+using AdventureWorks.Domain.Entities;
 using AdventureWorks.Infrastructure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AdventureWorks.API.Controllers
 {
@@ -10,9 +12,11 @@ namespace AdventureWorks.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AdventureWorksDbContext _context;
-        public ProductsController(AdventureWorksDbContext context)
+        private readonly IMemoryCache _cache;
+        public ProductsController(AdventureWorksDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -53,6 +57,23 @@ namespace AdventureWorks.API.Controllers
             }).ToListAsync();
 
             return Ok(products);
+        }
+
+        [HttpGet("cached-products")]
+        public async Task<IActionResult> GetCachedProducts()
+        {
+            var cacheKey = "products_10";
+            if (_cache.TryGetValue(cacheKey, out List<Product> cachedProducts))
+            {
+                return Ok(new { source = "cache", products = cachedProducts });
+            }
+
+            var products = await _context.Products
+            .Take(10).AsNoTracking()
+            .ToListAsync();
+
+            _cache.Set(cacheKey, products, TimeSpan.FromMinutes(5));
+            return Ok(new { source = "db", products });
         }
     }
 }
