@@ -24,5 +24,20 @@ namespace AdventureWorks.API.Controllers
             .ToListAsync();
             return Ok(products);
         }
+
+        [HttpGet("lazy")]
+        public async Task<IActionResult> GetLazy()
+        {
+            var products = await _context.Products
+            .Take(10)
+            .ToListAsync();
+
+            var result = products.Select(p => new
+            {
+                p.Name,
+                Subcategory = p.ProductSubcategory?.Name
+            });
+            return Ok(result);
+        }
     }
 }
