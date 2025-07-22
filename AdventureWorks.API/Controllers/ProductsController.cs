@@ -39,5 +39,20 @@ namespace AdventureWorks.API.Controllers
             });
             return Ok(result);
         }
+
+        [HttpGet("eager")]
+        public async Task<IActionResult> GetEager()
+        {
+            var products = await _context.Products
+            .Include(p => p.ProductSubcategory)
+            .Take(10)
+            .Select(p => new
+            {
+                p.Name,
+                Subcategory = p.ProductSubcategory != null ? p.ProductSubcategory.Name : null,
+            }).ToListAsync();
+
+            return Ok(products);
+        }
     }
 }
