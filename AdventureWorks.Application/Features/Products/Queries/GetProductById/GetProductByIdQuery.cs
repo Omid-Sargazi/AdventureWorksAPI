@@ -1,5 +1,7 @@
+using AdventureWorks.Application.DTOs;
+using MediatR;
+
 namespace AdventureWorks.Application.Features.Products.Queries.GetProductById
 {
-    public class GetProductByIdQuery
-    {}
+    public record GetProductByIdQuery(int id) :IRequest<ProductDto>;
 }

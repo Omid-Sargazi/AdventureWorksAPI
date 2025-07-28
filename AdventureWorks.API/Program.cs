@@ -1,6 +1,8 @@
 using AdventureWorks.API.Middleware;
 using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
+using AdventureWorks.Application.Interfaces;
 using AdventureWorks.Infrastructure;
+using AdventureWorks.Infrastructure.Repository.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<AdventureWorksDbContext>(optiins =>
 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddMiniProfiler(options =>
 {

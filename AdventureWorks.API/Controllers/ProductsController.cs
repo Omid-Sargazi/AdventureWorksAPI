@@ -1,6 +1,9 @@
 using System.Text.Json;
+using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
+using AdventureWorks.Application.Features.Products.Queries.GetProductById;
 using AdventureWorks.Domain.Entities;
 using AdventureWorks.Infrastructure;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +19,15 @@ namespace AdventureWorks.API.Controllers
         private readonly AdventureWorksDbContext _context;
         private readonly IMemoryCache _cache;
         private readonly IDistributedCache _distributedCache;
+        private readonly IMediator _mediator;
 
-        public ProductsController(AdventureWorksDbContext context, IMemoryCache cache, IDistributedCache distributedCache)
+        public ProductsController(AdventureWorksDbContext context, IMemoryCache cache,
+        IDistributedCache distributedCache, IMediator mediator)
         {
             _context = context;
             _cache = cache;
             _distributedCache = distributedCache;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -106,6 +112,20 @@ namespace AdventureWorks.API.Controllers
             });
 
             return Ok(new { source = "db", products = data });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
+        {
+            int id = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetProductById), new { id }, new { id });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var product = await _mediator.Send(new GetProductByIdQuery(id));
+            return Ok(product);
         }
             
     }
