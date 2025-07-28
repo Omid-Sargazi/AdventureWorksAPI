@@ -129,7 +129,7 @@ namespace AdventureWorks.API.Controllers
             return Ok(product);
         }
 
-        [HttpGet]
+        [HttpGet("filter")]
         public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery query)
         {
             var products = await _mediator.Send(query);
