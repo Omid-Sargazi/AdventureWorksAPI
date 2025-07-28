@@ -1,5 +1,6 @@
 using System.Text.Json;
 using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
+using AdventureWorks.Application.Features.Products.Queries.GetAllProducts;
 using AdventureWorks.Application.Features.Products.Queries.GetProductById;
 using AdventureWorks.Domain.Entities;
 using AdventureWorks.Infrastructure;
@@ -126,6 +127,13 @@ namespace AdventureWorks.API.Controllers
         {
             var product = await _mediator.Send(new GetProductByIdQuery(id));
             return Ok(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery query)
+        {
+            var products = await _mediator.Send(query);
+            return Ok(products);
         }
             
     }
