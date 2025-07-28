@@ -1,3 +1,4 @@
+using AdventureWorks.API.Middleware;
 using AdventureWorks.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -12,9 +13,15 @@ builder.Services.AddMiniProfiler(options =>
 {
     options.RouteBasePath = "/profiler";
     options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
-     options.TrackConnectionOpenClose = true; // رصد باز/بسته شدن اتصالات دیتابیس
+    options.TrackConnectionOpenClose = true; // رصد باز/بسته شدن اتصالات دیتابیس
     options.EnableMvcFilterProfiling = true; // رصد فیلترهای MVC
 }).AddEntityFramework();
+
+builder.Services.AddStackExchangeRedisCache(optiins =>
+{
+    optiins.Configuration = "localhost:6379";
+    optiins.InstanceName = "AdventureWorks_";
+});
 
 builder.Services.AddMemoryCache();
 
@@ -31,6 +38,8 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 
 if (app.Environment.IsDevelopment())
