@@ -24,4 +24,19 @@ namespace AdventureWorks.Application.Exceptions
             Errors = errors;
         }
     }
+
+    public class UnauthorizedException : AppException
+    {
+        public UnauthorizedException(string message = "Unauthorized access.") : base(message, 401)
+        {
+        }
+    }
+
+    public class ConflictException : AppException
+    {
+        public ConflictException(string message) : base(message,409)
+        {
+        }
+    }
+
 }

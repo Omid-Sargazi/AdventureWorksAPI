@@ -64,6 +64,8 @@ namespace AdventureWorks.API.Middleware
                 Detail = ex.Message
             };
 
+        
+
             if (errors != null)
             {
                 problem.Extensions["errors"] = errors;

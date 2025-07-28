@@ -9,6 +9,8 @@ builder.Services.AddDbContext<AdventureWorksDbContext>(optiins =>
     optiins.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+
+builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(typeof()))
 builder.Services.AddMiniProfiler(options =>
 {
     options.RouteBasePath = "/profiler";
