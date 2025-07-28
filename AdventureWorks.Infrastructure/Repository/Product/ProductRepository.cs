@@ -1,3 +1,4 @@
+using AdventureWorks.Application.DTOs;
 using AdventureWorks.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,5 +36,7 @@ namespace AdventureWorks.Infrastructure.Repository.Product
             return await _context.Products.AsNoTracking()
            .FirstOrDefaultAsync(p => p.ProductID == id, cancellationToken);
         }
+
+       
     }
 }

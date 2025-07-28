@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AdventureWorksDbContext>(optiins =>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IReportingRepository, ReportingRepository>();
 
 builder.Services.AddMiniProfiler(options =>
 {
