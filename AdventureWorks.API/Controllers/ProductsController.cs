@@ -2,6 +2,7 @@ using System.Text.Json;
 using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
 using AdventureWorks.Application.Features.Products.Queries.GetAllProducts;
 using AdventureWorks.Application.Features.Products.Queries.GetProductById;
+using AdventureWorks.Application.Features.Products.Queries.GetTopSellingProducts;
 using AdventureWorks.Domain.Entities;
 using AdventureWorks.Infrastructure;
 using MediatR;
@@ -134,6 +135,13 @@ namespace AdventureWorks.API.Controllers
         {
             var products = await _mediator.Send(query);
             return Ok(products);
+        }
+
+        [HttpGet("top-selling")]
+        public async Task<IActionResult> GetTopSellingProducts([FromQuery] int top = 10)
+        {
+            var result = await _mediator.Send(new GetTopSellingProductsQuery(top));
+            return Ok(result);
         }
             
     }
