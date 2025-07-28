@@ -9,5 +9,7 @@ namespace AdventureWorks.Domain.Entities
 
         public int? ProductSubcategoryID { get; set; }
         public ProductSubcategory ProductSubcategory { get; set; }
+
+        public ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
     }
 }
