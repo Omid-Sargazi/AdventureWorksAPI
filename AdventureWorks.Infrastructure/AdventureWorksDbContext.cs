@@ -10,6 +10,9 @@ namespace AdventureWorks.Infrastructure
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductSubcategory> ProductSubcategories { get; set; }
         public DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<SalesOrderHeader> SalesOrderHeaders { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>().ToTable("Product", schema: "Production");
