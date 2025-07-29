@@ -6,6 +6,6 @@ namespace AdventureWorks.Domain.Entities
         public int? PersonID { get; set; }
 
         public Person Person { get; set; }
-        public ICollection<SalesOrderHeader> salesOrderHeaders { get; set; }
+        public ICollection<SalesOrderHeader> SalesOrders { get; set; }
     }
 }

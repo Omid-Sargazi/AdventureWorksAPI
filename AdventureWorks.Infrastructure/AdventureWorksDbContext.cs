@@ -39,6 +39,37 @@ namespace AdventureWorks.Infrastructure
             .HasOne(x => x.Product)
             .WithMany(p => p.SalesOrderDetails)
             .HasForeignKey(x => x.ProductID);
+
+            modelBuilder.Entity<Person>()
+            .ToTable("Person", "Person")
+            .HasKey(p => p.BusinessEntityID);
+
+            modelBuilder.Entity<Person>()
+            .Property(p => p.FirstName).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Person>()
+            .Property(p => p.LastName).HasMaxLength(50).IsRequired();
+
+            modelBuilder.Entity<Customer>()
+            .ToTable("Customer", "Sales")
+            .HasKey(c => c.CustomerID);
+
+            modelBuilder.Entity<Customer>()
+            .HasOne(c => c.Person)
+            .WithMany(p => p.Customers)
+            .HasForeignKey(c => c.PersonID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SalesOrderHeader>()
+            .ToTable("SalesOrderHeader", "Sales")
+            .HasKey(s => s.SalesOderID);
+
+            modelBuilder.Entity<SalesOrderHeader>()
+             .Property(s => s.TotalDue).HasColumnType("money");
+
+            modelBuilder.Entity<SalesOrderHeader>()
+            .HasOne(s => s.Customer)
+            .WithMany(c => c.SalesOrders)
+            .HasForeignKey(s => s.CustomerID);
         }
     }
 }

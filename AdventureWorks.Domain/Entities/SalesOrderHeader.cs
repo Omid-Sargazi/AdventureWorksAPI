@@ -9,5 +9,6 @@ namespace AdventureWorks.Domain.Entities
         public DateTime OrderDate { get; set; }
 
         public Customer Customer { get; set; }
+        
     }
 }
