@@ -139,7 +139,7 @@ namespace AdventureWorks.API.Controllers
 
         [HttpGet("top-selling")]
         public async Task<IActionResult> GetTopSellingProducts([FromQuery] int top = 10)
-        {
+        {   
             var result = await _mediator.Send(new GetTopSellingProductsQuery(top));
             return Ok(result);
         }

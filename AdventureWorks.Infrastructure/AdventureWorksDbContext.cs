@@ -30,7 +30,7 @@ namespace AdventureWorks.Infrastructure
 
             modelBuilder.Entity<SalesOrderDetail>()
             .Property(x => x.UnitPrice)
-            .HasColumnName("money");
+            .HasColumnType("money");
 
             modelBuilder.Entity<SalesOrderDetail>()
             .HasOne(x => x.Product)

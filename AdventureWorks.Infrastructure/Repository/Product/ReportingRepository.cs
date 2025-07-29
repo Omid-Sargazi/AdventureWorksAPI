@@ -13,19 +13,24 @@ namespace AdventureWorks.Infrastructure.Repository.Product
         }
         public async Task<List<TopProductDto>> GetTopSellingProductsAsync(int topCount, CancellationToken cancellationToken)
         {
-            var query = from detail in _context.SalesOrderDetails
-                        group detail by detail.ProductID into g
-                        join p in _context.Products on g.Key equals p.ProductID
-                        orderby g.Sum(x => x.OrderQty) descending
-                        select new TopProductDto
-                        {
-                            ProductID = g.Key,
-                            Name = p.Name,
-                            TotalQuantitySold = g.Sum(x => x.OrderQty),
-                            TotalSales = g.Sum(x => x.LineTotal)
-                        };
+            var rawData = await _context.SalesOrderDetails
+            .Include(d => d.Product)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
 
-            return await query.Take(topCount).ToListAsync(cancellationToken);
+            var result = rawData.GroupBy(d => new { d.ProductID, d.Product.Name })
+            .Select(g => new TopProductDto
+            {
+                ProductID = g.Key.ProductID,
+                Name = g.Key.Name,
+                TotalQuantitySold = g.Sum(x => x.OrderQty),
+                TotalSales = g.Sum(x => x.LineTotal)
+            })
+            .OrderByDescending(x => x.TotalQuantitySold)
+            .Take(topCount)
+            .ToList();
+
+            return result;
         }
     }
 }
