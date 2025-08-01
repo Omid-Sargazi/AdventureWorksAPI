@@ -1,4 +1,5 @@
 using AdventureWorks.API.Middleware;
+using AdventureWorks.Application.Common.Mappings;
 using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
 using AdventureWorks.Application.Interfaces;
 using AdventureWorks.Infrastructure;
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<AdventureWorksDbContext>(optiins =>
     optiins.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+
+builder.Services.AddAutoMapper(typeof(ReportProfile).Assembly);
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
 
