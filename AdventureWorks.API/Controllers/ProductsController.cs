@@ -3,6 +3,7 @@ using AdventureWorks.Application.Features.Products.Commands.CreateProduct;
 using AdventureWorks.Application.Features.Products.Queries.GetAllProducts;
 using AdventureWorks.Application.Features.Products.Queries.GetProductById;
 using AdventureWorks.Application.Features.Products.Queries.GetTopSellingProducts;
+using AdventureWorks.Application.Features.Reports.Queries.GetCategorySalesReport;
 using AdventureWorks.Application.Features.Reports.Queries.TopCustomers;
 using AdventureWorks.Domain.Entities;
 using AdventureWorks.Infrastructure;
@@ -150,6 +151,13 @@ namespace AdventureWorks.API.Controllers
         {
             var result = await _mediator.Send(new GetTopCustomersQuery(top));
             return Ok(result);
+        }
+
+        [HttpGet("category-sales")]
+        public async Task<IActionResult> GetCategorySalesReport()
+        {
+            var result = await _mediator.Send(new GetCategorySalesReportQuery());
+            return Ok(result);  
         }
             
     }
