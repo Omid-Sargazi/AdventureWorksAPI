@@ -12,6 +12,23 @@ namespace AdventureWorks.Infrastructure.Repository.Product
             _context = context;
         }
 
+        public Task<List<CategorySalesDto>> GetCategorySalesReportAsync(CancellationToken cancellation)
+        {
+            var result = _context.SalesOrderDetails
+            .Include(s => s.Product)
+            .ThenInclude(p => p.ProductSubcategory)
+            .ThenInclude(sc => sc.ProductCategory)
+            .GroupBy(s => s.Product.ProductSubcategory.ProductCategory.Name)
+            .Select(g => new CategorySalesDto
+            {
+                CategoryName = g.Key,
+                TotalSales = g.Sum(s => s.LineTotal)
+            })
+            .ToListAsync(cancellation);
+
+            return result;
+        }
+
         public async Task<List<TopCustomerDto>> GetTopCustomersAsync(int topCount, CancellationToken cancellationToken)
         {
             var result = await _context.SalesOrderHeaders

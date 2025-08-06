@@ -13,6 +13,7 @@ namespace AdventureWorks.Infrastructure
         public DbSet<Person> Persons { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<SalesOrderHeader> SalesOrderHeaders { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>().ToTable("Product", schema: "Production");
@@ -70,6 +71,19 @@ namespace AdventureWorks.Infrastructure
             .HasOne(s => s.Customer)
             .WithMany(c => c.SalesOrders)
             .HasForeignKey(s => s.CustomerID);
+
+            modelBuilder.Entity<ProductCategory>()
+            .ToTable("ProductCategory", "Production")
+            .HasKey(pc => pc.ProductCategoryId);
+
+            modelBuilder.Entity<ProductCategory>()
+            .Property(pc => pc.Name)
+            .HasMaxLength(50).IsRequired();
+
+            modelBuilder.Entity<ProductCategory>()
+            .HasMany(pc => pc.ProductSubcategories)
+            .WithOne(psc => psc.ProductCategory)
+            .HasForeignKey(sc => sc.ProductCategoryId);
         }
     }
 }

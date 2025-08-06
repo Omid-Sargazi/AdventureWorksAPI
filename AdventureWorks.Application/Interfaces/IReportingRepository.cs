@@ -6,6 +6,7 @@ namespace AdventureWorks.Application.Interfaces
     {
         Task<List<TopProductDto>> GetTopSellingProductsAsync(int topCount, CancellationToken cancellationToken);
         Task<List<TopCustomerDto>> GetTopCustomersAsync(int topCount, CancellationToken cancellationToken);
+        Task<List<CategorySalesDto>> GetCategorySalesReportAsync(CancellationToken cancellation);
 
     }
 }
