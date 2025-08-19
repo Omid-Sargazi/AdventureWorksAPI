@@ -33,7 +33,7 @@ app.MapGet("/api/products/navie", async (AppDbContext db) =>
 
     var products = await db.Products
     .OrderBy(p => p.ProductID)
-    .Take(100).ToListAsync();
+    .Take(1000).ToListAsync();
 
 
     var result = new List<object>();
@@ -69,9 +69,37 @@ app.MapGet("/api/products/navie", async (AppDbContext db) =>
         data = result
     });
 
-    
 });
 
+
+app.MapGet("/api/products/optimized", async (AppDbContext db) =>
+{
+    var sw = Stopwatch.StartNew();
+
+    var query = db.Products.AsNoTracking()
+    .OrderBy(p => p.ProductID)
+    .Take(1000)
+    .Include(p => p.ProductSubcategory)
+    .ThenInclude(s => s!.ProductCategory);
+
+    var data = await query.Select(p => new
+    {
+        p.ProductID,
+        p.Name,
+        p.ProductNumber,
+        Subcategory = p.ProductSubcategory != null ? p.ProductSubcategory.Name : null,
+        Category = p.ProductSubcategory != null ? p.ProductSubcategory.ProductCategory!.Name : null
+    }).ToListAsync();
+
+    sw.Stop();
+    return Results.Ok(new
+    {
+        ms = sw.ElapsedMilliseconds,
+        count = data.Count,
+        data
+    });
+            
+});
 
 app.Run();
 
