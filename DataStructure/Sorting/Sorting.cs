@@ -100,22 +100,68 @@ namespace DataStructure.Sorting
                 }
 
                 p3++;
-           }
+            }
 
             while (p1 < arr1.Length)
             {
                 arr3[p3] = arr1[p1];
                 p1++;
                 p3++;
-           }
+            }
 
             while (p2 < arr2.Length)
             {
                 arr3[p3] = arr2[p2];
                 p2++;
                 p3++;
-           }
+            }
 
+
+            Console.WriteLine(string.Join(",", arr3));
+        }
+    }
+
+    public class MegerTowEqualLength
+    {
+        public static void Run(int[] arr1, int[] arr2)
+        {
+            int p1 = 0;
+            int p2 = 0;
+            int p3 = 0;
+
+            int n1 = arr1.Length;
+            int n2 = arr2.Length;
+            int n3 = n1 + n2;
+
+            int[] arr3 = new int[n3];
+
+            while (p1 < n1 && p2 < n2)
+            {
+                if (arr1[p1] < arr2[p2])
+                {
+                    arr3[p3] = arr1[p1];
+                    p1++;
+                }
+                else
+                {
+                    arr3[p3] = arr2[p2];
+                    p2++;
+                }
+                p3++;
+            }
+
+            while (p1 < n1)
+            {
+                arr3[p3] = arr1[p1];
+                p1++;
+                p3++;
+            }
+            while (p2 < n2)
+            {
+                arr3[p3] = arr2[p2];
+                p2++;
+                p3++;
+            }
 
             Console.WriteLine(string.Join(",", arr3));
         }
