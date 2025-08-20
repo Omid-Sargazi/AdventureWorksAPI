@@ -21,4 +21,4 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 }
 // MergeSort.Run(arr7);
 
 // SortingInCSharp.Bubble(arr7);
-SortingInCSharp.Insertion(arr7);
+SortingInCSharp.Selection(arr7);
