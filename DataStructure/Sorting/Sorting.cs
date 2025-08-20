@@ -72,4 +72,52 @@ namespace DataStructure.Sorting
             Console.WriteLine(string.Join(",", arr));
         }
     }
+
+    public class MergeTwoArre
+    {
+        public static void Run(int[] arr1, int[] arr2)
+        {
+            int arr1Length = arr1.Length;
+            int arr2Length = arr2.Length;
+
+            int p1 = 0;
+            int p2 = 0;
+            int p3 = 0;
+
+            int[] arr3 = new int[arr1Length + arr2Length];
+
+            while (p1 < arr1.Length && p2 < arr1.Length)
+            {
+                if (arr1[p1] <= arr2[p2])
+                {
+                    arr3[p3] = arr1[p1];
+                    p1++;
+                }
+                else
+                {
+                    arr3[p3] = arr2[p2];
+                    p2++;
+                }
+
+                p3++;
+           }
+
+            while (p1 < arr1.Length)
+            {
+                arr3[p3] = arr1[p1];
+                p1++;
+                p3++;
+           }
+
+            while (p2 < arr2.Length)
+            {
+                arr3[p3] = arr2[p2];
+                p2++;
+                p3++;
+           }
+
+
+            Console.WriteLine(string.Join(",", arr3));
+        }
+    }
 }

@@ -6,4 +6,8 @@ int[] arr = new int[] { 70, -70, 1, 4, 50, 78, 87, 88, 99 };
 int[] arr2 = new int[] {0,0,0 };
 // BubbleSort.Run(arr2);
 // SelectionSort.Run(arr);
-InsertionSort.Run(arr);
+// InsertionSort.Run(arr);
+
+int[] arr3 = new int[] { 1, 2, 3, 4, 5,7 };
+int[] arr4 = new int[] { -70, -69, -68, 100, 110, 120 };
+MergeTwoArre.Run(arr3, arr4);
