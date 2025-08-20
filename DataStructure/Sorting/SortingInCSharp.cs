@@ -4,7 +4,7 @@ namespace DataStructure.Sorting
     {
         public static void Bubble(int[] arr)
         {
-            for (int start = arr.Length-1; start >= 0; start--)
+            for (int start = arr.Length - 1; start >= 0; start--)
             {
                 bool swapped = false;
                 for (int j = 0; j < start; j++)
@@ -16,7 +16,7 @@ namespace DataStructure.Sorting
                     }
 
                 }
-                    if (!swapped) break;
+                if (!swapped) break;
             }
 
             Console.WriteLine(string.Join(",", arr));
@@ -62,7 +62,61 @@ namespace DataStructure.Sorting
 
         public static void Merge(int[] arr)
         {
+            if (arr.Length <= 1) return;
+            int mid = arr.Length / 2;
 
+            int[] left = new int[mid];
+            int[] right = new int[arr.Length - mid];
+
+
+            Array.Copy(arr, 0, left, 0, mid);
+            Array.Copy(arr, mid, right, 0, arr.Length - mid);
+
+
+            Merge(left);
+            Merge(right);
+            MergeTwoArray(arr, left, right);
+        }
+
+        public static void MergeTwoArray(int[] result, int[] left, int[] right)
+        {
+            int p1 = 0;
+            int p2 = 0;
+            int p3 = 0;
+
+            int n1 = left.Length;
+            int n2 = right.Length;
+
+            while (p1 < n1 && p2 < n2)
+            {
+                if (left[p1] < right[p2])
+                {
+                    result[p3] = left[p1];
+                    p1++;
+                }
+                else
+                {
+                    result[p3] = right[p2];
+                    p2++;
+                }
+                p3++;
+            }
+
+            while (p1 < n1)
+            {
+                result[p3] = left[p1];
+                p1++;
+                p3++;
+            }
+            while (p2 < n2)
+            {
+                result[p3] = right[p2];
+                p2++;
+                p3++;
+            }
+
+            Console.WriteLine(string.Join(",", result));
+            Console.WriteLine("Endddd");
         }
     }
 }
