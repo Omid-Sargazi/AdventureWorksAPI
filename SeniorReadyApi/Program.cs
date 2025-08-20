@@ -171,6 +171,41 @@ app.MapGet("/api/products/search/naive2", async (AppDbContext db, string? term, 
     ));
 });
 
+app.MapGet("/api/products/search/optimized", async (
+    AppDbContext db, string? term, int page = 1, int pageSize = 20
+) =>
+{
+    var sw = Stopwatch.StartNew();
+    var q = db.Products.AsNoTracking();
+
+    if (!string.IsNullOrWhiteSpace(term))
+        q = q.Where(p => p.Name != null && p.Name.StartsWith(term)).TagWith("SARGable: Name LIKE @term + '%'");
+
+    var total = await q.CountAsync();
+
+    var pageQuery = q.OrderBy(p => p.Name).ThenBy(p => p.ProductID)
+    .Skip((page - 1) * pageSize).Take(pageSize)
+    .Select(p => new ProductListItem(
+        p.ProductID,
+        p.Name,
+        p.ProductNumber,
+        p.ListPrice ?? 0,
+        p.ProductSubcategory != null ? p.ProductSubcategory.ProductCategory!.Name : null,
+        p.ProductSubcategory != null ? p.ProductSubcategory.Name : null
+    ));
+
+    var items = await pageQuery.ToListAsync();
+
+    sw.Stop();
+
+    return Results.Ok(new PagedResult<ProductListItem>(
+        page, pageSize, total, (int)Math.Ceiling(total / (double)pageSize),
+        sw.ElapsedMilliseconds,
+        "SQL: LIKE 'term%' + Projection + NoTracking",
+        items
+    ));
+});
+
 app.Run();
 
 
