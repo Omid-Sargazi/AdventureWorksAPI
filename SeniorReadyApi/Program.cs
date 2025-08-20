@@ -98,7 +98,77 @@ app.MapGet("/api/products/optimized", async (AppDbContext db) =>
         count = data.Count,
         data
     });
-            
+
+});
+
+app.MapGet("/api/products/search/naive1", async (
+    AppDbContext db, string? term, int page = 1, int pageSize = 20
+) =>
+{
+    var sw = Stopwatch.StartNew();
+
+    var all = await db.Products
+     .OrderBy(p => p.ProductID)
+     .ToListAsync();
+
+    if (!string.IsNullOrWhiteSpace(term))
+        all = [.. all.Where(p => (p.Name ?? "").Contains(term, StringComparison.OrdinalIgnoreCase))];
+
+    var total = all.Count;
+
+    var items = all
+          .Skip((page - 1) * pageSize)
+          .Take(pageSize)
+          .Select(p => new ProductListItem(
+              p.ProductID, p.Name, p.ProductNumber, p.ListPrice ?? 0,
+              Category: null, Subcategory: null))
+          .ToList();
+
+    sw.Stop();
+
+    return Results.Ok(new PagedResult<ProductListItem>(
+        Page: page,
+        PageSize: pageSize,
+        Total: total,
+        TotalPage: (int)Math.Ceiling(total / (double)pageSize),
+        Ms: sw.ElapsedMilliseconds,
+        SqlHint: "IN-MEMORY FILTER (BAD)",
+        Items: items
+    ));
+
+});
+
+
+app.MapGet("/api/products/search/naive2", async (AppDbContext db, string? term, int page = 1, int pageSize = 20) =>
+{
+    var sw = Stopwatch.StartNew();
+
+    var q = db.Products.AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(term))
+        q = q.Where(p => p.Name != null && EF.Functions.Like(p.Name, $"%{term}"))
+    .TagWith("Like'%term%'(non-sargable)");
+
+    var total = await q.CountAsync();
+
+    var items = await q.AsNoTracking()
+      .OrderBy(p => p.Name)
+      .Skip((page - 1) * pageSize)
+      .Take(pageSize)
+      .Select(p => new ProductListItem(
+          p.ProductID, p.Name, p.ProductNumber, p.ListPrice ?? 0,
+          null,
+          null))
+      .ToListAsync();
+
+
+    sw.Stop();
+    return Results.Ok(new PagedResult<ProductListItem>(
+        page, pageSize, total, (int)Math.Ceiling(total / (double)pageSize),
+        sw.ElapsedMilliseconds,
+        "SQL: LIKE '%term%' (likely INDEX SCAN)",
+        items
+    ));
 });
 
 app.Run();
@@ -138,6 +208,7 @@ public class Product
 {
     public int ProductID { get; set; }
     public string? Name { get; set; }
+    public decimal? ListPrice { get; set; }
     public string? ProductNumber { get; set; }
     public int? ProductSubcategoryID { get; set; }
     public ProductSubcategory? ProductSubcategory { get; set; }
@@ -158,4 +229,26 @@ public class ProductCategory
     public string? Name { get; set; }
     public ICollection<ProductSubcategory> ProductSubcategories { get; set; } = new List<ProductSubcategory>();
 }
+
+
+
+public record ProductListItem
+(
+   int ProductID,
+    string? Name,
+    string? ProductNumber,
+    decimal? ListPrice,
+    string? Category,
+    string? Subcategory
+);
+
+public record PagedResult<T>(
+    int Page,
+    int PageSize,
+    int Total,
+    int TotalPage,
+    long Ms,
+    string? SqlHint,
+    IReadOnlyList<T> Items
+);
 
