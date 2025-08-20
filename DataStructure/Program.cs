@@ -8,6 +8,10 @@ int[] arr2 = new int[] {0,0,0 };
 // SelectionSort.Run(arr);
 // InsertionSort.Run(arr);
 
-int[] arr3 = new int[] { 1, 2, 3, 4, 5,7 };
-int[] arr4 = new int[] { -80,-70, -69, -68, 100, 110, 120,1300 };
-MegerTowEqualLength.Run(arr3, arr4);
+int[] arr3 = new int[] { 1, 2, 3, 4, 5,7,7,7 };
+int[] arr4 = new int[] { -80,-70, -69, -68,7,7,7, 100, 110, 120,1300 };
+int[] arr5 = new int[] { -1,0 };
+int[] arr6 = new int[] { 0, 0 };
+
+int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 };
+Merge.Run(arr7);
