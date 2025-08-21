@@ -31,7 +31,7 @@ namespace DataStructure.Sorting
         }
     }
 
-    public  class ReverseStringTwoPointers
+    public class ReverseStringTwoPointers
     {
         public static string Reverse(string s)
         {
@@ -47,6 +47,17 @@ namespace DataStructure.Sorting
             Console.WriteLine(new string(ch));
 
             return new string(ch);
+        }
+
+        public static string ReversByCreating(string s)
+        {
+            if (s is null) return null;
+
+            return string.Create(s.Length, s, static (span, src) =>
+            {
+                for (int i = 0, j = src.Length - 1; i < span.Length; i++, j--)
+                    span[i] = src[j];
+            });
         }
     }
 }
