@@ -60,4 +60,37 @@ namespace DataStructure.Sorting
             });
         }
     }
+
+    public class ReverseStringStack
+    {
+        public static string Reverse(string s)
+        {
+            if (s is null) return null;
+
+            var st = new Stack<char>(s.Length);
+
+            foreach (var item in s)
+            {
+                st.Push(item);
+            }
+
+            var chars = new char[s.Length];
+            int i = 0;
+            while (st.Count > 0) chars[i++] = st.Pop();
+            return new string(chars);
+        }
+    }
+
+    public class ReverseStringRec
+    {
+        public static string Reverse(string s) => s is null ? null :Rev(s,0,s.Length-1);
+
+        private static string Rev(string s, int i, int j)
+        {
+            if (i >= j) return s;
+            char[] chars = s.ToCharArray();
+            (chars[i], chars[j]) = (chars[j], chars[i]);
+            return Rev(new string(chars), i, j);
+        }
+    }
 }
