@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace DataStructure.SortData
 {
     public class Bubble
@@ -44,5 +46,27 @@ namespace DataStructure.SortData
         }
     }
 
-    
+    public class InsertionInCSharp
+    {
+        public static void Run(int[] nums)
+        {
+            for (int i = 1; i < nums.Length; i++)
+            {
+                int current = nums[i];
+                int j = i - 1;
+
+                while (j >= 0 && nums[j] > current)
+                {
+                    nums[j + 1] = nums[j];
+                    j--;
+                }
+
+                nums[j + 1] = current;
+            }
+
+            Console.WriteLine(string.Join(",", nums)+"  Insertion");
+        }
+    }
+
+
 }

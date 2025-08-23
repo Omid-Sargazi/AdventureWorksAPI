@@ -32,4 +32,6 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 }
 // ReverseStringTwoPointers.Reverse("omid");
 // Bubble.Run(arr7);
 
-SelectionInCSahrp.Run(arr7);
+// SelectionInCSahrp.Run(arr7);
+
+InsertionInCSharp.Run(arr7);
