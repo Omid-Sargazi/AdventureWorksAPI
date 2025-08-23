@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using DataStructure.SortData;
 using DataStructure.Sorting;
 using DataStructure.SortingWithCSharp;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Hello, World!!!!");
 int[] arr = new int[] { 70, -70, 1, 4, 50, 78, 87, 88, 99 };
 int[] arr2 = new int[] {0,0,0 };
 // BubbleSort.Run(arr2);
@@ -28,4 +29,5 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 }
 // Console.WriteLine(StringExample.Run("Omidd"));
 // Console.WriteLine(StringExample.RunTwoFor("Omid"));
 
-ReverseStringTwoPointers.Reverse("omid");
+// ReverseStringTwoPointers.Reverse("omid");
+Bubble.Run(arr7);

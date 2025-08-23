@@ -90,7 +90,7 @@ namespace DataStructure.Sorting
             if (i >= j) return s;
             char[] chars = s.ToCharArray();
             (chars[i], chars[j]) = (chars[j], chars[i]);
-            return Rev(new string(chars), i, j);
+            return Rev(new string(chars), i++, j--);
         }
     }
 }
