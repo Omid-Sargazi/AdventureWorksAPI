@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using DataStructure.DataSorting;
 using DataStructure.SortData;
 using DataStructure.Sorting;
 using DataStructure.SortingWithCSharp;
@@ -15,7 +16,7 @@ int[] arr4 = new int[] { -80,-70, -69, -68,7,7,7, 100, 110, 120,1300 };
 int[] arr5 = new int[] { -1,0 };
 int[] arr6 = new int[] { 0, 0 };
 
-int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 };
+int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7 };
 // Merge.Run(arr7);
 
 
@@ -34,4 +35,7 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7,9 }
 
 // SelectionInCSahrp.Run(arr7);
 
-InsertionInCSharp.Run(arr7);
+// InsertionInCSharp.Run(arr7);
+int[] arr8 = new int[] { 7, 8,-7 };
+// MergeSortInCSharp.Run(arr7);
+BubbleSorting.Run(arr7);
