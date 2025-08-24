@@ -38,4 +38,6 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7 };
 // InsertionInCSharp.Run(arr7);
 int[] arr8 = new int[] { 7, 8,-7 };
 // MergeSortInCSharp.Run(arr7);
-BubbleSorting.Run(arr7);
+// BubbleSorting.Run(arr7);
+// SelectionSortt.Run(arr7);
+InsertionSorting.Run(arr7);
