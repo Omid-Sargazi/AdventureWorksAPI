@@ -36,13 +36,18 @@ int[] arr7 = new int[] { 7, 8, 7, 1, 0, 0, 1, 2, -7, -9, -80, -70,0,0,0,-7,7 };
 // SelectionInCSahrp.Run(arr7);
 
 // InsertionInCSharp.Run(arr7);
-int[] arr8 = new int[] { 7, 8,-7 };
+int[] arr8 = new int[] { 0, 10, -5 };
+int[] arr9 = {2, -4, 3, -1, 2, -4, 3};
+
 // MergeSortInCSharp.Run(arr7);
 // BubbleSorting.Run(arr7);
 // SelectionSortt.Run(arr7);
 // InsertionSorting.Run(arr7);
 // MergeSortingg.Run(arr7);
 
-var result = QuickSorting.Run(arr7);
+// var result = QuickSorting.Run(arr7);
+// 
+// Console.WriteLine(string.Join(",", result));
 
-Console.WriteLine(string.Join(",", result));
+
+Console.WriteLine(MaximumSubarraySum.Run(arr9,0,arr9.Length-1));
