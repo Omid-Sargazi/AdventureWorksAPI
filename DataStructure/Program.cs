@@ -60,4 +60,5 @@ int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
 // Console.WriteLine(PivotDemo3.Run(arr10));
 
 // SortAlgorithem.Bubble(arr10);
-SortAlgorithem.SelectionSort(arr7);
+// SortAlgorithem.SelectionSort(arr7);
+SortAlgorithem.InsertionSort(arr7);
