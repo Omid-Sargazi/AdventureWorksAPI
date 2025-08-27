@@ -53,4 +53,7 @@ int[] arr9 = {2, -4, 3, -1, 2, -4, 3};
 // Console.WriteLine(MaximumSubarraySum.Run(arr9,0,arr9.Length-1));
 // Console.WriteLine(PivotDemo.Run(arr8));
 
-Console.WriteLine(PivotDemo2.Run(arr7));
+int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
+
+// Console.WriteLine(PivotDemo2.Run(arr7));
+Console.WriteLine(PivotDemo3.Run(arr10));
