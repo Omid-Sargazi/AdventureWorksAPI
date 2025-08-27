@@ -2,6 +2,7 @@
 using DataStructure.DataSorting;
 using DataStructure.SortData;
 using DataStructure.Sorting;
+using DataStructure.SortingInCSharp;
 using DataStructure.SortingWithCSharp;
 
 Console.WriteLine("Hello, World!!!!");
@@ -56,4 +57,6 @@ int[] arr9 = {2, -4, 3, -1, 2, -4, 3};
 int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
 
 // Console.WriteLine(PivotDemo2.Run(arr7));
-Console.WriteLine(PivotDemo3.Run(arr10));
+// Console.WriteLine(PivotDemo3.Run(arr10));
+
+SortAlgorithem.Bubble(arr10);
