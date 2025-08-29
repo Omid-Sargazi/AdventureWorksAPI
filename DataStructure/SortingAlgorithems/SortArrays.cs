@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using DataStructure.Sorting;
+
 namespace DataStructure.SortingAlgorithems
 {
     public class BubbleSorttt
@@ -60,6 +63,74 @@ namespace DataStructure.SortingAlgorithems
             }
 
             Console.WriteLine(string.Join(",", arr) + " Insertion Sort");
+        }
+    }
+
+
+    public class MergingSort
+    {
+        public static void Run(int[] arr)
+        {
+            if (arr.Length <= 1) return;
+            int n = arr.Length;
+            int mid = n / 2;
+
+            int[] left = new int[mid];
+            int[] right = new int[n - mid];
+
+            Array.Copy(arr, 0, left, 0, mid);
+            Array.Copy(arr, mid, right, 0, right.Length);
+
+            Console.WriteLine(string.Join(",", left) + " Left");
+            Console.WriteLine(string.Join(",", right) + " Right");
+
+            Run(left);
+            Run(right);
+            Meger(arr, left, right);
+        }
+
+        private static void Meger(int[] result, int[] left, int[] right)
+        {
+            int p1 = 0;
+            int p2 = 0;
+            int p3 = 0;
+
+            int n1 = left.Length-1;
+            int n2 = right.Length-1;
+
+            while (p1 <= n1 && p2 <= n2)
+            {
+                if (left[p1] >= right[p2])
+                {
+                    result[p3] = left[p1];
+                    p1++;
+                }
+
+                else
+                {
+                    result[p3] = right[p2];
+                    p2++;
+                }
+
+                p3++;
+            }
+
+
+            while (p1 <= n1)
+            {
+                result[p3] = left[p1];
+                p3++;
+                p1++;
+            }
+
+            while (p2 <= n2)
+            {
+                result[p3] = right[p2];
+                p3++;
+                p2++;
+            }
+
+            Console.WriteLine(string.Join(",", result) + " Merge Sort");
         }
     }
 }
