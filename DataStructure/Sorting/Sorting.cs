@@ -2,7 +2,7 @@ namespace DataStructure.Sorting
 {
     public class BubbleSort
     {
-        public static void Run(int[] arr)
+        public static void Bubble(int[] arr)
         {
             for (int start = arr.Length - 1; start >= 0; start--)
             {

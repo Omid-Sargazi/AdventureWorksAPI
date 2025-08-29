@@ -2,6 +2,7 @@
 using DataStructure.DataSorting;
 using DataStructure.SortData;
 using DataStructure.Sorting;
+using DataStructure.SortingAlgorithems;
 using DataStructure.SortingInCSharp;
 using DataStructure.SortingWithCSharp;
 
@@ -62,4 +63,7 @@ int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
 // SortAlgorithem.Bubble(arr10);
 // SortAlgorithem.SelectionSort(arr7);
 // SortAlgorithem.InsertionSort(arr7);
-SortAlgorithem.MergeSorting(arr7);
+// SortAlgorithem.MergeSorting(arr7);
+BubbleSorttt.Bubble(arr7);
+BubbleSorttt.Selection(arr7);
+BubbleSorttt.InsertionSort(arr7);

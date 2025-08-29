@@ -65,18 +65,18 @@ namespace DataStructure.SortingInCSharp
         {
             if (arr.Length <= 1) return;
 
-            int n = arr.Length ;
+            int n = arr.Length;
             int mid = n / 2;
             int[] left = new int[mid];
             int[] right = new int[n - mid];
 
-            Array.Copy(arr,0,left,0, mid);
+            Array.Copy(arr, 0, left, 0, mid);
             Array.Copy(arr, mid, right, 0, right.Length);
 
             MergeSorting(left);
             MergeSorting(right);
 
-            Merge(arr,left, right);
+            Merge(arr, left, right);
 
             Console.WriteLine(string.Join(",", left));
             Console.WriteLine(string.Join(",", right));
@@ -121,8 +121,10 @@ namespace DataStructure.SortingInCSharp
             }
 
 
-            Console.WriteLine(string.Join(",", result)+" Merge Sorting");
+            Console.WriteLine(string.Join(",", result) + " Merge Sorting");
         }
+
+       
         
     }
 }
