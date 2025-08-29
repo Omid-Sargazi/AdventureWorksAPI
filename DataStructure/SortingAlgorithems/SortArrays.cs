@@ -95,8 +95,8 @@ namespace DataStructure.SortingAlgorithems
             int p2 = 0;
             int p3 = 0;
 
-            int n1 = left.Length-1;
-            int n2 = right.Length-1;
+            int n1 = left.Length - 1;
+            int n2 = right.Length - 1;
 
             while (p1 <= n1 && p2 <= n2)
             {
@@ -131,6 +131,29 @@ namespace DataStructure.SortingAlgorithems
             }
 
             Console.WriteLine(string.Join(",", result) + " Merge Sort");
+        }
+    }
+
+    public class PivottDemo
+    {
+        public static void Run(int[] arr, int lo, int high)
+        {
+
+            int pivot = arr[high];
+            int i = lo - 1;
+
+            for (int j = 0; j < high; j++)
+            {
+                if (arr[j] <= pivot)
+                {
+                    i++;
+                    (arr[j], arr[i]) = (arr[i], arr[j]);
+                }
+            }
+
+            (arr[i + 1], arr[high]) = (arr[high], arr[i + 1]);
+
+            Console.WriteLine($"Pivot Index :{i}");
         }
     }
 }
