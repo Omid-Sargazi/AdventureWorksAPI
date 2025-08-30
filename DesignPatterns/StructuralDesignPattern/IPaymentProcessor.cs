@@ -25,7 +25,18 @@ namespace DesignPatterns.StructuralDesignPattern
     {
         public void ProcessPayment(decimal amount)
         {
-             Console.WriteLine($"(TEST) پرداخت مبلغ {amount} تومان در محیط آزمایشی با موفقیت شبیه‌سازی شد.");
+            Console.WriteLine($"(TEST) پرداخت مبلغ {amount} تومان در محیط آزمایشی با موفقیت شبیه‌سازی شد.");
         }
+    }
+
+    public abstract class Payment
+    {
+        protected readonly IPaymentProcessor _paymentProcessor;
+        public Payment(IPaymentProcessor paymentProcessor)
+        {
+            _paymentProcessor = paymentProcessor;
+        }
+
+        public abstract void Pay(decimal amount);
     }
 }
