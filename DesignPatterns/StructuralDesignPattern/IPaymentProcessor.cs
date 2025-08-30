@@ -40,12 +40,8 @@ namespace DesignPatterns.StructuralDesignPattern
         public abstract void Pay(decimal amount);
     }
 
-    public class CreditCardPayment : Payment
+    public class CreditCardPayment(IPaymentProcessor paymentProcessor) : Payment(paymentProcessor)
     {
-        public CreditCardPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
-        {
-        }
-
         public override void Pay(decimal amount)
         {
             Console.WriteLine("در حال پردازش پرداخت با کارت اعتباری...");
@@ -53,12 +49,8 @@ namespace DesignPatterns.StructuralDesignPattern
         }
     }
 
-    public class PayPalPayment : Payment
+    public class PayPalPayment(IPaymentProcessor paymentProcessor) : Payment(paymentProcessor)
     {
-        public PayPalPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
-        {
-        }
-
         public override void Pay(decimal amount)
         {
             Console.WriteLine("در حال هدایت به صفحه PayPal...");
@@ -66,16 +58,25 @@ namespace DesignPatterns.StructuralDesignPattern
         }
     }
 
-    public class CryptoPayment : Payment
+    public class CryptoPayment(IPaymentProcessor paymentProcessor) : Payment(paymentProcessor)
     {
-        public CryptoPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
-        {
-        }
-
         public override void Pay(decimal amount)
         {
             Console.WriteLine("در حال تولید آدرس کیف پول دیجیتال...");
             _paymentProcessor.ProcessPayment(amount);
+        }
+    }
+
+    public class ClientPayment
+    {
+        public static void Run()
+        {
+            IPaymentProcessor bankProcessor = new BankAPIPaymentProcessor();
+            IPaymentProcessor thirdPartyProcessor = new ThirdPartyPaymentProcessor();
+            IPaymentProcessor testProcessor = new TestPaymentProcessor();
+
+            Payment creditCardThirdPartyPayment = new CreditCardPayment(bankProcessor);
+            creditCardThirdPartyPayment.Pay(12m);
         }
     }
 
