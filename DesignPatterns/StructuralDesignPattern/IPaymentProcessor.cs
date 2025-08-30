@@ -39,4 +39,44 @@ namespace DesignPatterns.StructuralDesignPattern
 
         public abstract void Pay(decimal amount);
     }
+
+    public class CreditCardPayment : Payment
+    {
+        public CreditCardPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
+        {
+        }
+
+        public override void Pay(decimal amount)
+        {
+            Console.WriteLine("در حال پردازش پرداخت با کارت اعتباری...");
+            _paymentProcessor.ProcessPayment(amount);
+        }
+    }
+
+    public class PayPalPayment : Payment
+    {
+        public PayPalPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
+        {
+        }
+
+        public override void Pay(decimal amount)
+        {
+            Console.WriteLine("در حال هدایت به صفحه PayPal...");
+            _paymentProcessor.ProcessPayment(amount);
+        }
+    }
+
+    public class CryptoPayment : Payment
+    {
+        public CryptoPayment(IPaymentProcessor paymentProcessor) : base(paymentProcessor)
+        {
+        }
+
+        public override void Pay(decimal amount)
+        {
+            Console.WriteLine("در حال تولید آدرس کیف پول دیجیتال...");
+            _paymentProcessor.ProcessPayment(amount);
+        }
+    }
+
 }
