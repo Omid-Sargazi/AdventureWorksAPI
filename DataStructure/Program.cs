@@ -67,4 +67,15 @@ int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
 // BubbleSorttt.Bubble(arr7);
 // BubbleSorttt.Selection(arr7);
 // BubbleSorttt.InsertionSort(arr7);
-MergingSort.Run(arr7);
+// MergingSort.Run(arr7);
+
+int[] arr11 = new int[] { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
+int[] arr20 = new int[] {};
+int[] arr30 = new int[] { 5 };
+
+Console.WriteLine($"{arr30.Any()}: Any"); 
+Console.WriteLine($"{arr20.All(x=>x>4)}: All"); 
+Console.WriteLine($"{arr20.All(x=>x>10)}: All"); 
+Console.WriteLine($"{arr20.Any()}: Any"); 
+Console.WriteLine($"{arr11.Any(x=>x<0)}: Any"); 
+
