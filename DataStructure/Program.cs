@@ -70,12 +70,24 @@ int[] arr10 = new int[] { 10, 80, 30, 90, 40, 50, 70 };
 // MergingSort.Run(arr7);
 
 int[] arr11 = new int[] { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
+string[] arr12 = new string[] { "o","m","i","d" };
 int[] arr20 = new int[] {};
 int[] arr30 = new int[] { 5 };
 
-Console.WriteLine($"{arr30.Any()}: Any"); 
+Console.WriteLine($"{arr20.Any()}: Any"); 
 Console.WriteLine($"{arr20.All(x=>x>4)}: All"); 
 Console.WriteLine($"{arr20.All(x=>x>10)}: All"); 
-Console.WriteLine($"{arr20.Any()}: Any"); 
-Console.WriteLine($"{arr11.Any(x=>x<0)}: Any"); 
+Console.WriteLine($"{arr20.Any()}: Any");
+Console.WriteLine($"{arr11.Any(x => x < 0)}: Any"); 
+
+//==================================
+Console.WriteLine($"{arr12.ElementAtOrDefault(20)}: ElementAt");//throw an exception ArgumentOutOfRangeException
+Console.WriteLine($"{arr11.ElementAt(2)}: ElementAt"); 
+
+//==================================
+
+//==================================
+Console.WriteLine($"{arr11.Single(x=>x>40)}: Single"); 
+//==================================
+
 
