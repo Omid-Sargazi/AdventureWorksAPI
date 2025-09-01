@@ -76,8 +76,17 @@ int[] arr30 = new int[] { 5 };
 
 var people = new[]
 {
-    new { Name = "Ali", Age = 25 },
-    new { Name = "Reza", Age = 30 }
+    new {id=1, Name = "Ali", Age = 25 },
+    new { id=2, Name = "Reza", Age = 30 },
+    new { id=3, Name = "Ali", Age = 25 },
+    new { id=4, Name = "Reza", Age = 25 },
+    new { id=5, Name = "Maryam", Age = 30 }
+};
+
+var orders = new[]
+{
+    new { PersonId = 1, Product = "Book" },
+    new { PersonId = 2, Product = "Pen" }
 };
 
 //========================= Single===============
@@ -117,6 +126,30 @@ Console.WriteLine($"{string.Join(",", byAge)}" + " by Age");
 var byName = people.OrderByDescending(people => people.Name).ThenByDescending(people=>people.Age);
 Console.WriteLine($"{string.Join(",", byName)}" + " by Name");
 
+var grouped = people.GroupBy(p => p.Name);
+Console.WriteLine(string.Join(",", grouped) + " Grouped");
+
+foreach (var g in grouped)
+{
+    Console.WriteLine($"Name Group: {g.Key}");
+    foreach (var item in g)
+    {
+        Console.WriteLine($"-{item.Name},{item.Age}");
+    }
+}
 
 
+var joined = people.GroupJoin(orders,
+    p => p.id,
+    o => o.PersonId,
+    (p, o) => new
+    {
+        p.Name,
+        Products = orders.Select(o=>o.Product).DefaultIfEmpty("No Order")
+    }
+);
 
+foreach (var item in joined)
+{
+    Console.WriteLine($"{item.Name}:{string.Join(",",item.Products)}");
+}
