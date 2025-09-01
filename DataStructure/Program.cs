@@ -114,7 +114,7 @@ Console.WriteLine($"{string.Join(",", orderBydesc)}" + " Order By");
 var byAge = people.OrderBy(people => people.Age);
 Console.WriteLine($"{string.Join(",", byAge)}" + " by Age");
 
-var byName = people.OrderByDescending(people => people.Name);
+var byName = people.OrderByDescending(people => people.Name).ThenByDescending(people=>people.Age);
 Console.WriteLine($"{string.Join(",", byName)}" + " by Name");
 
 
