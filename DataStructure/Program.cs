@@ -74,20 +74,49 @@ string[] arr12 = new string[] { "o","m","i","d" };
 int[] arr20 = new int[] {};
 int[] arr30 = new int[] { 5 };
 
-Console.WriteLine($"{arr20.Any()}: Any"); 
-Console.WriteLine($"{arr20.All(x=>x>4)}: All"); 
-Console.WriteLine($"{arr20.All(x=>x>10)}: All"); 
-Console.WriteLine($"{arr20.Any()}: Any");
-Console.WriteLine($"{arr11.Any(x => x < 0)}: Any"); 
+var people = new[]
+{
+    new { Name = "Ali", Age = 25 },
+    new { Name = "Reza", Age = 30 }
+};
 
-//==================================
-Console.WriteLine($"{arr12.ElementAtOrDefault(20)}: ElementAt");//throw an exception ArgumentOutOfRangeException
-Console.WriteLine($"{arr11.ElementAt(2)}: ElementAt"); 
+//========================= Single===============
+Console.WriteLine($"{arr30.Single()}"+" Single");
+Console.WriteLine($"{arr30.SingleOrDefault(x=>x>10)}"+" Single");
+// Console.WriteLine($"{arr30.Single(x=>x>10)}"+" Single");
 
-//==================================
 
-//==================================
-Console.WriteLine($"{arr11.Single(x=>x>40)}: Single"); 
-//==================================
+//========================= Last ===============
+
+Console.WriteLine($"{arr30.Last(x=>x>4)}"+" Last");
+Console.WriteLine($"{arr11.Last()}"+" Last");
+Console.WriteLine($"{arr20.LastOrDefault()}" + " Last");
+
+//========================First/FirstOrDefault===================
+
+Console.WriteLine($"{arr20.FirstOrDefault()}" + " First");
+Console.WriteLine($"{arr11.FirstOrDefault()}" + " First");
+//=========================
+
+//======================Where==================
+Console.WriteLine($"{arr11.Where(x => x > 20).Skip(2).Last()}" + " Where and first");
+
+var filteredList = arr.Where(x => x > 20).ToList();
+filteredList.ForEach(item => Console.WriteLine(item));
+Console.WriteLine("Where and Foreach");
+
+var orderBy = arr20.OrderBy(x => x);
+var orderBydesc = arr7.OrderByDescending(x => x);
+Console.WriteLine($"{string.Join(",",orderBy)}"+" Order By");
+Console.WriteLine($"{string.Join(",", orderBydesc)}" + " Order By");
+
+
+var byAge = people.OrderBy(people => people.Age);
+Console.WriteLine($"{string.Join(",", byAge)}" + " by Age");
+
+var byName = people.OrderByDescending(people => people.Name);
+Console.WriteLine($"{string.Join(",", byName)}" + " by Name");
+
+
 
 
