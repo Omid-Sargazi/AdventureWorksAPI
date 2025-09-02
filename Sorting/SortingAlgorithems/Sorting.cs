@@ -169,8 +169,33 @@ namespace Sorting.SortingAlgorithems
                 p2++;
             }
 
-            Console.WriteLine($"Merge Sort: {string.Join(",",result)}");
+            Console.WriteLine($"Merge Sort: {string.Join(",", result)}");
 
+        }
+
+
+        public static void QuickSort(int[] arr, int lo, int hi)
+        {
+
+            int pi = Partition(arr, lo, hi);
+            QuickSort(arr, lo, pi - 1);
+            QuickSort(arr, pi + 1, hi);
+        }
+
+        private static int Partition(int[] arr, int lo, int hi)
+        {
+            int i = lo - 1;
+            int pi = arr[hi];
+            for (int j = 0; j < hi; j++)
+            {
+                if (arr[j] < pi)
+                {
+                    i++;
+                    (arr[j], arr[i]) = (arr[j], arr[i]);
+                }
+            }
+            (arr[i + 1], arr[hi]) = (arr[hi], arr[i + 1]);
+            return i + 1;
         }
     }
 }
