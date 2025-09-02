@@ -8,4 +8,4 @@ int[] arr2 = new int[] { 1, 2, 3 };
 
 // Heapify.Run(arr1);
 
-Sortingg.Run(arr1);
+Sortingg.MergeSort(arr1);
