@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // using Sorting.KindOfSorting;
 using Sorting.KindOfSorting;
+using Sorting.SortingAlgorithem;
 using Sorting.SortingAlgorithems;
 
 Console.WriteLine("Hello, World!");
@@ -11,4 +12,5 @@ int[] arr2 = new int[] { 1, 2, 3 };
 
 // Sortingg.MergeSort(arr1);
 // HeapifySorting.Run(arr2);
-HeapifySortingg.Run(arr1);
+// HeapifySortingg.Run(arr1);
+HeapSortArray.Run(arr1);
