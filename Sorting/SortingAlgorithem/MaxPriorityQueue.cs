@@ -11,12 +11,14 @@ namespace Sorting.SortingAlgorithem
         public MaxPriorityQueue(IEnumerable<int> items)
         {
             heap = new List<int>(items);
+            BuildHeap();
 
         }
 
         public void Inser(int vale)
         {
             heap.Add(vale);
+            SiftUp(heap.Count - 1);
 
         }
 
@@ -44,6 +46,38 @@ namespace Sorting.SortingAlgorithem
                     current = parent;
                 }
                 else break;
+            }
+        }
+
+        private void SiftDown(int index)
+        {
+            int current = index;
+            int n = heap.Count;
+
+            while (true)
+            {
+                int left = 2 * current + 1;
+                int right = 2 * current + 2;
+                int largest = current;
+                if (left < n && heap[left] > heap[largest])
+                    largest = left;
+
+                if (right < n && heap[right] > heap[largest])
+                    largest = right;
+
+                if (largest == current) break;
+
+                Swap(current, largest);
+                current = largest;
+            }
+        }
+
+        private void BuildHeap()
+        {
+            int n = heap.Count;
+            for (int i = n / 2 - 1; i >= 0; i--)
+            {
+                SiftDown(i);
             }
         }
 
