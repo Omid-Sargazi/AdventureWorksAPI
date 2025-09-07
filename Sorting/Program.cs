@@ -13,4 +13,4 @@ int[] arr2 = new int[] { 1, 2, 3 };
 // Sortingg.MergeSort(arr1);
 // HeapifySorting.Run(arr2);
 // HeapifySortingg.Run(arr1);
-HeapSortArray.Run(arr1);
+// HeapSortArray.Run(arr1);
