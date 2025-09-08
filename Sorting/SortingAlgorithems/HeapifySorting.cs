@@ -23,7 +23,7 @@ namespace Sorting.SortingAlgorithems
         private static void HeapSort(int[] arr)
         {
             int n = arr.Length;
-            for (int i = n-1; i >=0; i--)
+            for (int i = n - 1; i >= 0; i--)
             {
                 (arr[0], arr[i]) = (arr[i], arr[0]);
                 Heapify(arr, 0, i);
@@ -51,6 +51,29 @@ namespace Sorting.SortingAlgorithems
                 (arr[i], arr[largest]) = (arr[largest], arr[i]);
                 Heapify(arr, largest, n);
             }
+        }
+    }
+
+
+    public class Sortings
+    {
+        public static void Selection(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int minIndex = i;
+                for (int j = i + 1; j < arr.Length; j++)
+                {
+                    if (arr[j] < arr[minIndex])
+                        minIndex = j;
+                }
+
+                if (minIndex != i)
+                    (arr[minIndex], arr[i]) = (arr[i], arr[minIndex]);
+            }
+
+
+            Console.WriteLine($"Seelction: {string.Join(", ",arr)}");
         }
     }
 }

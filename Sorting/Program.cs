@@ -16,5 +16,7 @@ int[] arr2 = new int[] { 1, 2, 3 };
 // HeapSortArray.Run(arr1);
 
 // var pq = new MinPriorityQueuee(arr1);
-HeapifySorting.Run(arr1);
+// HeapifySorting.Run(arr1);
 // Console.WriteLine(pq);
+
+Sortings.Selection(arr1);
