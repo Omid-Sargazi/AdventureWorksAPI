@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DesignPatterns.StructuralDesignPattern;
+using DesignPatterns.StructuralDesignPattern2;
 
 Console.WriteLine("Hello, World! from Design Pattern");
 // ClientComponent.Run();
@@ -27,3 +28,6 @@ Mainfolder.AddComponent(folder2);
 Rootfolder.AddComponent(Mainfolder);
 Rootfolder.Display();
 Console.WriteLine(Rootfolder.GetSize());
+
+
+ClientReport.Run();
