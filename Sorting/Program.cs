@@ -22,4 +22,14 @@ int[] arr2 = new int[] { 1, 2, 3 };
 // Sortings.Selection(arr1);
 // Sortings.Insertion(arr1);
 // Sortings.RunQuickSort(arr1);
-Sortings.RunQuickSort2(arr1);
+// Sortings.RunQuickSort2(arr1);
+
+string Describe(object o) => o switch
+{
+    null => "null",
+    int i and >= 0 => $"non-navigate int{i}",
+    string { Length: > 0 } s => $"string:{s}",
+    _ => "something else"
+};
+
+Console.WriteLine(Describe(10));
