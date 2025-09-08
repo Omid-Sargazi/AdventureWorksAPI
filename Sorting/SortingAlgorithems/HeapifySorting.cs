@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Sorting.SortingAlgorithems
 {
     public class HeapifySorting
@@ -94,6 +96,40 @@ namespace Sorting.SortingAlgorithems
 
             Console.WriteLine($"Insertion Sort: {string.Join(", ", arr)}");
 
+        }
+
+        private static void QuickSorting(int[] arr, int lo, int hi)
+        {
+            if (lo <= hi)
+            {
+                int pi = Partition(arr, lo, hi);
+                QuickSorting(arr, lo, pi - 1);
+                QuickSorting(arr, lo + 1, hi);
+            }
+        }
+
+        private static int Partition(int[] arr, int lo, int hi)
+        {
+
+            int pivot = arr[hi];
+            int i = lo - 1;
+            for (int j = lo; j <= hi; j++)
+            {
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    (arr[j], arr[i]) = (arr[i], arr[j]);
+                }
+            }
+            (arr[i+1], arr[hi]) = (arr[hi], arr[i+1]);
+
+            return i + 1;
+        }
+
+        public static void RunQuickSort(int[] arr)
+        {
+            QuickSorting(arr, 0, arr.Length-1);
+            Console.WriteLine($"Quick sort: {string.Join(", ",arr)}");
         }
     }
 }

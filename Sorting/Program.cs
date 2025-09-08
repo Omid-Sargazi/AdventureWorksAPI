@@ -20,4 +20,5 @@ int[] arr2 = new int[] { 1, 2, 3 };
 // Console.WriteLine(pq);
 
 // Sortings.Selection(arr1);
-Sortings.Insertion(arr1);
+// Sortings.Insertion(arr1);
+Sortings.RunQuickSort(arr1);
