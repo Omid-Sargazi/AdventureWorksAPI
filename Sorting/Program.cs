@@ -19,4 +19,5 @@ int[] arr2 = new int[] { 1, 2, 3 };
 // HeapifySorting.Run(arr1);
 // Console.WriteLine(pq);
 
-Sortings.Selection(arr1);
+// Sortings.Selection(arr1);
+Sortings.Insertion(arr1);
