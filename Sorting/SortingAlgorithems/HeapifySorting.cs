@@ -121,15 +121,50 @@ namespace Sorting.SortingAlgorithems
                     (arr[j], arr[i]) = (arr[i], arr[j]);
                 }
             }
-            (arr[i+1], arr[hi]) = (arr[hi], arr[i+1]);
+            (arr[i + 1], arr[hi]) = (arr[hi], arr[i + 1]);
 
             return i + 1;
         }
 
         public static void RunQuickSort(int[] arr)
         {
-            QuickSorting(arr, 0, arr.Length-1);
-            Console.WriteLine($"Quick sort: {string.Join(", ",arr)}");
+            QuickSorting(arr, 0, arr.Length - 1);
+            Console.WriteLine($"Quick sort: {string.Join(", ", arr)}");
+        }
+
+        private static void QuickSort2(int[] arr, int lo, int hi)
+        {
+            if (lo <= hi)
+            {
+                int pi = Partition2(arr, lo, hi);
+                QuickSort2(arr, lo, pi - 1);
+                QuickSort2(arr, pi + 1, hi);
+            }
+        }
+
+        private static int Partition2(int[] arr, int lo, int hi)
+        {
+            int pivot = arr[hi];
+            int i = lo - 1;
+
+            for (int j = lo; j < hi; j++)
+            {
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    (arr[i], arr[j]) = (arr[j], arr[i]);
+                }
+            }
+
+            (arr[i + 1], arr[hi]) = (arr[hi], arr[i + 1]);
+            return i + 1;
+        }
+
+        public static void RunQuickSort2(int[] arr)
+        {
+            QuickSort2(arr, 0, arr.Length - 1);
+            Console.WriteLine($"Quick sort 2: {string.Join(", ", arr)}");
+
         }
     }
 }
