@@ -105,11 +105,50 @@ namespace Sorting.TopKMinHeap
 
     public class TopKMinHeap
     {
-        public static void Run()
+
+        public static List<int> TopK_MinHeap(int[] arr, int k)
         {
-            
+            var res = new List<int>();
+            if (k <= 0) return res;
+
+            int n = arr.Length;
+            if (k >= n)
+            {
+                var all = arr.ToList();
+                all.Sort((a, b) => b.CompareTo(a));
+                return all;
+            }
+
+
+            var minPQ = new MinPriorityQueue();
+
+            for (int i = 0; i < k; i++)
+            {
+                minPQ.Insert(arr[i]);
+            }
+
+            for (int i = k; i < n; i++)
+            {
+                int x = arr[i];
+                if (x > minPQ.PeekMin())
+                {
+                    minPQ.ExtractMin();
+                    minPQ.Insert(x);
+                }
+            }
+
+            while (!minPQ.IsEmpty)
+                res.Add(minPQ.ExtractMin());
+
+            res.Reverse();
+            return res;
         }
     }
+        
+
+       
+        
+    
 
    
 }
