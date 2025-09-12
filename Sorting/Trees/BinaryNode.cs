@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace Sorting.Trees
 {
     public class BinaryNode
@@ -51,6 +53,22 @@ namespace Sorting.Trees
             Postorder(node.left);
             Postorder(node.right);
             Console.WriteLine(node.value + " ");
+        }
+
+        public static void LevelOrder(BinaryNode root)
+        {
+            if (root == null) return;
+
+            var q = new Queue<BinaryNode>();
+            q.Enqueue(root);
+
+            while (q.Count > 0)
+            {
+                var cur = q.Dequeue();
+                Console.Write(cur.value + " ");
+                if (cur.left != null) q.Enqueue(cur.left);
+                if (cur.right != null) q.Enqueue(cur.right);
+            }
         }
     }
 }
