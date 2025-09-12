@@ -3,6 +3,7 @@
 using Sorting.KindOfSorting;
 using Sorting.SortingAlgorithem;
 using Sorting.SortingAlgorithems;
+using Sorting.Trees;
 
 Console.WriteLine("Hello, World!");
 int[] arr1 = new int[] { 1, 2, 3, -10, 10, -100, 100, 40, 41, 52, 44 };
@@ -33,3 +34,5 @@ string Describe(object o) => o switch
 };
 
 Console.WriteLine(Describe(10));
+
+RunTreeNode.Run();
