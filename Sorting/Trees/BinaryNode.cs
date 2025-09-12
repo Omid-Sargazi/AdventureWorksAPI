@@ -21,7 +21,8 @@ namespace Sorting.Trees
             root.left.right = new BinaryNode(5);
             root.right.left = new BinaryNode(6);
 
-            BinaryNode.Preorder(root);
+            // BinaryNode.Preorder(root);
+            BinaryNode.Postorder(root);
         }
 
         public static void Preorder(BinaryNode node)
@@ -34,6 +35,22 @@ namespace Sorting.Trees
             Console.Write(node.value + " ");
             Preorder(node.left);
             Preorder(node.right);
+        }
+
+        public static void Inorder(BinaryNode node)
+        {
+            if (node == null) return;
+            Inorder(node.left);
+            Console.WriteLine(node.value + " ");
+            Inorder(node.right);
+        }
+
+        public static void Postorder(BinaryNode node)
+        {
+            if (node == null) return;
+            Postorder(node.left);
+            Postorder(node.right);
+            Console.WriteLine(node.value + " ");
         }
     }
 }
