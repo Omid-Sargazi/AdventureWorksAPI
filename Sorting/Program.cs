@@ -36,4 +36,6 @@ string Describe(object o) => o switch
 Console.WriteLine(Describe(10));
 
 // RunTreeNode.Run();
-RunUniversityTree.Run();
+// RunUniversityTree.Run();
+
+BinaryNode.Run();
