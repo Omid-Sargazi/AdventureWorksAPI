@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorting", "Sorting\Sorting.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheExample", "CacheExample\CacheExample.csproj", "{20895157-85A1-46D8-82A5-CB8F6A142E40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithemAndDataStructure", "AlgorithemAndDataStructure\AlgorithemAndDataStructure.csproj", "{F9036FEE-97EF-45D2-9158-365CE48A6632}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{20895157-85A1-46D8-82A5-CB8F6A142E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20895157-85A1-46D8-82A5-CB8F6A142E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20895157-85A1-46D8-82A5-CB8F6A142E40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9036FEE-97EF-45D2-9158-365CE48A6632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9036FEE-97EF-45D2-9158-365CE48A6632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9036FEE-97EF-45D2-9158-365CE48A6632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9036FEE-97EF-45D2-9158-365CE48A6632}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D81D0835-5B2C-4774-847D-25CC927D5EEE} = {39E19618-0779-48E4-880D-B9FAB6B1FA0F}
