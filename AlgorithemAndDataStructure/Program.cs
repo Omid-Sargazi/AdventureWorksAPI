@@ -2,4 +2,6 @@
 using AlgorithemAndDataStructure.Trees;
 
 Console.WriteLine("Hello, World!");
-RunTreeNode.Run();
+// RunTreeNode.Run();
+
+RunUniversityTree.Run();
