@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+
 namespace AlgorithemInCSharp.Sorting
 {
     public class SortingsInCSharp
@@ -205,14 +207,24 @@ namespace AlgorithemInCSharp.Sorting
             root.Left.Right = new BinaryNode(4);
             root.Right.Left = new BinaryNode(5);
             root.Right.Right = new BinaryNode(6);
-            Preorder(root,1);
+            Console.WriteLine("Preorder Traversal:");
+            Preorder(root, 1);
+            Console.WriteLine("Inorder Traversal:");
+            Inorder(root);
         }
 
-        private static void Preorder(BinaryNode node,int level=1)
+        private static void Preorder(BinaryNode node, int level = 1)
         {
             Console.WriteLine($"{node.Value}");
             if (node.Left != null) Preorder(node.Left);
             if (node.Right != null) Preorder(node.Right);
+        }
+
+        private static void Inorder(BinaryNode node)
+        {
+            if (node.Left != null) Inorder(node.Left);
+            Console.WriteLine($"{node.Value}");
+            if(node.Right !=null) Inorder(node.Right);
         }
 
        
