@@ -1,3 +1,4 @@
+using System.ComponentModel.Design.Serialization;
 using System.Reflection.Metadata;
 
 namespace AlgorithemInCSharp.Sorting
@@ -213,6 +214,8 @@ namespace AlgorithemInCSharp.Sorting
             Inorder(root);
             Console.WriteLine("Postorder Traversal:");
             Postorder(root);
+            Console.WriteLine("Levelorder Traversal:");
+            Levelorder(root);
         }
 
         private static void Preorder(BinaryNode node, int level = 1)
@@ -236,7 +239,20 @@ namespace AlgorithemInCSharp.Sorting
             Console.WriteLine($"{node.Value}");
         }
 
-       
+        private static void Levelorder(BinaryNode node)
+        {
+            if (node == null) return;
+            var q = new Queue<BinaryNode>();
+            q.Enqueue(node);
+
+            while (q.Count > 0)
+            {
+                var cur = q.Dequeue();
+                Console.WriteLine($"{cur.Value}");
+                if (cur.Left != null) q.Enqueue(cur.Left);
+                if(cur.Right !=null) q.Enqueue(cur.Right);
+            }
+        }
     }
 
 
