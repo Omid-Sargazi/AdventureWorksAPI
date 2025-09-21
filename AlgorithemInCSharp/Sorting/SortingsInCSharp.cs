@@ -181,5 +181,42 @@ namespace AlgorithemInCSharp.Sorting
         }
     }
 
+    public class BinaryNode
+    {
+        public int Value;
+        public BinaryNode Left;
+        public BinaryNode Right;
+
+        public BinaryNode(int value)
+        {
+            Value = value;
+            Left = null;
+            Right = null;
+        }
+
+
+        public static void Run()
+        {
+            BinaryNode root = new BinaryNode(0);
+            root.Left = new BinaryNode(1);
+            root.Right = new BinaryNode(2);
+
+            root.Left.Left = new BinaryNode(3);
+            root.Left.Right = new BinaryNode(4);
+            root.Right.Left = new BinaryNode(5);
+            root.Right.Right = new BinaryNode(6);
+            Preorder(root,1);
+        }
+
+        private static void Preorder(BinaryNode node,int level=1)
+        {
+            Console.WriteLine($"{node.Value}");
+            if (node.Left != null) Preorder(node.Left);
+            if (node.Right != null) Preorder(node.Right);
+        }
+
+       
+    }
+
 
 }
