@@ -216,6 +216,9 @@ namespace AlgorithemInCSharp.Sorting
             Postorder(root);
             Console.WriteLine("Levelorder Traversal:");
             Levelorder(root);
+            Console.WriteLine("Count leaves:");
+            Console.WriteLine(CountLeaves(root));
+
         }
 
         private static void Preorder(BinaryNode node, int level = 1)
@@ -250,7 +253,56 @@ namespace AlgorithemInCSharp.Sorting
                 var cur = q.Dequeue();
                 Console.WriteLine($"{cur.Value}");
                 if (cur.Left != null) q.Enqueue(cur.Left);
-                if(cur.Right !=null) q.Enqueue(cur.Right);
+                if (cur.Right != null) q.Enqueue(cur.Right);
+            }
+        }
+
+        private static int CountNodes(BinaryNode node)
+        {
+            if (node == null) return 0;
+            return 1 + CountNodes(node.Left) + CountNodes(node.Right);
+        }
+
+        private static int CountLeaves(BinaryNode node)
+        {
+            if (node == null) return 0;
+            if (node.Left == null && node.Right == null) return 1;
+            return CountLeaves(node.Left) + CountLeaves(node.Right);
+        }
+    }
+
+    public class BSTNode
+    {
+        public int Value;
+        public BSTNode Left;
+        public BSTNode Right;
+
+        public BSTNode(int value)
+        {
+            Value = value;
+            Left = null;
+            Right = null;
+        }
+
+        public static BSTNode Insert(BSTNode root, int value)
+        {
+            if (root == null) return new BSTNode(value);
+            if (value < root.Value)
+                root.Left = Insert(root.Left, value);
+            else if (value > root.Value)
+                root.Right = Insert(root.Right, value);
+            return root;
+        }
+
+        public static bool Search(BSTNode root, int value)
+        {
+            if (root == null) return false;
+            if (root.Value == value) return true;
+
+            if (value < root.Value) return Search(root.Left, value);
+            else
+            {
+                return Search(root.Right, value);
             }
         }
     }
