@@ -271,41 +271,112 @@ namespace AlgorithemInCSharp.Sorting
         }
     }
 
-    public class BSTNode
+    class BST
     {
-        public int Value;
-        public BSTNode Left;
-        public BSTNode Right;
+        public BSTNode Root;
 
-        public BSTNode(int value)
+        public class BSTNode
         {
-            Value = value;
-            Left = null;
-            Right = null;
+            public int Value;
+            public BSTNode Left, Right;
+            public BSTNode(int value) { Value = value; }
         }
 
-        public static BSTNode Insert(BSTNode root, int value)
+        public void Insert(int value)
+        {
+            Root = Insert(Root, value);
+        }
+
+        private BSTNode Insert(BSTNode root, int value)
         {
             if (root == null) return new BSTNode(value);
-            if (value < root.Value)
-                root.Left = Insert(root.Left, value);
-            else if (value > root.Value)
-                root.Right = Insert(root.Right, value);
+            if (value < root.Value) root.Left = Insert(root.Left, value);
+            else if (value > root.Value) root.Right = Insert(root.Right, value);
             return root;
         }
 
-        public static bool Search(BSTNode root, int value)
+        public bool Search(int value) => Search(Root, value);
+
+        private bool Search(BSTNode root, int value)
         {
             if (root == null) return false;
             if (root.Value == value) return true;
-
             if (value < root.Value) return Search(root.Left, value);
+            return Search(root.Right, value);
+        }
+
+        public void Delete(int value)
+        {
+            Root = Delete(Root, value);
+        }
+
+        private BSTNode Delete(BSTNode root, int value)
+        {
+            if (root == null) return root;
+            if (value < root.Value) root.Left = Delete(root.Left, value);
+            else if (value > root.Value) root.Right = Delete(root.Right, value);
             else
             {
-                return Search(root.Right, value);
+                if (root.Left == null) return root.Right;
+                else if (root.Right == null) return root.Left;
+
+                root.Value = MinValue(root.Right);
+                root.Right = Delete(root.Right, root.Value);
             }
+            return root;
+        }
+
+        private int MinValue(BSTNode node)
+        {
+            int minv = node.Value;
+            while (node.Left != null)
+            {
+                minv = node.Left.Value;
+                node = node.Left;
+            }
+            return minv;
+        }
+
+        public void Inorder() => Inorder(Root);
+
+        private void Inorder(BSTNode root)
+        {
+            if (root == null) return;
+            Inorder(root.Left);
+            Console.Write(root.Value + " ");
+            Inorder(root.Right);
         }
     }
+
+    public class RunBST
+    {
+        public static void Run()
+        {
+            BST tree = new BST();
+            tree.Insert(8);
+            tree.Insert(3);
+            tree.Insert(10);
+            tree.Insert(1);
+            tree.Insert(6);
+            tree.Insert(14);
+            tree.Insert(4);
+            tree.Insert(7);
+            tree.Insert(13);
+
+            Console.Write("Inorder traversal: ");
+            tree.Inorder();  // مرتب‌شده
+            Console.WriteLine();
+
+            Console.WriteLine("Search 6: " + tree.Search(6));
+            Console.WriteLine("Search 20: " + tree.Search(20));
+
+            tree.Delete(1);
+            Console.Write("After deleting 10: ");
+            tree.Inorder();
+            Console.WriteLine();
+        }
+    }
+
 
 
 }
