@@ -211,6 +211,8 @@ namespace AlgorithemInCSharp.Sorting
             Preorder(root, 1);
             Console.WriteLine("Inorder Traversal:");
             Inorder(root);
+            Console.WriteLine("Postorder Traversal:");
+            Postorder(root);
         }
 
         private static void Preorder(BinaryNode node, int level = 1)
@@ -224,7 +226,14 @@ namespace AlgorithemInCSharp.Sorting
         {
             if (node.Left != null) Inorder(node.Left);
             Console.WriteLine($"{node.Value}");
-            if(node.Right !=null) Inorder(node.Right);
+            if (node.Right != null) Inorder(node.Right);
+        }
+
+        private static void Postorder(BinaryNode node)
+        {
+            if (node.Left != null) Postorder(node.Left);
+            if (node.Right != null) Postorder(node.Right);
+            Console.WriteLine($"{node.Value}");
         }
 
        
