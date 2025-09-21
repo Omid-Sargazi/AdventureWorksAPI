@@ -108,5 +108,34 @@ namespace AlgorithemInCSharp.Sorting
 
             Console.WriteLine($"{string.Join(",", result)}");
         }
+
+
+        public static void QuickSort(int[] arr, int lo, int hi)
+        {
+            if (lo >= hi) return;
+            int pi = Partition(arr, lo, hi);
+            QuickSort(arr, lo, pi - 1);
+            QuickSort(arr, pi + 1, hi);
+
+            Console.WriteLine($"{string.Join(",", arr)}");
+        }
+
+        private static int Partition(int[] arr, int lo, int hi)
+        {
+            int pivot = arr[hi];
+            int j = lo - 1;
+            for (int i = lo; i < hi; i++)
+            {
+                if (arr[i] < pivot)
+                {
+                    j++;
+                    (arr[i], arr[j]) = (arr[j], arr[i]);
+                }
+
+            }
+            (arr[j + 1], arr[hi]) = (arr[hi], arr[j + 1]);
+
+            return j + 1;
+        }
     } 
 }
