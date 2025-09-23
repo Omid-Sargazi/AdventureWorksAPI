@@ -158,4 +158,22 @@ Console.WriteLine("Hello, World!!!!");
 
 // ClientMaxPriorityQueue.Run();
 
-RunSimpleResource.Run();
+// RunSimpleResource.Run();
+
+
+byte[] bigData = new byte[1_000_000_000];
+byte[] smallCopy = new byte[100];
+Array.Copy(bigData, 50, smallCopy, 0, 100);
+Console.WriteLine("Small Copy Length: " + smallCopy.Length);
+foreach (var item in smallCopy)
+{
+    // Console.Write(item + ",");
+}
+
+
+Span<byte> smartView = bigData.AsSpan(50, 100);
+Console.WriteLine("\nSmart View Length: " + smartView.Length);
+foreach (var item in smartView)
+{
+    Console.Write(item + ",");
+}
