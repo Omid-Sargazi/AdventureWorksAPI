@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DataStructure;
 using DataStructure.DataSorting;
+using DataStructure.SimpleResource;
 using DataStructure.SortData;
 using DataStructure.Sorting;
 using DataStructure.SortingAlgorithems;
@@ -155,4 +156,6 @@ Console.WriteLine("Hello, World!!!!");
 //     Console.WriteLine($"{item.Name}:{string.Join(",",item.Products)}");
 // }
 
-ClientMaxPriorityQueue.Run();
+// ClientMaxPriorityQueue.Run();
+
+RunSimpleResource.Run();
