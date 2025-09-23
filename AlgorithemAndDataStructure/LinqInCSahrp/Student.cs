@@ -24,6 +24,37 @@ namespace AlgorithemAndDataStructure.LinqInCSahrp
             {
                 Console.WriteLine($"{student.Name}:{student.Grade}");
             }
+
+
+            IList<Student> listStudents = students;//UpCasting
+
+            listStudents.Add(new Student { Name = "Sami", Grade = 78 });
+            listStudents.RemoveAt(1);
+
+            Console.WriteLine($"{listStudents[1].Name}:{listStudents[1].Grade}");
+
+            foreach (var student in students)
+            {
+                Console.WriteLine($"{student.Name}:{student.Grade}");
+            }
+
+            IDictionary<string, Student> studentDictionary = new Dictionary<string, Student>();
+            foreach (var item in students)
+            {
+                studentDictionary[item.Name] = item;
+            }
+
+            if (studentDictionary.TryGetValue("omid", out Student st))
+            {
+                Console.WriteLine($"{st.Grade}");
+            }
+
+            studentDictionary["abbas"] = new Student { Name = "abbas", Grade = 50 };
+
+            foreach (var item in studentDictionary)
+            {
+                Console.WriteLine($"{item.Key}:{item.Value.Name}:{item.Value.Grade}");
+            }
         }
     }
 }
