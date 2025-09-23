@@ -1,5 +1,6 @@
 namespace DataStructure.IEnumerables
 {
+    public delegate bool StudentFilter(Student student);
     public class Student
     {
         public string Name { get; set; }
@@ -55,6 +56,13 @@ namespace DataStructure.IEnumerables
             collectioStudents.Add(new Student { Name = "Zini", Grade = 65 });
             collectioStudents.Remove(students[0]);
             Console.WriteLine($"{collectioStudents.Count}");
+
+
+            StudentFilter gradeFilter = Student => Student.Grade >= 90;
+            StudentFilter nameFilter = Student => Student.Name.StartsWith("A");
+            var topStudent = Student.FilterStudents(students, gradeFilter);
+            var sNames = Student.FilterStudents(students, nameFilter);
+
         }
 
         private List<Student> FilteredeByGrade(List<Student> students, int minGrade)
@@ -86,5 +94,20 @@ namespace DataStructure.IEnumerables
 
             return result;
         }
+
+
+        public static IEnumerable<Student> FilterStudents(IEnumerable<Student> students, StudentFilter filter)
+        {
+            foreach (var s in students)
+            {
+                if (filter(s))
+                {
+                    yield return s;
+                }
+            }
+        }
+
+        
+         
     }
 }
