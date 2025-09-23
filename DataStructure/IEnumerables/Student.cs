@@ -3,15 +3,15 @@ namespace DataStructure.IEnumerables
     public class Student
     {
         public string Name { get; set; }
-        public string Grade { get; set; }
+        public int Grade { get; set; }
 
         public static void RunStudent()
         {
             List<Student> students = new List<Student>
             {
-                new Student {Name="Omid",Grade="A"},
-                new Student{Name = "Saeed",Grade="B"},
-                new Student {Name="Vahid", Grade="C"}
+                new Student {Name="Omid",Grade=100},
+                new Student{Name = "Saeed",Grade=90},
+                new Student {Name="Vahid", Grade=90}
             };
 
             Console.WriteLine("Show with IEnumarable:");
@@ -26,7 +26,7 @@ namespace DataStructure.IEnumerables
 
             IList<Student> listStudents = students;//UpCasting
 
-            listStudents.Add(new Student { Name = "Saleh", Grade = "A" });
+            listStudents.Add(new Student { Name = "Saleh", Grade = 80 });
             listStudents.RemoveAt(1);
 
             Console.WriteLine($"first student:{listStudents[1].Name}:{listStudents[1].Grade}");
@@ -43,7 +43,7 @@ namespace DataStructure.IEnumerables
                 Console.WriteLine($"omid finded : {x.Name}:{x.Grade}");
             }
 
-            studentDictionary["Samyar"] = new Student { Name = "samyar", Grade = "S" };
+            studentDictionary["Samyar"] = new Student { Name = "samyar", Grade = 70 };
 
             foreach (var item in studentDictionary)
             {
@@ -52,9 +52,39 @@ namespace DataStructure.IEnumerables
 
             ICollection<Student> collectioStudents = students;//UpCasting
 
-            collectioStudents.Add(new Student { Name = "Zini", Grade = "Z" });
+            collectioStudents.Add(new Student { Name = "Zini", Grade = 65 });
             collectioStudents.Remove(students[0]);
             Console.WriteLine($"{collectioStudents.Count}");
+        }
+
+        private List<Student> FilteredeByGrade(List<Student> students, int minGrade)
+        {
+            var result = new List<Student>();
+
+            foreach (var student in students)
+            {
+                if (student.Grade >= minGrade)
+                {
+                    result.Add(student);
+                }
+            }
+
+            return result;
+        }
+
+        public List<Student> FilterByName(List<Student> students, string namePrefix)
+        {
+            var result = new List<Student>();
+
+            foreach (var student in students)
+            {
+                if (student.Name.StartsWith(namePrefix))
+                {
+                    result.Add(student);
+                }
+            }
+
+            return result;
         }
     }
 }
