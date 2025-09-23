@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DataStructure;
 using DataStructure.DataSorting;
+using DataStructure.IEnumerables;
 using DataStructure.SimpleResource;
 using DataStructure.SortData;
 using DataStructure.Sorting;
@@ -161,19 +162,22 @@ Console.WriteLine("Hello, World!!!!");
 // RunSimpleResource.Run();
 
 
-byte[] bigData = new byte[1_000_000_000];
-byte[] smallCopy = new byte[100];
-Array.Copy(bigData, 50, smallCopy, 0, 100);
-Console.WriteLine("Small Copy Length: " + smallCopy.Length);
-foreach (var item in smallCopy)
-{
-    // Console.Write(item + ",");
-}
+// byte[] bigData = new byte[1_000_000_000];
+// byte[] smallCopy = new byte[100];
+// Array.Copy(bigData, 50, smallCopy, 0, 100);
+// Console.WriteLine("Small Copy Length: " + smallCopy.Length);
+// foreach (var item in smallCopy)
+// {
+//     // Console.Write(item + ",");
+// }
 
 
-Span<byte> smartView = bigData.AsSpan(50, 100);
-Console.WriteLine("\nSmart View Length: " + smartView.Length);
-foreach (var item in smartView)
-{
-    Console.Write(item + ",");
-}
+// Span<byte> smartView = bigData.AsSpan(50, 100);
+// Console.WriteLine("\nSmart View Length: " + smartView.Length);
+// foreach (var item in smartView)
+// {
+//     Console.Write(item + ",");
+// }
+
+
+Student.RunStudent();
