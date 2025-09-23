@@ -63,6 +63,11 @@ namespace DataStructure.IEnumerables
             var topStudent = Student.FilterStudents(students, gradeFilter);
             var sNames = Student.FilterStudents(students, nameFilter);
 
+
+            var excellectStudents = Student.FilterStudentsWithFunc(students, s => s.Grade > 80);
+            var aStudent = Student.FilterStudentsWithFunc(students, s => s.Name.StartsWith("o"));
+            var topAStudents = Student.FilterStudents(students, s => s.Grade >= 88 && s.Name.StartsWith("O"));
+
         }
 
         private List<Student> FilteredeByGrade(List<Student> students, int minGrade)
@@ -104,6 +109,16 @@ namespace DataStructure.IEnumerables
                 {
                     yield return s;
                 }
+            }
+        }
+
+
+        public static IEnumerable<Student> FilterStudentsWithFunc(IEnumerable<Student> students, Func<Student, bool> filter)
+        {
+            foreach (var st in students)
+            {
+                if (filter(st))
+                    yield return st;
             }
         }
 
