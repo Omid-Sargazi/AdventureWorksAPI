@@ -68,6 +68,10 @@ namespace DataStructure.IEnumerables
             var aStudent = Student.FilterStudentsWithFunc(students, s => s.Name.StartsWith("o"));
             var topAStudents = Student.FilterStudents(students, s => s.Grade >= 88 && s.Name.StartsWith("O"));
 
+            Student.ProcessStudent(students, s => Console.WriteLine($"{s.Name}:{s.Grade}"));
+
+            Student.ProcessStudent(students, s => s.Grade += 1);
+
         }
 
         private List<Student> FilteredeByGrade(List<Student> students, int minGrade)
@@ -122,6 +126,13 @@ namespace DataStructure.IEnumerables
             }
         }
 
+        public static void ProcessStudent(IEnumerable<Student> students, Action<Student> action)
+        {
+            foreach (var st in students)
+            {
+                action(st);
+            }
+        }
         
          
     }
