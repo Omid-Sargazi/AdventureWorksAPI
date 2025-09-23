@@ -72,6 +72,9 @@ namespace DataStructure.IEnumerables
 
             Student.ProcessStudent(students, s => s.Grade += 1);
 
+            int excelelctCount = Student.CountStudents(students, s => s.Grade >= 90);
+            int faildCOunt = Student.CountStudents(students, s => s.Grade <= 10);
+
         }
 
         private List<Student> FilteredeByGrade(List<Student> students, int minGrade)
@@ -132,6 +135,20 @@ namespace DataStructure.IEnumerables
             {
                 action(st);
             }
+        }
+
+        public static int CountStudents(IEnumerable<Student> studnets, Predicate<Student> condition)
+        {
+            int count = 0;
+            foreach (var st in studnets)
+            {
+                if (condition(st))
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
         
          
