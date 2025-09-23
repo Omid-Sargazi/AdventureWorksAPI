@@ -1,15 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-using AlgorithemInCSharp.Sorting;
+﻿namespace AlgorithemInCSharp;
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        //AlgorithemAndDataStructure.Trees.RunTreeNode.Run();
+        //AlgorithemInCSharp.Delegates.Delegatess.Run();
+        Console.WriteLine("Hello, World!");
 
-Console.WriteLine("Hello, World!");
-int[] arr1 = new int[] { 5, 4, 3, 2, 1,-100,-200,800,78,0,0 };
-// SortingsInCSharp.Buuble(arr1);
-// SortingsInCSharp.SelectionSort(arr1);
-// SortingsInCSharp.InsertionSort(arr1);
-// SortingsInCSharp.MeregeSort(arr1);
-// SortingsInCSharp.QuickSort(arr1, 0, arr1.Length - 1);
-
-// TreeNode.Run();
-// BinaryNode.Run();
-RunBST.Run();
-
+    SimpleResource.RunSimpleResource.Run();
+        
+    }
+}

@@ -1,6 +1,6 @@
 namespace AlgorithemInCSharp.Lists
 {
-    public class WhereWithYield
+    public static class WhereWithYield
     {
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
