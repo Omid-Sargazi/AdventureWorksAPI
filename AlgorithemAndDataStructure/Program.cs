@@ -37,3 +37,40 @@ else
 {
     Console.WriteLine("Not Found");
 }
+
+
+new Thread(static () => Console.WriteLine($"Thread")).Start();
+ThreadPool.QueueUserWorkItem(_ => Console.WriteLine($"ThreadPool"));
+
+Task.Run(static () => Console.WriteLine("Task on ThreadPool"));
+
+async Task Demo()
+{
+    await Task.Delay(1000);
+    Console.WriteLine("Async/await");
+}
+
+await Demo();
+
+
+Task<int> t = Task.Run(() =>
+{
+    Thread.Sleep(1000);
+    return 42;
+});
+
+Console.WriteLine($"status: {t.Status}");
+int result = await t;
+Console.WriteLine($"Sttaus: {t.Status}, Result: {result}");
+
+Type student = typeof(Student);
+Console.WriteLine(student.Name);
+Console.WriteLine(student.FullName);
+Type stringType = typeof(string);
+
+Console.WriteLine(stringType.Name);
+Console.WriteLine(stringType.FullName);
+
+object obj = "Hello, World!";
+Type staticObject = typeof(string);
+Type dynamicObject = obj.GetType();

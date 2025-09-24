@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DataStructure;
 using DataStructure.DataSorting;
+using DataStructure.ExplanationExpandoObject;
 using DataStructure.IEnumerables;
 using DataStructure.SimpleResource;
 using DataStructure.SortData;
@@ -182,3 +183,7 @@ Console.WriteLine("Hello, World!!!!");
 
 // Student.RunStudent();
 
+// ExplanationExpandoObject.Run();
+// ExplanationExpandoObject.Run2();
+
+RefProblem.Run();
