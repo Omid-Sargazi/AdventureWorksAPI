@@ -2,6 +2,7 @@ using System.Globalization;
 
 namespace AlgorithemAndDataStructure.LinqInCSahrp
 {
+    public delegate bool StudentFilter(Student student);
     public class Student
     {
         public string Name { get; set; }
@@ -54,6 +55,25 @@ namespace AlgorithemAndDataStructure.LinqInCSahrp
             foreach (var item in studentDictionary)
             {
                 Console.WriteLine($"{item.Key}:{item.Value.Name}:{item.Value.Grade}");
+            }
+
+            var gradeFilter = Student.StudentFilter(students, s => s.Grade > 70);
+            var nameFilter = Student.StudentFilter(students, s => s.Name.StartsWith("O"));
+
+            var topStudents = Student.StudentFilter(students, s => s.Grade > 88 && s.Name.StartsWith("s"));
+
+            
+        }
+
+
+        public static IEnumerable<Student> StudentFilter(IEnumerable<Student> students, StudentFilter filter)
+        {
+            foreach (var item in students)
+            {
+                if (filter(item))
+                {
+                    yield return item;
+                }
             }
         }
     }
