@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace AlgorithemAndDataStructure.LeetCodeProblems
 {
     public class TwoSum
@@ -57,6 +59,48 @@ namespace AlgorithemAndDataStructure.LeetCodeProblems
             }
 
         }
+
+        public static void CountWords(string text)
+        {
+            Dictionary<string, int> wordCount = new Dictionary<string, int>();
+            string[] words = text.Split(' ');
+            foreach (string word in words)
+            {
+                if (wordCount.TryGetValue(word, out int count))
+                {
+                    wordCount[word] = count + 1;
+                }
+                else
+                {
+                    wordCount[word] = 1;
+                }
+
+            }
+        }
+
+        public static Dictionary<int, long> GenerateFibonacchiSequence(int maxN)
+        {
+            Dictionary<int, long> fibonacchiCache = new Dictionary<int, long>();
+
+            long Fibonacchi(int n)
+            {
+                if (fibonacchiCache.TryGetValue(n, out long result))
+                {
+                    return result;
+                }
+                if (n <= 1) return n;
+                else
+                {
+                    result = Fibonacchi(n - 1) + Fibonacchi(n - 2);
+                    fibonacchiCache[n] = result;
+                    return result;
+                }
+            }
+
+            Fibonacchi(maxN);
+            return fibonacchiCache;
+        }
+       
          
     }
 }
