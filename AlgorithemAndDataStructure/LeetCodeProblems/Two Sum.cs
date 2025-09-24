@@ -100,6 +100,41 @@ namespace AlgorithemAndDataStructure.LeetCodeProblems
             Fibonacchi(maxN);
             return fibonacchiCache;
         }
+
+        public static void FibonacciIterativeWithCache()
+        {
+            Dictionary<int, long> cache = new Dictionary<int, long>();
+
+            long Fibo(int n)
+            {
+                if (n < 0) throw new ArgumentException("n must be non-negative");
+                if (n <= 1) return n;
+
+                if (cache.TryGetValue(n, out long result))
+                {
+                    return result;
+                }
+
+                long a = 0, b = 1;
+
+                for (int i = 2; i <= n; i++)
+                {
+                    result = a + b;
+                    a = b;
+                    b = result;
+                }
+
+                cache[n] = result;
+                return result;
+            }
+
+            Console.WriteLine("Fibonacci Sequence (Iterative with Cache):");
+            for (int i = 0; i <= 20; i++)
+            {
+                long fib = Fibo(i);
+                Console.WriteLine($"F({i,2}) = {fib,8} {(i % 5 == 0 ? " ←" : "")}");
+            }
+        }
        
          
     }
