@@ -9,7 +9,11 @@ Console.WriteLine("Hello, World!");
 
 // Student.RunStudent();
 int[] arr = new int[] { 2,7,11,15 };
-int target = 9;
+int[] arr2 = new int[] { 2,7,11,15, 3,7 };
+int target = 1;
+int target2 = 10;
 
-var res = TwoSum.Run(arr, target);
-Console.WriteLine($"{string.Join(",",res)}");
+// var res = TwoSum.Run(arr, target);
+// Console.WriteLine($"{string.Join(",", res)}");
+// TwoSum.RunTwoSumWithDictionary(arr, target);
+TwoSum.RunTwoSumWithDictionary2(arr2, target2);
