@@ -30,5 +30,39 @@ namespace AlgorithemInCSharp.LeetCodeProblems
 
             return false;
         }
+
+        public static bool ContainsDuplicate3(int[] arr)
+        {
+            HashSet<int> seen = new HashSet<int>();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (seen.Add(arr[i])) return true;
+            }
+
+            return false;
+        }
+    }
+
+    public class Problem2
+    {
+        public static int SingleNumber(int[] arr)
+        {
+            var counts = new Dictionary<int, int>();
+            foreach (var item in arr)
+            {
+                if (!counts.ContainsKey(item)) counts[item] = 1;
+                else
+                {
+                    counts[item]++;
+                }
+            }
+
+            foreach (var kv in counts)
+            {
+                if (kv.Value == 1) return kv.Key;
+            }
+
+            return -1;
+        }
     }
 }
