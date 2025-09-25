@@ -64,5 +64,15 @@ namespace AlgorithemInCSharp.LeetCodeProblems
 
             return -1;
         }
+
+        public static int SingleNumberXOR(int[] arr)
+        {
+            int result = 0;
+            foreach (var item in arr)
+            {
+                result ^= item;
+            }
+            return result;
+        }
     }
 }
