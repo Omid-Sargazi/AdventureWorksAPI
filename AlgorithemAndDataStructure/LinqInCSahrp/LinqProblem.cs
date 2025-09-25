@@ -45,7 +45,26 @@ namespace AlgorithemAndDataStructure.LinqInCSahrp
             var itNames = people.Where(p => p.Dept == "IT").Select(p => p.Name);
             var hrNames = people.Where(p => p.Dept == "hr").Select(p => p.Name);
 
-            var common = itNames.Intersect(hrNames); 
+            var common = itNames.Intersect(hrNames);
+
+
+            var byDept = people.GroupBy(p => p.Dept);
+            foreach (var item in byDept)
+            {
+                Console.WriteLine($"{item.Key}: Count:{item.Count()},AvgAge:{item.Average(p => p.Age)}");
+            }
+
+            var sum = nums.Sum();
+            var max = nums.Max();
+            var wordsLen = words.Sum(w => w.Count());
+            Console.WriteLine($"WordLenght:{wordsLen}");
+
+            bool hasTeen = people.Any(p => p.Age < 20);
+            Console.WriteLine($"hasTeen : {hasTeen}");
+            
+            bool allAdults = people.All(p => p.Age > 14);
+            Console.WriteLine($"allAdults : {allAdults}");
+
 
         }
     }
