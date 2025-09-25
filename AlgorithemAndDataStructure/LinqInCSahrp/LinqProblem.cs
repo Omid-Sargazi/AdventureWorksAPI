@@ -4,6 +4,8 @@ using System.Reflection.Metadata;
 namespace AlgorithemAndDataStructure.LinqInCSahrp
 {
     public record Person(string Name, int Age, string Dept);
+    public record Department(int Id,string Name);
+    public record Employee(string Name, int DeptId);
     public class LinqProblem
     {
         public static void Run()
@@ -61,9 +63,35 @@ namespace AlgorithemAndDataStructure.LinqInCSahrp
 
             bool hasTeen = people.Any(p => p.Age < 20);
             Console.WriteLine($"hasTeen : {hasTeen}");
-            
+
             bool allAdults = people.All(p => p.Age > 14);
             Console.WriteLine($"allAdults : {allAdults}");
+
+
+            var depts = new[]
+            {
+                new Department(1,"IT"),
+                new Department(2,"HR")
+            };
+
+            var emps = new[]
+            {
+                new Employee("Ali",1),
+                new Employee("Omid",2),
+                new Employee("Saeed",2)
+            };
+
+
+            var empWithDeps = emps.Join(depts,
+                e => e.DeptId,
+                d => d.Id,
+                (e, d) => new { e.Name, Dept = d.Name }
+            );
+
+
+            var deptGroups = depts.GroupJoin(emps, d => d.Id, e => e.DeptId,
+                (d, e) => new { d.Name, Employee = e.Select(x => x.Name) }
+            );
 
 
         }
