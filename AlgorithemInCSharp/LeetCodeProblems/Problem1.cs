@@ -16,5 +16,19 @@ namespace AlgorithemInCSharp.LeetCodeProblems
             }
             return false;
         }
+
+        public static bool ContainsDuplicate2(int[] arr)
+        {
+            Array.Sort(arr);
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == arr[i + 1])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
