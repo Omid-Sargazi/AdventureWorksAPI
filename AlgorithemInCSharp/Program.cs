@@ -16,10 +16,16 @@ public class Program
         int[] arr2 = new int[] { 1 };
         int[] arr3 = new int[] { 1, 2 };
         int[] arr4 = new int[] { 1, 2, 1, 2, 3, 3, 4 };
+        int[] arr5 = new int[] { 1, 2,0, 3, 4 };
         // Console.WriteLine(Problem1.ContainsDuplicate3(arr2));
 
         Console.WriteLine($"{Problem2.SingleNumber(arr4)}");
         Console.WriteLine($"{Problem2.SingleNumberXOR(arr4)}");
+
+        var res = ProductArrayExceptSelf.Run(arr5);
+        Console.WriteLine($"{string.Join(",",res)}");
+
+
     }
     
     

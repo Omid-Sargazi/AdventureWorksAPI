@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.IO.Pipelines;
+
 namespace AlgorithemInCSharp.LeetCodeProblems
 {
     public class Problem1
@@ -71,6 +74,53 @@ namespace AlgorithemInCSharp.LeetCodeProblems
             foreach (var item in arr)
             {
                 result ^= item;
+            }
+            return result;
+        }
+    }
+
+    public class ProductArrayExceptSelf
+    {
+        public static int[] Run(int[] arr)
+        {
+            int n = arr.Length;
+            int[] result = new int[n];
+
+
+            int leftProduct = 1;
+            for (int i = 0; i < n; i++)
+            {
+                result[i] = leftProduct;
+                leftProduct *= arr[i];
+            }
+
+            int rightProduct = 1;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                result[i] *= rightProduct;
+                rightProduct *= arr[i];
+            }
+
+            return result;
+        }
+
+        public static int[] SumExceptSelf(int[] nums)
+        {
+            int n = nums.Length;
+            int[] result = new int[n];
+
+            int leftSum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                result[i] = leftSum;
+                leftSum += nums[i];
+            }
+
+            int rightSum = 0;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                result[i] += rightSum;
+                rightSum += nums[i];
             }
             return result;
         }
