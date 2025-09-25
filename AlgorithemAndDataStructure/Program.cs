@@ -76,4 +76,5 @@ Console.WriteLine("Hello, World!");
 // Type staticObject = typeof(string);
 // Type dynamicObject = obj.GetType();
 
-RunPerson.Run();
+// RunPerson.Run();
+LinqProblem.Run();
