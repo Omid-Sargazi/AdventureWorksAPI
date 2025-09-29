@@ -40,4 +40,98 @@ namespace AlgorithemAndDataStructure.Sorting
 
         public static Logger Instance => _instance;
     }
+
+    public interface IButton
+    {
+        void Render();
+    }
+
+    public interface ICheckbox
+    {
+        void Render();
+    }
+
+    public class WinButton : IButton
+    {
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class WinCheckbox : ICheckbox
+    {
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MacButton : IButton
+    {
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MacCheckbox : ICheckbox
+    {
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public interface IGUIFactory
+    {
+        IButton CreateButton();
+        ICheckbox CreateCheckbox();
+    }
+
+    public class WindowsFactory : IGUIFactory
+    {
+        public IButton CreateButton()
+        {
+            return new WinButton();
+        }
+
+        public ICheckbox CreateCheckbox()
+        {
+            return new WinCheckbox();
+        }
+    }
+
+    public class MacFactory : IGUIFactory
+    {
+        public IButton CreateButton()
+        {
+            return new MacButton();
+        }
+
+        public ICheckbox CreateCheckbox()
+        {
+            return new MacCheckbox();
+        }
+    }
+
+
+    public class ClientFactory
+    {
+        private readonly IButton _button;
+        private readonly ICheckbox _checkbox;
+
+        public ClientFactory(IGUIFactory factory)
+        {
+            _button = factory.CreateButton();
+            _checkbox = factory.CreateCheckbox();
+        }
+
+        public void RenderUI()
+        {
+            _button.Render();
+            _checkbox.Render();
+        }
+    }
+
 }
