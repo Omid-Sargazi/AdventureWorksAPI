@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace LiveCoding.Patterns
 {
     public class Student
@@ -27,7 +29,7 @@ namespace LiveCoding.Patterns
                     _cachedValue = _factory();
                     _isValueCreated = true;
                 }
-               return _cachedValue;
+                return _cachedValue;
             }
         }
     }
@@ -51,6 +53,33 @@ namespace LiveCoding.Patterns
             Student s1 = ins2.Value;
             Student s2 = ins2.Value;
             Student s3 = ins2.Value;
+
+            Console.WriteLine(s1 == s2);
+            Console.WriteLine(s3);
+            Console.WriteLine(s2);
+
+            var sin1 = SingletonPattern.GetInstance();
+            var sin2 = SingletonPattern.GetInstance();
+
+            Console.WriteLine("Singltooooooooooooon");
+            Console.WriteLine(sin1 == sin2);
+
+           
+        }
+    }
+
+    public class SingletonPattern
+    {
+        private static DemoLazy<SingletonPattern> _instance = new DemoLazy<SingletonPattern>(() => new SingletonPattern());
+
+        private SingletonPattern()
+        {
+
+        }
+
+        public static SingletonPattern GetInstance()
+        {
+            return _instance.Value;
         }
     }
 }

@@ -12,6 +12,9 @@ namespace LiveCoding
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Lazzyyyyyyyyyyyyyyyyyyy");
+            ClientLazy.Run();
+
             Console.WriteLine($"Singleton");
             Client.Run();
 
