@@ -1,8 +1,10 @@
 ﻿using System.Data.Common;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
+using LiveCoding.Patterns;
 
 namespace LiveCoding
 {
@@ -10,6 +12,21 @@ namespace LiveCoding
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Singleton");
+            Client.Run();
+
+            Lazy<int> lazyX = new Lazy<int>(() => 2);
+            Console.WriteLine(lazyX.Value + "  lazy");
+
+            Func<string> ins = () =>
+            {
+                Console.WriteLine("helllo");
+                return "Hello";
+            };
+
+            Console.WriteLine(ins);
+
+
             var p = new Person { Name = "Omid", Age = 42, IdCode = 20 };
 
             Dictionary<string, List<int>> dic = [];
@@ -35,9 +52,14 @@ namespace LiveCoding
 
             Console.WriteLine(res);
 
+            SerializeDemo.Desrialize<Person>(res);
+
 
             // var str2 = JsonSerializer.Serialize(p);
             // Console.WriteLine(str2);
+
+            // Person P = JsonSerializer.Deserialize<Person>(str2);
+            // Console.WriteLine(P.Age);
 
 
 
@@ -130,9 +152,83 @@ namespace LiveCoding
 
             return s.ToString();
         }
+
+
+
+        public static void Desrialize<T>(string str)
+        {
+          
+            ParseState currentState = ParseState.Start;
+            StringBuilder currentValue = new StringBuilder();
+            StringBuilder currentKey = new StringBuilder();
+            Dictionary<string, object> result = new();
+
+            Console.WriteLine("Desrializing................");
+            var t = typeof(T);
+            Console.WriteLine(t);
+
+            
+            foreach (char c in str)
+            {
+                switch (currentState)
+                {
+                    case ParseState.Start:
+                        if (c == '{') currentState = ParseState.InKey;
+                        break;
+                    case ParseState.InKey:
+                        if (c == '"')
+                        {
+                            currentState = ParseState.ReadingKey;
+                            currentKey.Clear();
+                        }
+                        break;
+                    case ParseState.ReadingKey:
+                        if (c == '"')
+                        {
+                            currentState = ParseState.AfterColon;
+                        }
+                        else
+                        {
+                            currentKey.Append(c);
+                        }
+                        break;
+                    case ParseState.AfterColon:
+                        if (c == ':')
+                        {
+                            currentState = ParseState.InValue;
+                            currentValue.Clear();
+                        }
+                        break;
+
+                    case ParseState.InValue:
+                        if (c == '"')
+                        {
+                            currentState = ParseState.ReadingKey;
+                            currentKey.Clear();
+                        }
+                        else
+                        {
+                            currentKey.Append(c);
+                        }
+                        break;
+                            
+
+                }
+                // Console.WriteLine(c);
+            }
+            Console.WriteLine(currentKey);
+            
+        }
     }
     
 
+
+
+
+
+
+    public enum ParseState { Start, InKey, AfterColon, InValue, InString, End, ReadingKey, ReadingValue };
     public record struct Money(decimal Amount, string Cirrency);
+    
    
 }
