@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
+using LiveCoding.LeetCode;
 using LiveCoding.Patterns;
 
 namespace LiveCoding
@@ -13,6 +14,8 @@ namespace LiveCoding
         public static void Main(string[] args)
         {
             Console.WriteLine($"Lazzyyyyyyyyyyyyyyyyyyy");
+            var nums = new int[] { 1, 2, 3, 4 };
+            ProductArrayExceptSelf.Run(nums);
             ClientLazy.Run();
 
             Console.WriteLine($"Singleton");
