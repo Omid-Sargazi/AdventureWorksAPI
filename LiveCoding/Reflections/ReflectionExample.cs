@@ -107,5 +107,39 @@ namespace LiveCoding.Reflections
             Console.WriteLine($"Email to {memberEmail}: You returned '{bookTitle}'");
         }
     }
+
+    public class Library
+    {
+        private readonly IBookService _bookService;
+        private readonly IMemberService _memberService;
+
+        public Library(IBookService bookService, IMemberService memberService)
+        {
+            _bookService = bookService;
+            _memberService = memberService;
+        }
+
+        public void RunLibraryOperations()
+        {
+            // ثبت عضو جدید
+            _memberService.RegisterMember("Ali Rezaei", "ali@email.com");
+
+            // نمایش کتاب‌های available
+            var availableBooks = _bookService.GetAvailableBooks();
+            Console.WriteLine("Available books:");
+            foreach (var book in availableBooks)
+            {
+                Console.WriteLine($"- {book.Title} by {book.Author}");
+            }
+
+            // قرض گرفتن کتاب
+            _bookService.BorrowBook(1, 1);
+
+            // برگرداندن کتاب
+            _bookService.ReturnBook(1);
+        }
+    }
+    
+    
     
 }
