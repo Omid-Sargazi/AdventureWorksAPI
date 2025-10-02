@@ -8,6 +8,7 @@ using LiveCoding.LeetCode;
 using LiveCoding.LinqExamples;
 using LiveCoding.ObjectValidator;
 using LiveCoding.Patterns;
+using LiveCoding.Reflections;
 
 namespace LiveCoding
 {
@@ -20,12 +21,24 @@ namespace LiveCoding
             Clientvalidator.Run();
 
 
-            var container = new DIContainer();
-            container.Register<IEmailService, SmtpEmailService>();
-            container.Register<ILogService, FileLogger>();
-            container.Register<IPaymentProcessor, CreditCardPayment>();
+            // var container = new DIContainer();
+            // container.Register<IEmailService, SmtpEmailService>();
+            // container.Register<ILogService, FileLogger>();
+            // container.Register<IPaymentProcessor, CreditCardPayment>();
 
-            var paymentService = container.GetService<PaymentService>();
+            // var paymentService = container.GetService<PaymentService>();
+
+
+            var container = new DIContainerLibaray();
+
+            container.Register<IBookService, BookService>();
+            container.Register<IMemberService, MemberService>();
+            container.Register<INotificationService, EmailNotificationService>();
+
+            var lib = container.GetService<Library>();
+
+            lib.RunLibraryOperations();
+            Console.ReadLine();
            
             // var nums = new int[] { 1, 2, 3, 4 };
 

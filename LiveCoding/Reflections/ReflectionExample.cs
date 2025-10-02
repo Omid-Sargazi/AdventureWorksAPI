@@ -140,7 +140,7 @@ namespace LiveCoding.Reflections
         }
     }
 
-    public class DIContainer
+    public class DIContainerLibaray
     {
         private readonly Dictionary<Type, Type> _registrations = new Dictionary<Type, Type>();
 
