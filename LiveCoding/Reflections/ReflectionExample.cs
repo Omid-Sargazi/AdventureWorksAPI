@@ -139,7 +139,51 @@ namespace LiveCoding.Reflections
             _bookService.ReturnBook(1);
         }
     }
+
+    public class DIContainer
+    {
+        private readonly Dictionary<Type, Type> _registrations = new Dictionary<Type, Type>();
+
+        public void Register<TInterface, TImplementation>()
+        {
+            _registrations[typeof(TInterface)] = typeof(TImplementation);
+        }
+
+         public T GetService<T>()
+        {
+            return (T)GetService(typeof(T));
+        }
+
+        private object GetService(Type serviceType)
+        {
+            if (_registrations.TryGetValue(serviceType, out Type implementationType))
+            {
+                serviceType = implementationType;
+            }
+
+            var constructors = serviceType.GetConstructors();
+            if (constructors.Length == 0)
+            {
+                throw new InvalidOperationException($"No constructor found for {serviceType.Name}");
+            }
+
+            var constructor = constructors[0];
+            var parameters = constructor.GetParameters();
+
+            var parameterInstances = new List<object>();
+
+            foreach (var parameter in parameters)
+            {
+                
+                var parameterInstance = GetService(parameter.ParameterType);
+
+                parameterInstances.Add(parameterInstance);
+            }
+
+            return constructor.Invoke(parameterInstances.ToArray());
+        }
+    }
     
-    
+
     
 }
