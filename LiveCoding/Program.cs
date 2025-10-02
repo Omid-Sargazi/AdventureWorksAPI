@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
 using LiveCoding.LeetCode;
+using LiveCoding.ObjectValidator;
 using LiveCoding.Patterns;
 
 namespace LiveCoding
@@ -13,59 +14,62 @@ namespace LiveCoding
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine($"Lazzyyyyyyyyyyyyyyyyyyy");
-            var nums = new int[] { 1, 2, 3, 4 };
-            ProductArrayExceptSelf2.Run(nums);
-            ClientLazy.Run();
+            Console.WriteLine($"Reflectionssss");
 
-            Console.WriteLine($"Singleton");
-            Client.Run();
+            Clientvalidator.Run();
+           
+            // var nums = new int[] { 1, 2, 3, 4 };
+           
+            // ClientLazy.Run();
 
-            Lazy<int> lazyX = new Lazy<int>(() => 2);
-            Console.WriteLine(lazyX.Value + "  lazy");
+            // Console.WriteLine($"Singleton");
+            // Client.Run();
 
-            Func<string> ins = () =>
-            {
-                Console.WriteLine("helllo");
-                return "Hello";
-            };
+            // Lazy<int> lazyX = new Lazy<int>(() => 2);
+            // Console.WriteLine(lazyX.Value + "  lazy");
 
-            Console.WriteLine(ins);
+            // Func<string> ins = () =>
+            // {
+            //     Console.WriteLine("helllo");
+            //     return "Hello";
+            // };
 
-
-            var p = new Person { Name = "Omid", Age = 42, IdCode = 20 };
-
-            Dictionary<string, List<int>> dic = [];
-
-            if (!dic.TryGetValue("A", out List<int>? value))
-            {
-                value = [];
-                dic["A"] = value;
-            }
-
-            value.Add(1);
-            value.Add(2);
-            value.Add(3);
-
-            foreach (var item in dic)
-            {
-
-                Console.WriteLine(item.Value[1]);
-
-            }
-
-            var res = SerializeDemo.Serialize(p);
-
-            Console.WriteLine(res);
-
-            SerializeDemo.Desrialize<Person>(res);
+            // Console.WriteLine(ins);
 
 
-            // var str2 = JsonSerializer.Serialize(p);
-            // Console.WriteLine(str2);
+            // var p = new Person { Name = "Omid", Age = 42, IdCode = 20 };
 
-            // Person P = JsonSerializer.Deserialize<Person>(str2);
-            // Console.WriteLine(P.Age);
+            // Dictionary<string, List<int>> dic = [];
+
+            // if (!dic.TryGetValue("A", out List<int>? value))
+            // {
+            //     value = [];
+            //     dic["A"] = value;
+            // }
+
+            // value.Add(1);
+            // value.Add(2);
+            // value.Add(3);
+
+            // foreach (var item in dic)
+            // {
+
+            //     Console.WriteLine(item.Value[1]);
+
+            // }
+
+            // var res = SerializeDemo.Serialize(p);
+
+            // Console.WriteLine(res);
+
+            // SerializeDemo.Desrialize<Person>(res);
+
+
+            // // var str2 = JsonSerializer.Serialize(p);
+            // // Console.WriteLine(str2);
+
+            // // Person P = JsonSerializer.Deserialize<Person>(str2);
+            // // Console.WriteLine(P.Age);
 
 
 
