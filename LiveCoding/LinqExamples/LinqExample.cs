@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.VisualBasic;
 
 namespace LiveCoding.LinqExamples
@@ -163,7 +164,7 @@ namespace LiveCoding.LinqExamples
             _registrations[typeof(TInterface)] = typeof(TImplementation);
         }
 
-        public T GetService<T>()
+        public object GetService<T>()
         {
             Type serviceType = typeof(T);
 
@@ -178,13 +179,19 @@ namespace LiveCoding.LinqExamples
                 Type type = parameter.ParameterType;
                 if (_registrations.TryGetValue(type, out Type implementationType))
                 {
-                    
+                    object instance = Activator.CreateInstance(implementationType);
+                    parameterInstances.Add(instance);
+
                 }
                 else
                 {
                     throw new Exception($"Service {type.Name} not registered.");
                 }
             }
+
+            return constructor.Invoke(parameterInstances.ToArray());
+
+            
         }
             
     }

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
 using LiveCoding.LeetCode;
+using LiveCoding.LinqExamples;
 using LiveCoding.ObjectValidator;
 using LiveCoding.Patterns;
 
@@ -17,9 +18,17 @@ namespace LiveCoding
             Console.WriteLine($"Reflectionssss");
 
             Clientvalidator.Run();
+
+
+            var container = new DIContainer();
+            container.Register<IEmailService, SmtpEmailService>();
+            container.Register<ILogService, FileLogger>();
+            container.Register<IPaymentProcessor, CreditCardPayment>();
+
+            var paymentService = container.GetService<PaymentService>();
            
             // var nums = new int[] { 1, 2, 3, 4 };
-           
+
             // ClientLazy.Run();
 
             // Console.WriteLine($"Singleton");
