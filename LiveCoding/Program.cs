@@ -37,8 +37,10 @@ namespace LiveCoding
 
             var lib = container.GetService<Library>();
 
-            lib.RunLibraryOperations();
-            Console.ReadLine();
+            // lib.RunLibraryOperations();
+            // Console.ReadLine();
+
+            ClientSerialize.Run();
            
             // var nums = new int[] { 1, 2, 3, 4 };
 
