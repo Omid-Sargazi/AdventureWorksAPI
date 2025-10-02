@@ -15,7 +15,7 @@ namespace LiveCoding
         {
             Console.WriteLine($"Lazzyyyyyyyyyyyyyyyyyyy");
             var nums = new int[] { 1, 2, 3, 4 };
-            ProductArrayExceptSelf.Run(nums);
+            ProductArrayExceptSelf2.Run(nums);
             ClientLazy.Run();
 
             Console.WriteLine($"Singleton");
