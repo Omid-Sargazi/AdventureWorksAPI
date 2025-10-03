@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
 using LiveCoding.CodeGeneration;
+using LiveCoding.DataStructure;
 using LiveCoding.LeetCode;
 using LiveCoding.LinqExamples;
 using LiveCoding.ObjectValidator;
@@ -22,9 +23,11 @@ namespace LiveCoding
 
             // Clientvalidator.Run();
             // QueryExamplee.Run();
-            var p1 = new Personnn { Age = 42, Name = "Omid" };
+            // var p1 = new Personnn { Age = 42, Name = "Omid" };
 
-            GenerationCustome.Run(p1);
+            // GenerationCustome.Run(p1);
+
+            LinkedListt.Run();
 
 
             // var container = new DIContainer();
