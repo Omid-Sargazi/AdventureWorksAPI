@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 
 namespace LiveCoding.Reflections
 {
@@ -7,6 +8,8 @@ namespace LiveCoding.Reflections
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public int Id { get; set; }
+        public string LastName { get; set; }
     }
     public class JsonSerialize
     {
@@ -63,7 +66,7 @@ namespace LiveCoding.Reflections
                 keyValue.Add($"\"{prop.Name}\":{value}");
             }
 
-             return "{" + string.Join(",", keyValue) + "}";
+            return "{" + string.Join(",", keyValue) + "}";
         }
     }
 
@@ -72,8 +75,53 @@ namespace LiveCoding.Reflections
     {
         public static void Run()
         {
-            var p1 = new Person { Name = "Omid", Age = 42 };
-            JsonSerialize.Serialize(p1);
+            var p1 = new Person { Name = "Omid", Age = 42,Id=12,LastName="Sa" };
+
+            // var str = JsonSerializer.Serialize(p1);
+            // Console.WriteLine(str);
+            // JsonSerialize.Serialize(p1);
+
+
+            string str = @"{""Name"":""Omid"",""Age"":42}";
+            string str1 = "{\"Name\":\"Omid\",\"Age\":42}";
+
+            string str2 = "{\"Name\":\"Omid\",\"Age\":42,\"Id\":12,\"LastName\":\"Sa\"}";
+            DeserializeJson.Deserialize(str2);
         }
     }
+
+    public class DeserializeJson
+    {
+        public static void Deserialize(string json)
+        {
+            string context = json.Trim('{', '}');
+
+            string[] kayValuePairs = context.Split(',');
+
+            var result = new Dictionary<string, object>();
+
+            foreach (var pair in kayValuePairs)
+            {
+                string[] parts = pair.Split(':');
+                string value = parts[1];
+                if (value.StartsWith("\"") && value.EndsWith("\""))
+                {
+                    value = value.Trim('"');
+                }
+                else if (int.TryParse(value, out int intVaue))
+                {
+                    value = intVaue.ToString();
+                }
+                else if (bool.TryParse(value, out bool boolValue))
+                {
+                    value = boolValue.ToString();
+                }
+
+                Console.WriteLine(value);
+            }
+
+        }
+    }
+
+
 }
