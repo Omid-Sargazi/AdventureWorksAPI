@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
+using LiveCoding.CodeGeneration;
 using LiveCoding.LeetCode;
 using LiveCoding.LinqExamples;
 using LiveCoding.ObjectValidator;
@@ -19,8 +20,11 @@ namespace LiveCoding
         {
             Console.WriteLine($"Reflectionssss");
 
-            Clientvalidator.Run();
-            QueryExamplee.Run();
+            // Clientvalidator.Run();
+            // QueryExamplee.Run();
+            var p1 = new Personnn { Age = 42, Name = "Omid" };
+
+            GenerationCustome.Run(p1);
 
 
             // var container = new DIContainer();
