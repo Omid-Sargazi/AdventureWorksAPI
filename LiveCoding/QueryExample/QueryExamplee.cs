@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace LiveCoding.QueryExample
 {
     public class Personn
@@ -69,5 +71,29 @@ namespace LiveCoding.QueryExample
                 yield return res;
             }
         }
+
+       
+
+
+    }
+
+    public class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
+    {
+        public TKey Key => throw new NotImplementedException();
+
+        public IEnumerator<TElement> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public interface IGrouping<TKey, TElement> : IEnumerable<TElement>
+    {
+        TKey Key { get; }
     }
 }

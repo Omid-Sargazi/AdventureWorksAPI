@@ -8,6 +8,7 @@ using LiveCoding.LeetCode;
 using LiveCoding.LinqExamples;
 using LiveCoding.ObjectValidator;
 using LiveCoding.Patterns;
+using LiveCoding.QueryExample;
 using LiveCoding.Reflections;
 
 namespace LiveCoding
@@ -19,6 +20,7 @@ namespace LiveCoding
             Console.WriteLine($"Reflectionssss");
 
             Clientvalidator.Run();
+            QueryExamplee.Run();
 
 
             // var container = new DIContainer();
@@ -29,19 +31,23 @@ namespace LiveCoding
             // var paymentService = container.GetService<PaymentService>();
 
 
-            var container = new DIContainerLibaray();
+            // var container = new DIContainerLibaray();
 
-            container.Register<IBookService, BookService>();
-            container.Register<IMemberService, MemberService>();
-            container.Register<INotificationService, EmailNotificationService>();
+            // container.Register<IBookService, BookService>();
+            // container.Register<IMemberService, MemberService>();
+            // container.Register<INotificationService, EmailNotificationService>();
 
-            var lib = container.GetService<Library>();
+            // var lib = container.GetService<Library>();
+
+            // ClientStateMachin.Run();
+
+
 
             // lib.RunLibraryOperations();
             // Console.ReadLine();
 
-            ClientSerialize.Run();
-           
+            // ClientSerialize.Run();
+
             // var nums = new int[] { 1, 2, 3, 4 };
 
             // ClientLazy.Run();
