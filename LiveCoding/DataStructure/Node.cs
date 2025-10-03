@@ -37,6 +37,22 @@ namespace LiveCoding.DataStructure
             current.next = node;
         }
 
+        public void AddToBeginning(Node node)
+        {
+            if (head == null)
+            {
+                head = node;
+                return;
+            }
+            else
+            {
+                
+                node.next = head;
+                head = node;
+
+            }
+        }
+
         public static void Print(LinkedListt l)
         {
             var current = l.head;
