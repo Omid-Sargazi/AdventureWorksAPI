@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 
@@ -75,7 +76,7 @@ namespace LiveCoding.Reflections
     {
         public static void Run()
         {
-            var p1 = new Person { Name = "Omid", Age = 42,Id=12,LastName="Sa" };
+            var p1 = new Person { Name = "Omid", Age = 42, Id = 12, LastName = "Sa" };
 
             // var str = JsonSerializer.Serialize(p1);
             // Console.WriteLine(str);
@@ -117,9 +118,57 @@ namespace LiveCoding.Reflections
                     value = boolValue.ToString();
                 }
 
+                Console.WriteLine(parts[0]);
                 Console.WriteLine(value);
             }
+        }
+    }
 
+    public enum JsonState
+    {
+        Start,
+        InKey,
+        InValue,
+        InString,
+        End,
+        InNumber
+    }
+
+    public class JsonParser
+    {
+        private JsonState _currentState = JsonState.Start;
+        private string _currentKey = "";
+        private string _currentValue = "";
+
+        private Dictionary<string, object> _result = new Dictionary<string, object>();
+
+        public void ProcessChar(char c)
+        {
+            switch (_currentState)
+            {
+                case JsonState.Start:
+                    if (c == '{') _currentState = JsonState.InKey;
+                    break;
+                case JsonState.InKey:
+                    if (c == '"') _currentState = JsonState.InString;
+                    break;
+                case JsonState.InString:
+                    if (c == '"')
+                    {
+                        _currentState = JsonState.InValue;
+                        //save key
+                    }
+                    else
+                    {
+                        //add
+                    }
+                    break;
+                case JsonState.InValue:
+                    if (c == '"') _currentState = JsonState.InString;
+                    else if (char.IsDigit(c)) _currentState = JsonState.InNumber;
+                    break;
+                    
+            }
         }
     }
 
