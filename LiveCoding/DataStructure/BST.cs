@@ -32,10 +32,9 @@ namespace LiveCoding.DataStructure
             {
                 _root = new TreeNode(value);
             }
-                AddTree(_root, value);
-
-
+            _root = AddTree(_root, value);
         }
+
 
         private TreeNode AddTree(TreeNode node, int value)
         {
@@ -51,6 +50,8 @@ namespace LiveCoding.DataStructure
 
             return node;
         }
+        
+        
 
 
             
