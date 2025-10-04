@@ -27,7 +27,8 @@ namespace LiveCoding
 
             // GenerationCustome.Run(p1);
 
-            LinkedListt.Run();
+            // LinkedListt.Run();
+            ClientBST.Run();
 
 
             // var container = new DIContainer();
