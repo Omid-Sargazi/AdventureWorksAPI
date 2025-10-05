@@ -63,7 +63,97 @@ namespace ProblemsInCSharp.Sortings
 
             Console.WriteLine($"{string.Join(",", nums)}");
         }
-        
-        
     }
+
+    public class Node
+    {
+        public int Value { get; set; }
+        public Node Next { get; set; }
+        public Node(int value)
+        {
+            Value = value;
+            Next = null;
+        }
+    }
+
+    public class LinkedList
+    {
+        private Node _head;
+        public LinkedList() { }
+        public LinkedList(Node node)
+        {
+            _head = node;
+        }
+
+        public void Add(int value)
+        {
+            if (_head == null)
+            {
+                _head = new Node(value);
+                return;
+            }
+
+            var current = _head;
+            while (current.Next != null)
+            {
+                current = current.Next;
+            }
+
+            current.Next = new Node(value);
+
+        }
+
+        public void Reverse()/////////////////////////////
+        {
+            if (_head == null)
+            {
+                Console.WriteLine("List is Empty");
+                return;
+            }
+
+            var current = _head;
+            Node next = null;
+            Node prev = null;
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = prev;
+                prev = current;
+                current = next;
+            }
+            _head = prev;
+
+        }
+
+        public void Print()
+        {
+            if (_head == null) Console.WriteLine("List is Empty");
+
+            var current = _head;
+            while (current != null)
+            {
+                Console.Write(current.Value + "->");
+                current = current.Next;
+            }
+            Console.WriteLine(" ");
+        }
+    }
+
+    public class CLientList
+    {
+        public static void Run()
+        {
+            LinkedList l1 = new LinkedList();
+            l1.Add(1);
+            l1.Add(2);
+            l1.Add(3);
+            l1.Add(4);
+
+            l1.Print();
+            l1.Reverse();
+            l1.Print();
+
+        }
+    }
+    
 }

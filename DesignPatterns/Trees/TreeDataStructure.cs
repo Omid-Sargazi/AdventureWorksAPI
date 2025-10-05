@@ -175,7 +175,7 @@ namespace DesignPatterns.Trees
             while (current != null)
             {
                 next = current.Next;
-                current.Next = prev;
+                next.Next = prev;
                 prev = current;
                 current = next;
             }

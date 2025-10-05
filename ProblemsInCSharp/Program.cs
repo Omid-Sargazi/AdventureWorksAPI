@@ -8,4 +8,6 @@ int[] nums1 = new int[] { 1, 2, 3 };
 // SortProblems.Bubble(nums);
 
 // SortProblems.Selection(nums);
-SortProblems.Insertion(nums);
+// SortProblems.Insertion(nums);
+
+CLientList.Run();
