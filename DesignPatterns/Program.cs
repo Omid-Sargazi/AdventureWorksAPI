@@ -39,6 +39,10 @@
 // Console.WriteLine("LinkedListssss");
 // CLientLinkedList.Run();
 
+// using DesignPatterns.Trees;
+
+// BSTClient.Run();
+
 using DesignPatterns.Trees;
 
-BSTClient.Run();
+LinkedListClinet.Run();
