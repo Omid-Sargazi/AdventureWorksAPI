@@ -4,7 +4,7 @@ namespace ProblemsInCSharp.Sortings
     {
         public static void Bubble(int[] nums)
         {
-            for (int start = nums.Length-1; start >= 0; start--)
+            for (int start = nums.Length - 1; start >= 0; start--)
             {
                 bool swapped = false;
                 for (int j = 0; j < start; j++)
@@ -20,6 +20,28 @@ namespace ProblemsInCSharp.Sortings
             }
 
             Console.WriteLine($"{string.Join(",", nums)}");
+        }
+
+        public static void Selection(int[] nums)
+        {
+            for (int i = 0; i < nums.Length; i++)
+            {
+                int minIndex = i;
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if (nums[j] < nums[minIndex])
+                    {
+                        minIndex = j;
+                    }
+                }
+
+                if (i != minIndex)
+                {
+                    (nums[i], nums[minIndex]) = (nums[minIndex], nums[i]);
+                }
+            }
+
+            Console.WriteLine($"{string.Join(",",nums)}");
         }
     }
 }
