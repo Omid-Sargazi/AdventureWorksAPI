@@ -71,8 +71,8 @@ namespace DesignPatterns.Trees
             return node;
         }
     }
-    
-     public class ClientBST
+
+    public class ClientBST
     {
         public static void Run()
         {
@@ -82,6 +82,69 @@ namespace DesignPatterns.Trees
             b1.Add(8);
 
             b1.PrintInOrder();
+        }
+    }
+
+
+    public class Node
+    {
+        public int Value { get; set; }
+        public Node Next { get; set; }
+
+        public Node(int value)
+        {
+            Value = value;
+            Next = null;
+        }
+    }
+
+    public class LinkedListInCSharp
+    {
+        private Node _head;
+        public LinkedListInCSharp() { }
+        public LinkedListInCSharp(Node head)
+        {
+            _head = head;
+        }
+
+        public void Add(int value)
+        {
+            if (_head == null)
+            {
+                _head = new Node(value);
+            }
+
+            var current = _head;
+            while (current.Next != null)
+            {
+                current = current.Next;
+            }
+            current.Next = new Node(value);
+        }
+
+        public void PrintList()
+        {
+            if (_head == null) Console.WriteLine("List is empty");
+            var current = _head;
+            while (current != null)
+            {
+                Console.WriteLine(current.Value);
+                current = current.Next;
+            }
+        }
+    }
+
+    public class CLientLinkedList
+    {
+        public static void Run()
+        {
+            LinkedListInCSharp l1 = new LinkedListInCSharp();
+            l1.Add(1);
+            l1.Add(2);
+            l1.Add(3);
+            l1.Add(4);
+
+            l1.PrintList();
         }
     }
 }

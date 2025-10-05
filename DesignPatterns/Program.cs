@@ -36,3 +36,5 @@
 using DesignPatterns.Trees;
 
 ClientBST.Run();
+Console.WriteLine("LinkedListssss");
+CLientLinkedList.Run();
