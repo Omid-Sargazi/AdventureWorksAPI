@@ -10,4 +10,5 @@ int[] nums1 = new int[] { 1, 2, 3 };
 // SortProblems.Selection(nums);
 // SortProblems.Insertion(nums);
 
-CLientList.Run();
+// CLientList.Run();
+SortProblems.QuickSort(nums, 0, nums.Length-1);

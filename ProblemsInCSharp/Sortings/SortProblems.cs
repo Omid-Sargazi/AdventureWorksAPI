@@ -63,6 +63,34 @@ namespace ProblemsInCSharp.Sortings
 
             Console.WriteLine($"{string.Join(",", nums)}");
         }
+
+        public static void QuickSort(int[] arr, int lo, int hi)
+        {
+            if (lo < hi)
+            {
+                 int pivot = Parttion(arr, lo, hi);
+                QuickSort(arr, lo, pivot - 1);
+                QuickSort(arr, pivot + 1, hi);
+            }
+            Console.WriteLine($"{string.Join(",",arr)}");
+        }
+
+        private static int Parttion(int[] arr, int lo, int hi)
+        {
+            int pivot = hi;
+            int j = lo - 1;
+            for (int i = lo; i < hi; i++)
+            {
+                if (arr[i] < arr[pivot])
+                {
+                    j++;
+                    (arr[i], arr[j]) = (arr[j], arr[i]);
+                }
+            }
+            (arr[j + 1], arr[hi]) = (arr[hi], arr[j + 1]);
+
+            return j + 1;
+        }
     }
 
     public class Node
