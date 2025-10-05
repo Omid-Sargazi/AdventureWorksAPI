@@ -33,8 +33,12 @@
 // ClientReport.Run();
 
 
+// using DesignPatterns.Trees;
+
+// ClientBST.Run();
+// Console.WriteLine("LinkedListssss");
+// CLientLinkedList.Run();
+
 using DesignPatterns.Trees;
 
-ClientBST.Run();
-Console.WriteLine("LinkedListssss");
-CLientLinkedList.Run();
+BSTClient.Run();
