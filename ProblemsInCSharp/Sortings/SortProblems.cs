@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Security.Cryptography;
+
 namespace ProblemsInCSharp.Sortings
 {
     public class SortProblems
@@ -41,7 +44,26 @@ namespace ProblemsInCSharp.Sortings
                 }
             }
 
-            Console.WriteLine($"{string.Join(",",nums)}");
+            Console.WriteLine($"{string.Join(",", nums)}");
         }
+
+        public static void Insertion(int[] nums)
+        {
+            for (int i = 1; i < nums.Length; i++)
+            {
+                int current = nums[i];
+                int j = i - 1;
+                while (j >= 0 && nums[j] > current)
+                {
+                    nums[j + 1] = nums[j];
+                    j--;
+                }
+                nums[j + 1] = current;
+            }
+
+            Console.WriteLine($"{string.Join(",", nums)}");
+        }
+        
+        
     }
 }
