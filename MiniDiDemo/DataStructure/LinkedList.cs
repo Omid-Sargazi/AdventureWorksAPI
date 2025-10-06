@@ -37,6 +37,21 @@ namespace MiniDiDemo.DataStructure
             current.Next = new Node(value);
         }
 
+        public void Reverse()
+        {
+            var current = _head;
+            Node prev = null;
+            Node next = null;
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = prev;
+                prev = current;
+                current = next;
+            }
+            _head = prev;
+        }
+
         public void Print()
         {
             if (_head == null)
@@ -68,6 +83,9 @@ namespace MiniDiDemo.DataStructure
             l1.Add(110);
             l1.Add(111);
             l1.Add(11);
+            l1.Print();
+            l1.Reverse();
+            Console.WriteLine(" ");
             l1.Print();
         }
     }
