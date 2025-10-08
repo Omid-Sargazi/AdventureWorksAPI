@@ -2,6 +2,7 @@
 using MiniDiDemo.DataStructure;
 using MiniDiDemo.DataStructures;
 using MiniDiDemo.Model;
+using MiniDiDemo.ReflectionProblem;
 
 public class Program
 {
@@ -18,7 +19,9 @@ public class Program
         // Client.Run();
 
         // ClientHeapify.Run();
-        CLientSingleton.Run();
-        CLientSingleton.Run();
+        // CLientSingleton.Run();
+        // CLientSingleton.Run();
+
+        ClientReflection.Run();
     }
 }
