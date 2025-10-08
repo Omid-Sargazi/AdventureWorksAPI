@@ -28,7 +28,7 @@ namespace MiniDiDemo.ReflectionProblem
         {
             var p1 = new Person { Name = "Omid", Age = 42,IsHere=true,Job=null };
             var p2 = new Person { Name = "Saeed", Age = 40,IsHere = false,Job="PHP"};
-            RefCustome.Run(p2);
+            RefCustome.Run(p1);
 
         }
     }
@@ -54,46 +54,68 @@ namespace MiniDiDemo.ReflectionProblem
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("{");
 
+            // foreach (var p in pairs)
+            // {
+            //     if (p.Value == null)
+            //     {
+            //         stringBuilder.Append($"\"{p.Key}\"");
+            //         stringBuilder.Append(":");
+            //         stringBuilder.Append("null");
+            //         stringBuilder.Append(",");
+            //     }
+            //     else if (p.Value is string)
+            //     {
+            //         stringBuilder.Append($"\"{p.Key}\"");
+            //         stringBuilder.Append(":");
+            //         stringBuilder.Append($"\"{p.Value}\"");
+            //         stringBuilder.Append(",");
+
+            //     }
+
+            //     else if (p.Value.GetType().IsValueType)
+            //     {
+            //         stringBuilder.Append($"\"{p.Key}\"");
+            //         stringBuilder.Append(":");
+            //         stringBuilder.Append($"{p.Value}");
+            //         stringBuilder.Append(",");
+            //     }
+            //     else
+            //     {
+
+            //     }
+            //     // Console.WriteLine($"{string.Join(",", pairs.Values)}");
+            // }
+            // if (stringBuilder.Length > 1 && stringBuilder[stringBuilder.Length - 1] == ',')
+            // {
+            //     stringBuilder.Remove(stringBuilder.Length - 1, 1);
+            // }
+            //         stringBuilder.Append("}");
+
+            var properties = new List<string>();
             foreach (var p in pairs)
             {
-                if (p.Value == null)
-                {
-                    stringBuilder.Append($"\"{p.Key}\"");
-                    stringBuilder.Append(":");
-                    stringBuilder.Append("null");
-                    stringBuilder.Append(",");
-                }
-                else if (p.Value is string)
-                {
-                    stringBuilder.Append($"\"{p.Key}\"");
-                    stringBuilder.Append(":");
-                    stringBuilder.Append($"\"{p.Value}\"");
-                    stringBuilder.Append(",");
-
-                }
-
-                else if (p.Value.GetType().IsValueType)
-                {
-                    stringBuilder.Append($"\"{p.Key}\"");
-                    stringBuilder.Append(":");
-                    stringBuilder.Append($"{p.Value}");
-                    stringBuilder.Append(",");
-                }
-                else
-                {
-
-                }
-                // Console.WriteLine($"{string.Join(",", pairs.Values)}");
+                string formattedValue = FormatValue(p.Value);
+                properties.Add($"\"{p.Key}\":{formattedValue}");
             }
-            if (stringBuilder.Length > 1 && stringBuilder[stringBuilder.Length - 1] == ',')
-            {
-                stringBuilder.Remove(stringBuilder.Length - 1, 1);
-            }
-                    stringBuilder.Append("}");
+            stringBuilder.Append(string.Join(",", properties));
+            stringBuilder.Append("}");
+
 
             Console.WriteLine(stringBuilder);
 
-            
+
         }
+        
+        private static string FormatValue(object value)
+            {
+                if (value == null)
+                    return "null";
+                else if (value is string)
+                    return $"\"{value}\"";
+                else if (value is bool)
+                    return value.ToString().ToLower(); // true/false
+                else
+                    return value.ToString();
+            }
     }
 }
