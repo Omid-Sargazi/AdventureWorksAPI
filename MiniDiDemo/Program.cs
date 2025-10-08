@@ -15,6 +15,10 @@ public class Program
 
         // TestLazy.Run();
 
-        Client.Run();
+        // Client.Run();
+
+        // ClientHeapify.Run();
+        CLientSingleton.Run();
+        CLientSingleton.Run();
     }
 }
