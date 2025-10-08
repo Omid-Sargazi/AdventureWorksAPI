@@ -1,5 +1,6 @@
 ﻿using MiniDiDemo.CustomeLazy;
 using MiniDiDemo.DataStructure;
+using MiniDiDemo.DataStructures;
 using MiniDiDemo.Model;
 
 public class Program
@@ -10,8 +11,10 @@ public class Program
 
         // ClientLinkedList.Run();
         // 
-        Console.WriteLine("Mini");
+        // Console.WriteLine("Mini");
 
-        TestLazy.Run();
+        // TestLazy.Run();
+
+        Client.Run();
     }
 }
