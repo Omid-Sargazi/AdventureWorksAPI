@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.Marshalling;
 using System.Security.Cryptography;
 
 namespace MiniDiDemo.DataStructures
@@ -192,6 +193,94 @@ namespace MiniDiDemo.DataStructures
         private void Swap(int i, int j)
         {
             (_elements[i], _elements[j]) = (_elements[j], _elements[i]);
+        }
+
+        public void Add(int value)
+        {
+            _elements.Add(value);
+            HeapifyUp(_elements.Count - 1);
+        }
+
+
+        private void HeapifyUp(int index)
+        {
+            while (HasParent(index) && Parent(index) < _elements[index])
+            {
+                Swap(GetParentIndex(index), index);
+                index = GetParentIndex(index);
+            }
+        }
+
+        public int ExtractMax()
+        {
+            if (_elements.Count == 0)
+            {
+                throw new InvalidOperationException("Heap is empty");
+            }
+
+            int value = _elements[0];
+            _elements[0] = _elements[_elements.Count - 1];
+            _elements.RemoveAt(_elements.Count - 1);
+
+            HeapifyDown(0);
+            return value;
+        }
+
+        private void HeapifyDown(int index)
+        {
+
+        }
+    }
+
+
+    public class Heapifying
+    {
+        public static void Heapify(int[] arr, int i,int n)
+        {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+            int largest = i;
+
+            if (left < n && arr[left] > arr[largest])
+            {
+                largest = left;
+            }
+
+            if (right < n && arr[right] > arr[largest])
+            {
+                largest = right;
+            }
+
+            if (largest != i)
+            {
+                (arr[i], arr[largest]) = (arr[largest], arr[i]);
+                Heapify(arr, largest,n);
+            }
+
+        }
+
+        public static void BuildMaxHeap(int[] arr)
+        {
+            int n = arr.Length;
+            for (int i = n / 2 - 1; i >= 0; i--)
+            {
+                Heapify(arr, i,n);
+            }
+        }
+    }
+
+    public class ClientHeapify
+    {
+        public static void Run()
+        {
+            int[] arr = { 10, 15, 20 };
+            int[] arr1 = { 3, 9, 2, 1, 4, 5 };
+
+
+            Console.WriteLine("Before Heapify"+$"{string.Join(",",arr1)}");
+            // Heapifying.Heapify(arr1, 0,arr1.Length);
+            Heapifying.BuildMaxHeap(arr1);
+            Console.WriteLine("After Heapify"+$"{string.Join(",",arr1)}");
         }
     }
 }
