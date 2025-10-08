@@ -20,6 +20,10 @@ namespace MiniDiDemo.ReflectionProblem
             Name = name;
             Id = id;
         }
+         public override string ToString()
+    {
+        return $"Name: {Name}, Age: {Age}, IsHere: {IsHere}, Job: {Job}";
+    }
     }
 
     public class ClientReflection
@@ -103,6 +107,8 @@ namespace MiniDiDemo.ReflectionProblem
 
 
             // Console.WriteLine(stringBuilder);
+            Person deserializedPerson = DeserializedJson.Deserialized<Person>(stringBuilder.ToString());
+            Console.WriteLine(deserializedPerson.ToString()+"   Desrializedddddd");
 
             DeserializedJson.Deserialized<Person>(stringBuilder.ToString());
 
@@ -125,7 +131,7 @@ namespace MiniDiDemo.ReflectionProblem
 
     public class DeserializedJson
     {
-        public static void Deserialized<T>(string json)
+        public static T Deserialized<T>(string json)
         {
 
             json = json.Trim('{', '}');
@@ -151,8 +157,10 @@ namespace MiniDiDemo.ReflectionProblem
                         targetProp.SetValue(newObj, convertedValue);
                     }
                 }
-                Console.WriteLine(pair);
+                // Console.WriteLine(pair);
             }
+
+            return newObj;
 
 
         }
