@@ -1,4 +1,5 @@
-﻿using MiniDiDemo.CustomeLazy;
+﻿using System.Text.Json;
+using MiniDiDemo.CustomeLazy;
 using MiniDiDemo.DataStructure;
 using MiniDiDemo.DataStructures;
 using MiniDiDemo.Model;
@@ -23,5 +24,7 @@ public class Program
         // CLientSingleton.Run();
 
         ClientReflection.Run();
+
+        
     }
 }

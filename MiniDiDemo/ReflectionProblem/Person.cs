@@ -26,8 +26,8 @@ namespace MiniDiDemo.ReflectionProblem
     {
         public static void Run()
         {
-            var p1 = new Person { Name = "Omid", Age = 42,IsHere=true,Job=null };
-            var p2 = new Person { Name = "Saeed", Age = 40,IsHere = false,Job="PHP"};
+            var p1 = new Person { Name = "Omid", Age = 42, IsHere = true, Job = null };
+            var p2 = new Person { Name = "Saeed", Age = 40, IsHere = false, Job = "PHP" };
             RefCustome.Run(p1);
 
         }
@@ -38,6 +38,7 @@ namespace MiniDiDemo.ReflectionProblem
     {
         public static void Run(object obj)
         {
+            
             Dictionary<string, object> pairs = new();
             Type type = obj.GetType();
 
@@ -101,21 +102,81 @@ namespace MiniDiDemo.ReflectionProblem
             stringBuilder.Append("}");
 
 
-            Console.WriteLine(stringBuilder);
+            // Console.WriteLine(stringBuilder);
+
+            DeserializedJson.Deserialized<Person>(stringBuilder.ToString());
 
 
         }
-        
+
         private static string FormatValue(object value)
+        {
+            if (value == null)
+                return "null";
+            else if (value is string)
+                return $"\"{value}\"";
+            else if (value is bool)
+                return value.ToString().ToLower(); // true/false
+            else
+                return value.ToString();
+        }
+    }
+
+
+    public class DeserializedJson
+    {
+        public static void Deserialized<T>(string json)
+        {
+
+            json = json.Trim('{', '}');
+            string[] keyValue = json.Split(',');
+
+            T newObj = Activator.CreateInstance<T>();
+            Type t = newObj.GetType();
+            var props = t.GetProperties();
+
+            foreach (string pair in keyValue)
             {
-                if (value == null)
-                    return "null";
-                else if (value is string)
-                    return $"\"{value}\"";
-                else if (value is bool)
-                    return value.ToString().ToLower(); // true/false
-                else
-                    return value.ToString();
+                string[] parts = pair.Split(':');
+                if (parts.Length == 2)
+                {
+                    string key = parts[0].Trim('"');
+                    string value = parts[1].Trim();
+
+                    PropertyInfo targetProp = props.FirstOrDefault(p => p.Name == key);
+
+                    if (targetProp != null && targetProp.CanWrite)
+                    {
+                        object convertedValue = ConvertValue(value, targetProp.PropertyType);
+                        targetProp.SetValue(newObj, convertedValue);
+                    }
+                }
+                Console.WriteLine(pair);
             }
+
+
+        }
+
+        private static object ConvertValue(string value, Type targetType)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            else if (targetType == typeof(string))
+            {
+                return value.Trim('"');
+            }
+            else if (targetType == typeof(int))
+            {
+                return int.Parse(value);
+            }
+            else if (targetType == typeof(bool))
+            {
+                return bool.Parse(value.ToLower());
+            }
+
+            return value;
+        }
     }
 }
