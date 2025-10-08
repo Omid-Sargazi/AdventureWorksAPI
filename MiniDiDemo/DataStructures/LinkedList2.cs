@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace MiniDiDemo.DataStructures
 {
     public class Node2
@@ -36,6 +38,21 @@ namespace MiniDiDemo.DataStructures
             current.Next = new Node2(value);
         }
 
+        public void Reverse()
+        {
+            var current = _head;
+            Node2 prev = null;
+            Node2 next = null;
+            while (current != null)
+            {
+                next = current.Next;
+                current.Next = prev;
+                prev = current;
+                current = next;
+            }
+            _head = prev;
+        }
+
         public void Print()
         {
             if (_head == null)
@@ -66,6 +83,9 @@ namespace MiniDiDemo.DataStructures
             l1.Add(100);
             l1.Add(-11);
             l1.Add(0);
+            l1.Print();
+            Console.WriteLine("Reverse");
+            l1.Reverse();
             l1.Print();
             //======================
         }
