@@ -16,23 +16,24 @@ namespace MiddleWares.Problems
         {
             var now = DateTime.Now;
             var request = context.Request;
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($" [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]");
-            stringBuilder.Append($"Request:{request.Method}{request.Path}");
-            stringBuilder.Append($" IP:{context.Connection.RemoteIpAddress}");
-            stringBuilder.Append($"serAgent:{request.Headers["User-Agent"]}");
+            // var stringBuilder = new StringBuilder();
+            // stringBuilder.Append($" [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]");
+            // stringBuilder.Append($"Request:{request.Method}{request.Path}");
+            // stringBuilder.Append($" IP:{context.Connection.RemoteIpAddress}");
+            // stringBuilder.Append($"serAgent:{request.Headers["User-Agent"]}");
             
 
-            // var logEntry = $"""
-            //     [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]
-            //     Request:{request.Method}{request.Path}
-            //     IP:{context.Connection.RemoteIpAddress}
-            //     userAgent:{request.Headers["User-Agent"]}
-            // """;
+            var logEntry = $"""
+                [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]
+                Request:{request.Method}{request.Path}
+                IP:{context.Connection.RemoteIpAddress}
+                userAgent:{request.Headers["User-Agent"]}
+                -----------------------------------------
+            """;
 
             try
             {
-                await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
+                await File.AppendAllTextAsync(_logFilePath, logEntry.ToString());
             }
             catch (System.Exception ex)
             {

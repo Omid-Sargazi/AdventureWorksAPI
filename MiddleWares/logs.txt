@@ -1,19 +1,5 @@
-    [2025-10-09 13:38:13]
-    Request:GET/
-    IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0    [2025-10-09 13:38:13]
-    Request:GET/favicon.ico
-    IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0    [2025-10-09 16:55:14]
-    Request:GET/
-    IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0    [2025-10-09 16:55:25]
-    Request:GET/
-    IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0    [2025-10-09 16:55:28]
-    Request:GET/
-    IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0    [2025-10-09 16:55:36]
+    [2025-10-09 17:03:52]
     Request:GET/swagger
     IP:127.0.0.1
-    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 [2025-10-09 16:59:05]Request:GET/swagger IP:127.0.0.1serAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+    userAgent:Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+    -----------------------------------------
