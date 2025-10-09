@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ProblemsInCSharp.Automapper;
 using ProblemsInCSharp.SerializedAndDeserialized;
 using ProblemsInCSharp.Sortings;
 
@@ -14,4 +15,6 @@ int[] nums1 = new int[] { 1, 2, 3 };
 // CLientList.Run();
 // SortProblems.QuickSort(nums, 0, nums.Length-1);
 
-Client.Run();
+// Client.Run();
+
+ClientMapper.Run();
