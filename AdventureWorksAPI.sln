@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProblemsInCSharp", "Problem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniDiDemo", "MiniDiDemo\MiniDiDemo.csproj", "{4503E057-957A-4EC2-ABE0-4B3F86BE4BE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReflectionProblems", "ReflectionProblems\ReflectionProblems.csproj", "{C6C7F9BA-7860-44CF-A555-FD70644F316B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,10 @@ Global
 		{4503E057-957A-4EC2-ABE0-4B3F86BE4BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4503E057-957A-4EC2-ABE0-4B3F86BE4BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4503E057-957A-4EC2-ABE0-4B3F86BE4BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6C7F9BA-7860-44CF-A555-FD70644F316B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6C7F9BA-7860-44CF-A555-FD70644F316B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6C7F9BA-7860-44CF-A555-FD70644F316B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6C7F9BA-7860-44CF-A555-FD70644F316B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D81D0835-5B2C-4774-847D-25CC927D5EEE} = {39E19618-0779-48E4-880D-B9FAB6B1FA0F}
