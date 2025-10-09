@@ -1,3 +1,4 @@
+using System.Diagnostics.Metrics;
 using System.Text;
 
 namespace MiddleWares.Problems
@@ -14,14 +15,16 @@ namespace MiddleWares.Problems
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var now = DateTime.Now;
+
+
+
             var request = context.Request;
             // var stringBuilder = new StringBuilder();
             // stringBuilder.Append($" [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]");
             // stringBuilder.Append($"Request:{request.Method}{request.Path}");
             // stringBuilder.Append($" IP:{context.Connection.RemoteIpAddress}");
             // stringBuilder.Append($"serAgent:{request.Headers["User-Agent"]}");
-            
+
 
             var logEntry = $"""
                 [{DateTime.Now:yyyy-MM-dd HH:mm:ss}]
@@ -31,15 +34,42 @@ namespace MiddleWares.Problems
                 -----------------------------------------
             """;
 
+            await LogToFile(logEntry);
+
+            var originalResponseBody = context.Response.Body;
+
+            using var memoryStream = new MemoryStream();
+            context.Response.Body = memoryStream;
+
+            await _next(context);
+
+            memoryStream.Position = 0;
+            var responseBody = await new StreamReader(memoryStream).ReadToEndAsync();
+            memoryStream.Position = 0;
+            await memoryStream.CopyToAsync(originalResponseBody);
+            context.Response.Body = originalResponseBody;
+
+            var responseLog = $"""
+                RESPONSE:
+                Status: {context.Response.StatusCode}
+                Content: {responseBody}
+                ==================================
+                """;
+
+            await LogToFile(responseLog);
+        }
+
+        private async Task LogToFile(string message)
+        {
             try
             {
-                await File.AppendAllTextAsync(_logFilePath, logEntry.ToString());
+                await File.AppendAllTextAsync(_logFilePath, message + Environment.NewLine);
             }
             catch (System.Exception ex)
             {
-                await File.AppendAllTextAsync(_logFilePath, ex.Message);
+
+                Console.WriteLine($" there is an error in writing a log {ex.Message}");
             }
-                await _next(context);
         }
 
         
