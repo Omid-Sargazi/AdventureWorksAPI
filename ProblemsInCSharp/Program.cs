@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ProblemsInCSharp.Automapper;
+using ProblemsInCSharp.Automapper2;
 using ProblemsInCSharp.SerializedAndDeserialized;
 using ProblemsInCSharp.Sortings;
 
@@ -17,4 +18,4 @@ int[] nums1 = new int[] { 1, 2, 3 };
 
 // Client.Run();
 
-ClientMapper.Run();
+ClientMapper2.Run();

@@ -21,7 +21,7 @@ namespace ProblemsInCSharp.Automapper
     {
         public static TTarget Automapper<TSource, TTarget>(TSource source) where TTarget : new()
         {
-            PersonDto dto = new PersonDto();
+            
 
             var target = new TTarget();
 
