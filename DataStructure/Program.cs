@@ -9,6 +9,7 @@ using DataStructure.Sorting;
 using DataStructure.SortingAlgorithems;
 using DataStructure.SortingInCSharp;
 using DataStructure.SortingWithCSharp;
+using DataStructure.TaskProblem;
 
 Console.WriteLine("Hello, World!!!!");
 // int[] arr = new int[] { 70, -70, 1, 4, 50, 78, 87, 88, 99 };
@@ -186,4 +187,13 @@ Console.WriteLine("Hello, World!!!!");
 // ExplanationExpandoObject.Run();
 // ExplanationExpandoObject.Run2();
 
-RefProblem.Run();
+// RefProblem.Run();
+// ITaskCreate t1 = new TaskCreate1();
+// ITaskCreate t2 = new TaskCreate2();
+// ClientTask cli1 = new ClientTask(t1);
+// ClientTask cli2 = new ClientTask(t2);
+// await cli1.Run();
+// await cli2.Run();
+
+ClientTask cli = new ClientTask();
+await cli.Run();
