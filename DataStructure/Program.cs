@@ -195,5 +195,7 @@ Console.WriteLine("Hello, World!!!!");
 // await cli1.Run();
 // await cli2.Run();
 
-ClientTask cli = new ClientTask();
-await cli.Run();
+// ClientTask cli = new ClientTask();
+// await cli.Run();
+
+await ClientSemaphore.Run();
