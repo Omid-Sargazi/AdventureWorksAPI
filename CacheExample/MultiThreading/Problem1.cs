@@ -45,9 +45,9 @@ namespace CacheExample.MultiThreading
                 FetchFromHttpApi.Run(),
                 FetchFromRedis.Run(),
             };
-           
-           if(tasks.Count>0)
-             {
+
+            if (tasks.Count > 0)
+            {
                 var completedTask = await Task.WhenAny(tasks);
 
                 try
@@ -68,6 +68,70 @@ namespace CacheExample.MultiThreading
             }
 
             throw new Exception("All data source failed");
+        }
+    }
+
+
+
+    public class DataSource
+    {
+        private static readonly Random random = new Random();
+
+        public static async Task<string> FetchFromRedis()
+        {
+            await Task.Delay(random.Next(500, 2000));
+            if (random.NextDouble() < 0.3) throw new Exception("Redis connection failed");
+            return "Data from Redis";
+        }
+
+        public static async Task<string> FetchFromSql()
+        {
+            await Task.Delay(random.Next(1000, 2000));
+            if (random.NextDouble() < 0.2) throw new Exception("Sql Timeout");
+            return "Data from SQL Server";
+        }
+
+        public static async Task<string> FetchFromHttpApi()
+        {
+            await Task.Delay(random.Next(800, 2500));
+            if (random.NextDouble() < 0.4) throw new Exception("HTTP API Error");
+            return "Data from HTTP API";
+        }
+    }
+
+    public class ClientMultiThreadingAdvanced
+    {
+        public static async Task<string> GetFirstSuccessfulResultAsync(TimeSpan timeout)
+        {
+            using var cts = new CancellationTokenSource();
+
+            var tasks = new List<Task<string>>
+            {
+                DataSource.FetchFromHttpApi(),
+                DataSource.FetchFromRedis(),
+                DataSource.FetchFromSql(),
+            };
+
+            while (tasks.Count > 0)
+            {
+                var completedTask = await Task.WhenAny(tasks);
+                tasks.Remove(completedTask);
+
+                try
+                {
+                    var result = await completedTask;
+                    Console.WriteLine($"Result is {result}");
+                    cts.Cancel();
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine($"⚠️ Failed: {ex.Message}");
+                }
+            }
+             throw new TimeoutException("❌ All sources failed or timed out.");
         }
     }
 }
