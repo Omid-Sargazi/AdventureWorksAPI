@@ -131,7 +131,56 @@ namespace CacheExample.MultiThreading
                     Console.WriteLine($"⚠️ Failed: {ex.Message}");
                 }
             }
-             throw new TimeoutException("❌ All sources failed or timed out.");
+            throw new TimeoutException("❌ All sources failed or timed out.");
+        }
+
+        public static async Task<string> RetryAsync(Func<Task<string>> action, int maxRetries = 3)
+        {
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                try
+                {
+                    Console.WriteLine($"Attempt{attempt}...");
+                    var result = await action();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine($"Attempt {attempt} failed:{ex.Message}");
+                    if (attempt == maxRetries)
+                    {
+                        throw;
+                    }
+                        await Task.Delay(500 * attempt);
+                }
+            }
+            return "";
+        }
+        
+        public static async Task<string> GetDataWithRetryAndFallbackAsync()
+        {
+            try
+            {
+                return await RetryAsync(DataSource.FetchFromHttpApi, 3);
+            }
+            catch (System.Exception)
+            {
+
+                Console.WriteLine("⚠️ Falling back to SQL...");
+            }
+            try
+            {
+                return await RetryAsync(DataSource.FetchFromRedis, 3);
+            }
+            catch (System.Exception)
+            {
+
+                Console.WriteLine("⚠️ Falling back to CACHE...");
+                return await DataSource.FetchFromSql();
+            }
+
+                throw new Exception("All retry attempts failed.");
         }
     }
 }

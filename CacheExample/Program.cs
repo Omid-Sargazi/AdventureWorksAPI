@@ -16,11 +16,13 @@ Console.WriteLine("Hello, World!");
 
 try
 {
-    var res = await ClientMultiThreadingAdvanced.GetFirstSuccessfulResultAsync(TimeSpan.FromSeconds(3));
-     Console.WriteLine($"\n🏁 Final Result: {res}");
+    // var res = await ClientMultiThreadingAdvanced.GetFirstSuccessfulResultAsync(TimeSpan.FromSeconds(3));
+    //  Console.WriteLine($"\n🏁 Final Result: {res}");
+    var result = await ClientMultiThreadingAdvanced.GetDataWithRetryAndFallbackAsync();
+    Console.WriteLine($"\n🏁 Final Result: {result}");
 }
 catch (TimeoutException ex)
 {
-    
-     Console.WriteLine(ex.Message);
+
+    Console.WriteLine($"❌ All sources failed: {ex.Message}");
 }
