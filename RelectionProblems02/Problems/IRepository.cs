@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Text.RegularExpressions;
+
 namespace RelectionProblems02.Problems
 {
      public class User
@@ -156,5 +159,32 @@ namespace RelectionProblems02.Problems
         {
             throw new NotImplementedException();
         }
-    } 
+    }
+
+    public static class ServiceCollectionExtensions
+    {
+        public static IServiceCollection AddRepositories(this IServiceCollection services, Assembly assembly)
+        {
+            var allTypes = assembly.GetTypes();
+
+            var interfaces = allTypes.Where(t => t.IsInterface && t.Name.StartsWith("I")
+            && t.Name.EndsWith("Repository")).ToList();
+
+            var classes = allTypes.Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository")).ToList();
+
+            var matches = from i in interfaces
+                          let implName = i.Name.Substring(1)
+                          from c in classes
+                          where c.Name == implName && i.IsAssignableFrom(c)
+                          select new { Interface = i, Implementation = c };
+
+            foreach (var match in matches)
+            {
+                services.AddScoped(match.Interface, match.Implementation);
+                Console.WriteLine($"✅ Registered: {match.Interface.Name} -> {match.Implementation.Name}");
+            }
+
+            return services;
+        }
+    }
 }
