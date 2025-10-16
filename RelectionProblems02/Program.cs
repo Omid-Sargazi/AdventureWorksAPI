@@ -9,6 +9,7 @@ builder.Services.AddOpenApi();
 // builder.Services.AddRepositories(Assembly.GetExecutingAssembly());
 
 ClientRegister.Run(Assembly.GetExecutingAssembly());
+ClienStartup.Run(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

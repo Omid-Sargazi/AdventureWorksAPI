@@ -18,6 +18,49 @@ namespace RelectionProblems02.Problems
         }
     }
 
+    public class  RunOnStartupAttribute: Attribute
+    {
+        
+    }
+
+    public class StartupTasks
+    {
+        [RunOnStartup]
+        public void InitializeDatabase() => Console.WriteLine($"Database initilized");
+        [RunOnStartup]
+        public void WarmupCache() => Console.WriteLine("Cache warmed up.");
+        public void SendEmail() => Console.WriteLine("This should not run automatically.");
+    }
+
+    public class ClienStartup
+    {
+        public static void Run(Assembly assembly)
+        {
+            var allTypes = assembly.GetTypes();
+           
+           foreach(var type in allTypes)
+             {
+                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+
+                foreach(var method in methods)
+                {
+                    var attr = method.GetCustomAttribute<RunOnStartupAttribute>();
+                    if(attr!=null)
+                    {
+                        object? instance = null;
+
+                        if (!method.IsStatic)
+                        {
+                            instance = Activator.CreateInstance(type);
+                        }
+
+                        method.Invoke(instance, null);
+                    }
+                }
+            }
+        }
+    }
+
     public  class ClientRegister
     {
         public static void Run(Assembly assembly)
