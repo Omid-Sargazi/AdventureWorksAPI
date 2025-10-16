@@ -101,10 +101,65 @@ namespace RelectionProblems02.Problems
         {
             return $"Dashboard viewed by {user}";
         }
-        
+
         public void NoAccess()
         {
-             Console.WriteLine("This method has no authorization attribute.");
+            Console.WriteLine("This method has no authorization attribute.");
+        }
+    }
+
+    public class ClientAuthorization
+    {
+        public static void Run(Assembly assembly, string role)
+        {
+            var allTypes = assembly.GetTypes();
+
+            foreach(var type in allTypes)
+            {
+                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+
+                foreach(var method in methods)
+                {
+                    var attr = method.GetCustomAttribute<AuthorizeAttribute>();
+
+                    if (attr == null)
+                    {
+                        continue;
+                    }
+
+                    if (attr.Role != role)
+                    {
+                        Console.WriteLine($"⛔ Access denied for {method.Name} (Required: {attr.Role}, Current: {role})");
+                        continue;
+                    }
+
+                    object? instance = null;
+                    if(!method.IsStatic)
+                    {
+                        instance = Activator.CreateInstance(type);
+
+                        var parameters = method.GetParameters();
+
+                        object? result = null;
+
+                        if (parameters.Length == 0)
+                        {
+                            result = method.Invoke(instance, null);
+                        }
+
+                        else
+                        {
+                            var args = parameters.Select(p => $"Sample_{p.Name}").ToArray();
+                            result = method.Invoke(instance, args);
+                        }
+
+                        if(method.ReturnType!=typeof(void))
+                        {
+                            Console.WriteLine($"Result From {method.Name}:{result}");
+                        }
+                    }
+                }
+            }
         }
     }
     

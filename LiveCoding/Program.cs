@@ -4,10 +4,12 @@ using System.Reflection;
 using System.Runtime.InteropServices.Swift;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using LiveCoding.CodeGeneration;
 using LiveCoding.DataStructure;
 using LiveCoding.LeetCode;
 using LiveCoding.LinqExamples;
+using LiveCoding.MultiThreading;
 using LiveCoding.ObjectValidator;
 using LiveCoding.Patterns;
 using LiveCoding.QueryExample;
@@ -17,7 +19,7 @@ namespace LiveCoding
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.WriteLine($"Reflectionssss");
 
@@ -28,7 +30,7 @@ namespace LiveCoding
             // GenerationCustome.Run(p1);
 
             // LinkedListt.Run();
-            ClientBST.Run();
+            // ClientBST.Run();
 
 
             // var container = new DIContainer();
@@ -111,7 +113,7 @@ namespace LiveCoding
 
 
 
-
+            await ClientMultiThreading.GetFirstSuccessfulResultAsync();
 
         }
     }
