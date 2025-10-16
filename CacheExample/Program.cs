@@ -9,7 +9,18 @@ Console.WriteLine("Hello, World!");
 
 // RunMyFile.Run();
 
-// await MyAsyncResource.RunMyAsyncResource();
-CancellationTokenSource cs = new CancellationTokenSource();
-var res = await ClientMultiThreading.GetFirstSuccessfulResultAsync(cs.Token);
-Console.WriteLine(res+" Result of task");
+// // await MyAsyncResource.RunMyAsyncResource();
+// CancellationTokenSource cs = new CancellationTokenSource();
+// var res = await ClientMultiThreading.GetFirstSuccessfulResultAsync(cs.Token);
+// Console.WriteLine(res+" Result of task");
+
+try
+{
+    var res = await ClientMultiThreadingAdvanced.GetFirstSuccessfulResultAsync(TimeSpan.FromSeconds(3));
+     Console.WriteLine($"\n🏁 Final Result: {res}");
+}
+catch (TimeoutException ex)
+{
+    
+     Console.WriteLine(ex.Message);
+}
