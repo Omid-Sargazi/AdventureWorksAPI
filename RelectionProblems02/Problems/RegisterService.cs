@@ -61,7 +61,7 @@ namespace RelectionProblems02.Problems
         }
     }
 
-    public  class ClientRegister
+    public class ClientRegister
     {
         public static void Run(Assembly assembly)
         {
@@ -70,11 +70,43 @@ namespace RelectionProblems02.Problems
             var registeredServices = allTypes.Where(t => t.GetCustomAttribute<AutoRegisterAttribute>() != null).ToList();
 
 
-            foreach(var t in registeredServices)
+            foreach (var t in registeredServices)
             {
                 var attr = t.GetCustomAttribute<AutoRegisterAttribute>();
-                Console.WriteLine($"Found Service: {t.Name}(Lifetime={attr.LifeTime})");    
-            }           
+                Console.WriteLine($"Found Service: {t.Name}(Lifetime={attr.LifeTime})");
+            }
         }
     }
+
+
+    public class AuthorizeAttribute : Attribute
+    {
+        public string Role { get; }
+        public AuthorizeAttribute(string role)
+        {
+            Role = role;
+        }
+    }
+
+    public class AdminActions
+    {
+        [Authorize("Admin")]
+        public void DeleteUser(string username)
+        {
+            Console.WriteLine($"User '{username}' deleted.");
+        }
+
+        [Authorize("User")]
+        public string ViewDashboard(string user)
+        {
+            return $"Dashboard viewed by {user}";
+        }
+        
+        public void NoAccess()
+        {
+             Console.WriteLine("This method has no authorization attribute.");
+        }
+    }
+    
+
 }
