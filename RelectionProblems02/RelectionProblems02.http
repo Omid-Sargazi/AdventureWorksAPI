@@ -1,0 +1,6 @@
+@RelectionProblems02_HostAddress = http://localhost:5162
+
+GET {{RelectionProblems02_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
