@@ -30,3 +30,9 @@ Console.WriteLine("Hello, World!");
 
 
 ExpressionDemo.Run();
+var res = ExpressionDemo.BuildExpression<User>("Age", "<", 30);
+Console.WriteLine(res);
+
+var compile = res.Compile();
+Console.WriteLine(compile(new User { Age = 40 }));
+Console.WriteLine(compile(new User { Age = 29 }));

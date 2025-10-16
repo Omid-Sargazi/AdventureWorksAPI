@@ -23,5 +23,27 @@ namespace CacheExample.ExpressionProblems
             Console.WriteLine(lambda);
 
         }
+
+        public static Expression<Func<T,bool>> BuildExpression<T>(string property, string op,object value)
+        {
+            var param = Expression.Parameter(typeof(T), "x");
+            var left = Expression.Property(param, property);
+            var right = Expression.Constant(value);
+
+            Expression body = op switch
+
+            {
+                ">" => Expression.GreaterThan(left, right),
+                "<" => Expression.LessThan(left, right),
+                ">=" => Expression.GreaterThanOrEqual(left, right),
+                "<=" => Expression.LessThanOrEqual(left, right),
+                "==" => Expression.Equal(left, right),
+                "!=" => Expression.NotEqual(left, right),
+                _ => throw new NotSupportedException($"Operator {op} is not supported...")
+            };
+
+            var lmbda = Expression.Lambda<Func<T, bool>>(body, param);
+            return lmbda;
+        }
     }
 }
