@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CacheExample;
+using CacheExample.CQRSProblem;
 using CacheExample.ExpressionProblems;
 using CacheExample.MultiThreading;
+using Microsoft.Extensions.DependencyInjection;
 
 Console.WriteLine("Hello, World!");
 // ValueTask<int> num = ValueTask.FromResult(100);
@@ -29,10 +31,21 @@ Console.WriteLine("Hello, World!");
 // }
 
 
-ExpressionDemo.Run();
-var res = ExpressionDemo.BuildExpression<User>("Age", "<", 30);
-Console.WriteLine(res);
+// ExpressionDemo.Run();
+// var res = ExpressionDemo.BuildExpression<User>("Age", "<", 30);
+// Console.WriteLine(res);
 
-var compile = res.Compile();
-Console.WriteLine(compile(new User { Age = 40 }));
-Console.WriteLine(compile(new User { Age = 29 }));
+// var compile = res.Compile();
+// Console.WriteLine(compile(new User { Age = 40 }));
+// Console.WriteLine(compile(new User { Age = 29 }));
+
+var services = new ServiceCollection();
+services.AddScoped<Mediator>();
+
+services.AddScoped<IRequetHandler<UserCommand, bool>, UserCommandHandler>();
+var servicesProvider = services.BuildServiceProvider();
+
+var madiator = servicesProvider.GetRequiredService<Mediator>();
+var command = new UserCommand { Id = 1 };
+bool result = madiator.Send<UserCommand, bool>(command);
+Console.WriteLine(result);
