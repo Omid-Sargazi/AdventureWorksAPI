@@ -43,6 +43,18 @@
 
 // BSTClient.Run();
 
-using DesignPatterns.Trees;
+// using DesignPatterns.Trees;
 
-LinkedListClinet.Run();
+// LinkedListClinet.Run();
+using DesignPatterns.ExpressionTree;
+Console.WriteLine("Hellooooo");
+
+var expre = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">", 30);
+
+var expr1 = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">=", 12);
+var expr2 = ExpressionTreeProblem1.BuildExpression<Order>("Name", "==", "Omid");
+
+var compile = expre.Compile();
+
+Console.WriteLine(compile(new Order{Id=50,Name="Book"}));
+Console.WriteLine(compile(new Order{Id=29,Name="Book"}));
