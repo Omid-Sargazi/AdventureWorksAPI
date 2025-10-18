@@ -19,28 +19,27 @@ public class Program
 
         var pluginFiles = Directory.GetFiles(pluginFolder, "*.dll");
 
-        foreach (var file in pluginFiles)
+         var assemblies = pluginFiles.Select(Assembly.LoadFrom).ToList();
+
+         foreach (var assembly in assemblies)
         {
-            Assembly assembly = Assembly.LoadFile(file);
-            Console.WriteLine($"📦 Loaded Assembly: {Path.GetFileName(file)}");
+            Console.WriteLine($"📦 Loaded Assembly: {Path.GetFileName(assembly.Location)}");
 
             var registrars = assembly.GetTypes()
-            .Where(t => typeof(IServiceRegistration).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                .Where(t => typeof(IServiceRegistration).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
             foreach (var registrarType in registrars)
             {
-                var register = (IServiceRegistration)Activator.CreateInstance(registrarType);
-                register.RegisterServices(services);
+                var registrar = (IServiceRegistration)Activator.CreateInstance(registrarType)!;
+                registrar.RegisterServices(services);
                 Console.WriteLine($"🔧 Registered services from: {registrarType.Name}");
             }
         }
 
         var provider = services.BuildServiceProvider();
 
-        foreach (var file in pluginFiles)
+        foreach (var assembly in assemblies)
         {
-            Assembly assembly = Assembly.LoadFrom(file);
-
             var pluginTypes = assembly.GetTypes()
                 .Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
