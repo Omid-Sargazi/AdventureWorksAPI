@@ -27,7 +27,17 @@ namespace RelectionProblems02.ReflectionProblems
                 var name = prop.Name;
                 var value = prop.GetValue(obj);
 
-                string formattedValue = value is string ? $"\"{value}\"" : value.ToString().ToLower()??"null";
+                // string formattedValue = value is string ? $"\"{value}\"" : value.ToString().ToLower()??"null";
+
+                 string formattedValue = value switch
+
+                {
+                    string s => $"\"{s}\"",
+                    null => "null",
+                    bool b => b.ToString().ToLower(),
+                    _=>value.ToString().ToLower()
+                };
+
                
                 str.Append($"\"{name}\":{formattedValue}");
 
