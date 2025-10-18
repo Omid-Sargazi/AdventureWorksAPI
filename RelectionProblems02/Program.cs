@@ -28,7 +28,14 @@
 
 using RelectionProblems02.ReflectionProblems;
 
-Console.WriteLine("hellooooo");
-Person2 p1 = new Person2();
-var res = RefClient.Run(p1);
+// Console.WriteLine("hellooooo");
+// Person2 p1 = new Person2();
+// var res = RefClient.Run(p1);
+// Console.WriteLine(res);
+
+var p2 = new Person();
+
+var serialized = new RecursiveJsonSerialize();
+var res = serialized.ToJson(p2);
+
 Console.WriteLine(res);
