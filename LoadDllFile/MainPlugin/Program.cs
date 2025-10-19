@@ -1,11 +1,15 @@
 ﻿using System.Reflection;
 using System.Security.AccessControl;
+using MainPlugin.MainPlugin2;
 using Microsoft.Extensions.Configuration;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        Console.WriteLine("==============//===============");
+        MainPlugin2.Run();
+        Console.WriteLine("==============//===============");
         var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
 
