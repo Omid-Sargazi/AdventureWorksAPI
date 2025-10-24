@@ -48,6 +48,7 @@
 // LinkedListClinet.Run();
 using DesignPatterns.ExpressionTree;
 using DesignPatterns.PaymentNotificationSystem;
+using DesignPatterns.ReadParallel;
 Console.WriteLine("Hellooooo");
 
 // var expre = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">", 30);
@@ -61,4 +62,6 @@ Console.WriteLine("Hellooooo");
 // Console.WriteLine(compile(new Order{Id=29,Name="Book"}));
 
 
-ClientPayment.Run("Hiii From Notification");
+// ClientPayment.Run("Hiii From Notification");
+
+ReadParallelFromFiles.Run();
