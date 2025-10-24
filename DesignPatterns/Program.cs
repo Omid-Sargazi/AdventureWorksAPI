@@ -64,4 +64,7 @@ Console.WriteLine("Hellooooo");
 
 // ClientPayment.Run("Hiii From Notification");
 
-ReadParallelFromFiles.Run();
+// ReadParallelFromFiles.Run();
+
+ClientParallelReadFiles clientParallelReadFiles = new ClientParallelReadFiles();
+await clientParallelReadFiles.Execute();
