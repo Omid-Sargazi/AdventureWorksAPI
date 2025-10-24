@@ -47,14 +47,18 @@
 
 // LinkedListClinet.Run();
 using DesignPatterns.ExpressionTree;
+using DesignPatterns.PaymentNotificationSystem;
 Console.WriteLine("Hellooooo");
 
-var expre = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">", 30);
+// var expre = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">", 30);
 
-var expr1 = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">=", 12);
-var expr2 = ExpressionTreeProblem1.BuildExpression<Order>("Name", "==", "Omid");
+// var expr1 = ExpressionTreeProblem1.BuildExpression<Order>("Id", ">=", 12);
+// var expr2 = ExpressionTreeProblem1.BuildExpression<Order>("Name", "==", "Omid");
 
-var compile = expre.Compile();
+// var compile = expre.Compile();
 
-Console.WriteLine(compile(new Order{Id=50,Name="Book"}));
-Console.WriteLine(compile(new Order{Id=29,Name="Book"}));
+// Console.WriteLine(compile(new Order{Id=50,Name="Book"}));
+// Console.WriteLine(compile(new Order{Id=29,Name="Book"}));
+
+
+ClientPayment.Run("Hiii From Notification");
