@@ -31,17 +31,35 @@ namespace StandardExamples.Problems1
         {
             return (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
         }
-        
-        public static void MaximumSubarray(int[] arr)
+
+        public static int MaximumSubarray(int[] arr)
         {
             int maxSum = arr[0];
-            int sum = arr[0]; 
-            for(int i=1;i<arr.Length;i++)
+            int sum = arr[0];
+            for (int i = 1; i < arr.Length; i++)
             {
                 sum = Math.Max(sum, arr[i] + sum);
-                
+
                 maxSum = Math.Max(sum, maxSum);
             }
+            return maxSum;
+        }
+        
+        public static int MaximumProductSubarray(int[] arr)
+        {
+            int maxProduct = arr[0];
+            int minProduct = arr[0];
+            int result = arr[0];
+
+            for (int i = 1; i < arr.Length; i++)
+            {
+                int temp = maxProduct;
+
+                maxProduct = Math.Max(arr[i], Math.Max(maxProduct * arr[i], minProduct * arr[i]));
+                minProduct = Math.Min(arr[i], Math.Min(temp * arr[i], minProduct * arr[i]));
+            }
+
+            return Math.Max(maxProduct,)
         }
     }
 }
