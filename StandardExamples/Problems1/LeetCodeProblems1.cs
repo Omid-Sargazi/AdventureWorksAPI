@@ -26,10 +26,22 @@ namespace StandardExamples.Problems1
             }
             return true;
         }
-        
+
         private static bool IsValidChar(char c)
         {
             return (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+        }
+        
+        public static void MaximumSubarray(int[] arr)
+        {
+            int maxSum = arr[0];
+            int sum = arr[0]; 
+            for(int i=1;i<arr.Length;i++)
+            {
+                sum = Math.Max(sum, arr[i] + sum);
+                
+                maxSum = Math.Max(sum, maxSum);
+            }
         }
     }
 }
