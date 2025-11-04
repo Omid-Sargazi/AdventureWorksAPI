@@ -125,4 +125,14 @@ namespace AlgorithemInCSharp.LeetCodeProblems
             return result;
         }
     }
+
+
+    public class LeetCodeProblems
+    {
+        public static bool Palindrome(string s)
+        {
+            int left=0;
+            int right = s.Length-1;
+        }
+    }
 }
