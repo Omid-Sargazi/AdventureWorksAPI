@@ -17,4 +17,5 @@ Console.WriteLine("Hello, World!");
 //      Console.WriteLine($"{b.Title} by {b.Author.Name}");
 //  }
 
-TrackingDemo.Execute();
+// TrackingDemo.Execute();
+TrackingBehaviorDemo.Run();
