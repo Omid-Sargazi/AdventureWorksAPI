@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace EfCoreBasics.Models
@@ -117,6 +118,30 @@ namespace EfCoreBasics.Models
 
             var res = sales.GroupBy(s => new { s.Date.Year, s.Date.Month })
             .Select(g => new { YearMonth = $"{g.Key.Year}--{g.Key.Month}", TotalAmount = g.Sum(s => s.Amount) }).OrderBy(s => s.TotalAmount);
+        }
+
+        public static void FindWordsMostVowels()
+        {
+            string[] words = { "apple", "banana", "elephant", "rhythm", "beautiful", "sky", "education" };
+
+            var res = words.Select(word => new { Word = word, VowelCount = FindWords(word) }).OrderByDescending(w => w.VowelCount).ThenBy(w => w.Word);
+
+
+        }
+
+        private static int FindWords(string s)
+        {
+            int count = 0;
+            var ss = s.ToLower();
+            foreach (char c in ss)
+            {
+                if (c == 'e' || c == 'a' || c == 'i' || c == 'u' || c == 'o')
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 
