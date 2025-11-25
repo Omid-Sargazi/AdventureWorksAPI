@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardExamples", "Standar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCoreBasics", "EfCoreBasics\EfCoreBasics.csproj", "{1CBBFFCA-4B27-451A-A2C7-2E76516AC6E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthDemoTwo", "AuthDemoTwo\AuthDemoTwo.csproj", "{F2887F6E-BDE5-4F7B-8888-01BC81503815}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -220,6 +222,10 @@ Global
 		{1CBBFFCA-4B27-451A-A2C7-2E76516AC6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CBBFFCA-4B27-451A-A2C7-2E76516AC6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CBBFFCA-4B27-451A-A2C7-2E76516AC6E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2887F6E-BDE5-4F7B-8888-01BC81503815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2887F6E-BDE5-4F7B-8888-01BC81503815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2887F6E-BDE5-4F7B-8888-01BC81503815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2887F6E-BDE5-4F7B-8888-01BC81503815}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D81D0835-5B2C-4774-847D-25CC927D5EEE} = {39E19618-0779-48E4-880D-B9FAB6B1FA0F}
