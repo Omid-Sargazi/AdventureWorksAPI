@@ -43,7 +43,7 @@ namespace AuthDemoTwo.Services
              Id = _nextId++,
              Email = model.Email,
              Password = model.Password,
-             Role = "User"
+             Role = UserRole.User.ToString(),
 
            };
 

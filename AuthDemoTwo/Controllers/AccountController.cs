@@ -63,6 +63,16 @@ namespace AuthDemoTwo.Controllers
                 });
             }
 
+            var isValidUser = await _userService.ValidateUserAsync(model);
+            if(!isValidUser)
+            {
+                return Unauthorized(new Response
+                {
+                    Message = "Invalid creditionals",
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                });
+            }
+
             if(!await _userService.UserExistAsync(model.Email))
             {
                 return Unauthorized(new Response
@@ -70,23 +80,29 @@ namespace AuthDemoTwo.Controllers
                     Message = "Invalid credentials",
                     StatusCode = StatusCodes.Status401Unauthorized
                 });
+                
             }
 
-            var isValidUser = await _userService.ValidateUserAsync(model);
-            if(isValidUser)
+            // var isValidUser = await _userService.ValidateUserAsync(model);
+            
+
+            var user = await _userService.GetUserByEmailAsync(model.Email);
+
+            if(user ==null)
             {
-                return Ok(new Response
+                return Unauthorized(new Response
                 {
-                    Message = "Login Success",
-                    StatusCode = StatusCodes.Status200OK
+                    Message = "Invalid credentials", 
+                    StatusCode = StatusCodes.Status401Unauthorized,
                 });
             }
 
-            return Unauthorized(new Response
-            {
-                Message = "Invalid credentials",
-                StatusCode = StatusCodes.Status401Unauthorized,
-            });
+                return Ok(new LoginResponse
+                {
+                    Message = "Login Success",
+                    Role = user.Role,
+                    Email = user.Email
+                });
         }
 
 
