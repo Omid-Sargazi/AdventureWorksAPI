@@ -198,7 +198,52 @@ public class LinqExecute2
             Console.WriteLine($"{sentiment.Sentiment}: {sentiment.Count} reviews ({sentiment.Percentage}%)");
         }
 
+        var activeReviewers = reviews
+            .GroupBy(r => r.ReviewerId)
+            .Select(g => new
+            {
+                ReviewerId = g.Key,
+                TotalReviews = g.Count(),
+                AverageRating = Math.Round(g.Average(r => r.Rating), 2),
+                TotalHelpful = g.Sum(r => r.HelpfulCount)
+            })
+            .Join(reviewers,
+                  stat => stat.ReviewerId,
+                  reviewer => reviewer.Id,
+                  (stat, reviewer) => new
+                  {
+                      reviewer.Name,
+                      reviewer.JoinDate,
+                      stat.TotalReviews,
+                      stat.AverageRating,
+                      stat.TotalHelpful,
+                      ReviewerLevel = stat.TotalReviews switch
+                      {
+                          > 50 => "Expert",
+                          > 20 => "Advanced",
+                          > 5 => "Intermediate",
+                          _ => "Beginner"
+                      }
+                  })
+            .OrderByDescending(r => r.TotalHelpful)
+            .ToList();
 
+        Console.WriteLine("\n=== Active Reviewers ===");
+        foreach (var reviewer in activeReviewers)
+        {
+            Console.WriteLine($"{reviewer.Name} ({reviewer.ReviewerLevel}):");
+            Console.WriteLine($"  Reviews: {reviewer.TotalReviews}, Avg Rating: {reviewer.AverageRating}");
+            Console.WriteLine($"  Total Helpful Votes: {reviewer.TotalHelpful}");
         }
+    }
+
+        
+
+            static string AnalyzeSentiment(string comment, int rating)
+    {
+        if (rating >= 4) return "Positive";
+        if (rating == 3) return "Neutral";
+        return "Negative";
+    }
     }
 }
