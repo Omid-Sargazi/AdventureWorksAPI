@@ -114,6 +114,18 @@ public class LinqExecute2
             Console.WriteLine($"  Rating: {product.AverageRating}/5 from {product.TotalReviews} reviews");
             Console.WriteLine($"  Helpfulness: {product.HelpfulnessRate}% ({product.TotalHelpful} helpful, {product.TotalUnhelpful} unhelpful)");
         }
+
+         var topRatedProducts = productRatings
+            .Where(p => p.AverageRating >= 4)
+            .Take(3)
+            .ToList();
+
+        Console.WriteLine("\n=== Top Rated Products (4+ stars) ===");
+        foreach (var product in topRatedProducts)
+        {
+            Console.WriteLine($"{product.Name}: {product.AverageRating} stars");
+        }
+
         }
     }
 }
