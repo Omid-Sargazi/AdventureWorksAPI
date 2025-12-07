@@ -67,12 +67,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     })
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-var requireAuthPolicy = new AuthorizationPolicyBuilder()
-	.RequireAuthenticatedUser()
-	.Build();
+// var requireAuthPolicy = new AuthorizationPolicyBuilder()
+// 	.RequireAuthenticatedUser()
+// 	.Build();
 
-builder.Services.AddAuthorizationBuilder()
-	.SetFallbackPolicy(requireAuthPolicy);
+// builder.Services.AddAuthorizationBuilder()
+// 	.SetFallbackPolicy(requireAuthPolicy);
 
 
 // builder.Services.AddAuthentication(options =>
