@@ -126,6 +126,31 @@ public class LinqExecute2
             Console.WriteLine($"{product.Name}: {product.AverageRating} stars");
         }
 
+        var recentReviews = reviews
+            .OrderByDescending(r => r.ReviewDate)
+            .Take(5)
+            .Join(products,
+                  review => review.ProductId,
+                  product => product.Id,
+                  (review, product) => new
+                  {
+                      product.Name,
+                      Rating = new string('★', review.Rating) + new string('☆', 5 - review.Rating),
+                      review.Comment,
+                      review.ReviewDate,
+                      review.HelpfulCount,
+                      Helpfulness = review.HelpfulCount - review.UnhelpfulCount
+                  })
+            .ToList();
+
+        Console.WriteLine("\n=== Recent Reviews ===");
+        foreach (var review in recentReviews)
+        {
+            Console.WriteLine($"{review.Name}: {review.Rating}");
+            Console.WriteLine($"  \"{review.Comment}\"");
+            Console.WriteLine($"  Date: {review.ReviewDate:yyyy-MM-dd}, Helpful: +{review.Helpfulness}");
+        }
+
         }
     }
 }
