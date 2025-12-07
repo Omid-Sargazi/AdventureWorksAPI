@@ -175,6 +175,29 @@ public class LinqExecute2
             Console.WriteLine($"  Helpful: {review.HelpfulCount}, Unhelpful: {review.UnhelpfulCount}");
         }
 
+        var sentimentAnalysis = reviews
+            .Select(r => new
+            {
+                r.Rating,
+                r.Comment,
+                Sentiment = AnalyzeSentiment(r.Comment, r.Rating)
+            })
+            .GroupBy(r => r.Sentiment)
+            .Select(g => new
+            {
+                Sentiment = g.Key,
+                Count = g.Count(),
+                Percentage = Math.Round((double)g.Count() / reviews.Count * 100, 1)
+            })
+            .OrderByDescending(g => g.Count)
+            .ToList();
+
+        Console.WriteLine("\n=== Review Sentiment Analysis ===");
+        foreach (var sentiment in sentimentAnalysis)
+        {
+            Console.WriteLine($"{sentiment.Sentiment}: {sentiment.Count} reviews ({sentiment.Percentage}%)");
+        }
+
 
         }
     }
