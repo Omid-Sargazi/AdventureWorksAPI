@@ -79,6 +79,41 @@ public class LinqExecute2
                         Comment = "Comfortable for running", ReviewDate = DateTime.Now.AddDays(-12), 
                         HelpfulCount = 18, UnhelpfulCount = 4 }
         };
+
+        var productRatings = reviews
+            .GroupBy(r => r.ProductId)
+            .Select(g => new
+            {
+                ProductId = g.Key,
+                AverageRating = Math.Round(g.Average(r => r.Rating), 2),
+                TotalReviews = g.Count(),
+                TotalHelpful = g.Sum(r => r.HelpfulCount),
+                TotalUnhelpful = g.Sum(r => r.UnhelpfulCount)
+            })
+            .Join(products,
+                  rating => rating.ProductId,
+                  product => product.Id,
+                  (rating, product) => new
+                  {
+                      product.Name,
+                      product.Category,
+                      rating.AverageRating,
+                      rating.TotalReviews,
+                      rating.TotalHelpful,
+                      rating.TotalUnhelpful,
+                      HelpfulnessRate = rating.TotalHelpful > 0 ? 
+                          Math.Round((double)rating.TotalHelpful / (rating.TotalHelpful + rating.TotalUnhelpful) * 100, 1) : 0
+                  })
+            .OrderByDescending(p => p.AverageRating)
+            .ToList();
+
+              Console.WriteLine("=== Product Ratings Summary ===");
+        foreach (var product in productRatings)
+        {
+            Console.WriteLine($"{product.Name} ({product.Category}):");
+            Console.WriteLine($"  Rating: {product.AverageRating}/5 from {product.TotalReviews} reviews");
+            Console.WriteLine($"  Helpfulness: {product.HelpfulnessRate}% ({product.TotalHelpful} helpful, {product.TotalUnhelpful} unhelpful)");
+        }
         }
     }
 }
