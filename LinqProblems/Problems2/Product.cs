@@ -151,6 +151,31 @@ public class LinqExecute2
             Console.WriteLine($"  Date: {review.ReviewDate:yyyy-MM-dd}, Helpful: +{review.Helpfulness}");
         }
 
+        var mostHelpfulReviews = reviews
+            .OrderByDescending(r => r.HelpfulCount)
+            .Take(3)
+            .Join(products,
+                  review => review.ProductId,
+                  product => product.Id,
+                  (review, product) => new
+                  {
+                      product.Name,
+                      review.Rating,
+                      review.Comment,
+                      review.HelpfulCount,
+                      review.UnhelpfulCount
+                  })
+            .ToList();
+
+        Console.WriteLine("\n=== Most Helpful Reviews ===");
+        foreach (var review in mostHelpfulReviews)
+        {
+            Console.WriteLine($"{review.Name} - {review.Rating} stars");
+            Console.WriteLine($"  \"{review.Comment}\"");
+            Console.WriteLine($"  Helpful: {review.HelpfulCount}, Unhelpful: {review.UnhelpfulCount}");
+        }
+
+
         }
     }
 }
