@@ -65,4 +65,17 @@ namespace DesignPatternsInCSharp.StructuraDesignPattern
             Console.WriteLine("Sending Email using Web API:\n{0}\n{1}\n", subject, body); 
         }
     }
+
+    public class EmailManager
+    {
+        public static void Execute()
+        {
+            IEmailSender userSender = new WCFEmailSender();
+            IEmailSender webServiceEmailSender = new WebServiceEmailSender();
+            IEmailSender webAPIEmailSender = new WebAPIEmailSender();
+
+            Email userEmail = new UserEmail();
+            Email systemEmail = new SystemEmail();
+        }
+    }
 }
