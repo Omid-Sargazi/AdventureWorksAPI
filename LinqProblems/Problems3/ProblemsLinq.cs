@@ -136,6 +136,49 @@ public class ProblemsLinq
             Console.WriteLine($"  Hours: Estimated {project.TotalEstimatedHours}h, Actual {project.TotalActualHours}h");
             //Console.WriteLine($"  Variance: {project.HoursVariance}h ({project.HoursVariance > 0 ? "Over" : "Under"} budget)");
         }
+
+        var memberTasks = assignments
+            .Join(tasks,
+                  assignment => assignment.TaskId,
+                  task => task.Id,
+                  (assignment, task) => new { assignment, task })
+            .Join(teamMembers,
+                  x => x.assignment.TeamMemberId,
+                  member => member.Id,
+                  (x, member) => new
+                  {
+                      MemberName = member.Name,
+                      MemberRole = member.Role,
+                      TaskTitle = x.task.Title,
+                      TaskStatus = x.task.Status,
+                      TaskPriority = x.task.Priority,
+                      x.task.EstimatedHours,
+                      x.task.ActualHours,
+                      x.task.DueDate
+                  })
+            .GroupBy(x => x.MemberName)
+            .Select(g => new
+            {
+                MemberName = g.Key,
+                Role = g.First().MemberRole,
+                TotalTasks = g.Count(),
+                CompletedTasks = g.Count(t => t.TaskStatus == "Completed"),
+                HighPriorityTasks = g.Count(t => t.TaskPriority == "High"),
+                TotalEstimatedHours = g.Sum(t => t.EstimatedHours),
+                TotalActualHours = g.Sum(t => t.ActualHours)
+            })
+            .OrderByDescending(m => m.TotalTasks)
+            .ToList();
+
+        Console.WriteLine("\n=== Team Member Workload ===");
+        foreach (var member in memberTasks)
+        {
+            Console.WriteLine($"{member.MemberName} ({member.Role}):");
+            Console.WriteLine($"  Tasks: {member.TotalTasks} total, {member.CompletedTasks} completed");
+            Console.WriteLine($"  High Priority: {member.HighPriorityTasks} tasks");
+            Console.WriteLine($"  Hours: Estimated {member.TotalEstimatedHours}h, Actual {member.TotalActualHours}h");
+        }
+
         }   
     }
 }
