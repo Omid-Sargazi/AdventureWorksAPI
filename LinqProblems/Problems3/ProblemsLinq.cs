@@ -96,6 +96,46 @@ public class ProblemsLinq
             new TaskAssignment { Id = 6, TaskId = 6, TeamMemberId = 3, AssignedDate = DateTime.Now.AddDays(-5) },
             new TaskAssignment { Id = 7, TaskId = 4, TeamMemberId = 4, AssignedDate = DateTime.Now.AddDays(-8) } // Multiple assignments
         };
+
+        var projectStatus = tasks
+            .GroupBy(t => t.ProjectId)
+            .Select(g => new
+            {
+                ProjectId = g.Key,
+                TotalTasks = g.Count(),
+                CompletedTasks = g.Count(t => t.Status == "Completed"),
+                InProgressTasks = g.Count(t => t.Status == "In Progress"),
+                NotStartedTasks = g.Count(t => t.Status == "Not Started"),
+                TotalEstimatedHours = g.Sum(t => t.EstimatedHours),
+                TotalActualHours = g.Sum(t => t.ActualHours)
+            })
+            .Join(projects,
+                  stat => stat.ProjectId,
+                  project => project.Id,
+                  (stat, project) => new
+                  {
+                      project.Name,
+                      CompletionPercentage = Math.Round((double)stat.CompletedTasks / stat.TotalTasks * 100, 1),
+                      stat.TotalTasks,
+                      stat.CompletedTasks,
+                      stat.InProgressTasks,
+                      stat.NotStartedTasks,
+                      stat.TotalEstimatedHours,
+                      stat.TotalActualHours,
+                      HoursVariance = stat.TotalActualHours - stat.TotalEstimatedHours
+                  })
+            .OrderByDescending(p => p.CompletionPercentage)
+            .ToList();
+
+        Console.WriteLine("=== Project Status Overview ===");
+        foreach (var project in projectStatus)
+        {
+            Console.WriteLine($"{project.Name}: {project.CompletionPercentage}% complete");
+            Console.WriteLine($"  Tasks: {project.CompletedTasks}/{project.TotalTasks} completed");
+            Console.WriteLine($"  Status: {project.InProgressTasks} in progress, {project.NotStartedTasks} not started");
+            Console.WriteLine($"  Hours: Estimated {project.TotalEstimatedHours}h, Actual {project.TotalActualHours}h");
+            //Console.WriteLine($"  Variance: {project.HoursVariance}h ({project.HoursVariance > 0 ? "Over" : "Under"} budget)");
+        }
         }   
     }
 }
