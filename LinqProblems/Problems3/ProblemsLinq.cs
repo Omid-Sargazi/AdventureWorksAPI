@@ -219,6 +219,47 @@ public class ProblemsLinq
             Console.WriteLine("No overdue tasks! Great work!");
         }
 
+
+        var workloadAnalysis = assignments
+            .Join(tasks.Where(t => t.Status != "Completed"),
+                  assignment => assignment.TaskId,
+                  task => task.Id,
+                  (assignment, task) => new { assignment, task })
+            .GroupBy(x => x.assignment.TeamMemberId)
+            .Select(g => new
+            {
+                TeamMemberId = g.Key,
+                TotalAssignedHours = g.Sum(x => x.task.EstimatedHours),
+                TaskCount = g.Count(),
+                HighPriorityCount = g.Count(x => x.task.Priority == "High")
+            })
+            .Join(teamMembers,
+                  workload => workload.TeamMemberId,
+                  member => member.Id,
+                  (workload, member) => new
+                  {
+                      member.Name,
+                      member.Role,
+                      workload.TotalAssignedHours,
+                      workload.TaskCount,
+                      workload.HighPriorityCount,
+                      WorkloadLevel = workload.TotalAssignedHours switch
+                      {
+                          > 60 => "Heavy",
+                          > 30 => "Moderate",
+                          _ => "Light"
+                      }
+                  })
+            .OrderByDescending(w => w.TotalAssignedHours)
+            .ToList();
+
+        Console.WriteLine("\n=== Workload Analysis ===");
+        foreach (var workload in workloadAnalysis)
+        {
+            Console.WriteLine($"{workload.Name} ({workload.Role}): {workload.WorkloadLevel} workload");
+            Console.WriteLine($"  Assigned Hours: {workload.TotalAssignedHours}h");
+            Console.WriteLine($"  Tasks: {workload.TaskCount} ({workload.HighPriorityCount} high priority)");
+        }
         }   
     }
 }
