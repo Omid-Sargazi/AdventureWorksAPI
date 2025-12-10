@@ -179,6 +179,46 @@ public class ProblemsLinq
             Console.WriteLine($"  Hours: Estimated {member.TotalEstimatedHours}h, Actual {member.TotalActualHours}h");
         }
 
+
+         var overdueTasks = tasks
+            .Where(t => t.Status != "Completed" && t.DueDate < DateTime.Now)
+            .OrderBy(t => t.DueDate)
+            .Select(t => new
+            {
+                t.Title,
+                t.ProjectId,
+                OverdueBy = (DateTime.Now - t.DueDate).Days,
+                t.Priority,
+                t.Status
+            })
+            .Join(projects,
+                  task => task.ProjectId,
+                  project => project.Id,
+                  (task, project) => new
+                  {
+                      task.Title,
+                      ProjectName = project.Name,
+                      task.OverdueBy,
+                      task.Priority,
+                      task.Status
+                  })
+            .ToList();
+
+        Console.WriteLine("\n=== Overdue Tasks ===");
+        if (overdueTasks.Any())
+        {
+            foreach (var task in overdueTasks)
+            {
+                Console.WriteLine($"{task.Title} ({task.ProjectName})");
+                Console.WriteLine($"  Overdue by: {task.OverdueBy} days");
+                Console.WriteLine($"  Priority: {task.Priority}, Status: {task.Status}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No overdue tasks! Great work!");
+        }
+
         }   
     }
 }
