@@ -260,6 +260,80 @@ public class ProblemsLinq
             Console.WriteLine($"  Assigned Hours: {workload.TotalAssignedHours}h");
             Console.WriteLine($"  Tasks: {workload.TaskCount} ({workload.HighPriorityCount} high priority)");
         }
-        }   
+
+        var highPriorityTasks = tasks
+            .Where(t => t.Priority == "High")
+            .OrderBy(t => t.DueDate)
+            .Select(t => new
+            {
+                t.Title,
+                t.Status,
+                t.DueDate,
+                DaysUntilDue = (t.DueDate - DateTime.Now).Days,
+                t.EstimatedHours
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== High Priority Tasks ===");
+        foreach (var task in highPriorityTasks)
+        {
+            string urgency = task.DaysUntilDue switch
+            {
+                < 0 => "OVERDUE",
+                < 3 => "URGENT",
+                < 7 => "SOON",
+                _ => "PLANNED"
+            };
+            
+            Console.WriteLine($"{task.Title} - {urgency}");
+            Console.WriteLine($"  Status: {task.Status}, Due: {task.DueDate:yyyy-MM-dd}");
+            Console.WriteLine($"  Days left: {task.DaysUntilDue}, Estimated: {task.EstimatedHours}h");
+        }
+
+        var projectCosts = assignments
+            .Join(tasks,
+                  assignment => assignment.TaskId,
+                  task => task.Id,
+                  (assignment, task) => new { assignment, task })
+            .Join(teamMembers,
+                  x => x.assignment.TeamMemberId,
+                  member => member.Id,
+                  (x, member) => new
+                  {
+                      x.task.ProjectId,
+                      TaskCost = x.task.ActualHours * member.HourlyRate,
+                      EstimatedCost = x.task.EstimatedHours * member.HourlyRate
+                  })
+            .GroupBy(x => x.ProjectId)
+            .Select(g => new
+            {
+                ProjectId = g.Key,
+                ActualCost = g.Sum(x => x.TaskCost),
+                EstimatedCost = g.Sum(x => x.EstimatedCost)
+            })
+            .Join(projects,
+                  cost => cost.ProjectId,
+                  project => project.Id,
+                  (cost, project) => new
+                  {
+                      project.Name,
+                      cost.ActualCost,
+                      cost.EstimatedCost,
+                      project.Budget,
+                      CostVariance = project.Budget - cost.ActualCost,
+                      BudgetUsage = Math.Round(cost.ActualCost / project.Budget * 100, 1)
+                  })
+            .ToList();
+
+        Console.WriteLine("\n=== Project Cost Analysis ===");
+        foreach (var cost in projectCosts)
+        {
+            Console.WriteLine($"{cost.Name}:");
+            Console.WriteLine($"  Budget: ${cost.Budget}, Actual: ${cost.ActualCost}");
+            Console.WriteLine($"  Estimated: ${cost.EstimatedCost}, Usage: {cost.BudgetUsage}%");
+            Console.WriteLine($"  Variance: ${cost.CostVariance} ({cost.CostVariance > 0 ? "Under" : "Over"} budget)");
+        }
+        }
+        
     }
 }
