@@ -331,7 +331,7 @@ public class ProblemsLinq
             Console.WriteLine($"{cost.Name}:");
             Console.WriteLine($"  Budget: ${cost.Budget}, Actual: ${cost.ActualCost}");
             Console.WriteLine($"  Estimated: ${cost.EstimatedCost}, Usage: {cost.BudgetUsage}%");
-            Console.WriteLine($"  Variance: ${cost.CostVariance} ({cost.CostVariance > 0 ? "Under" : "Over"} budget)");
+            //Console.WriteLine($"  Variance: ${cost.CostVariance} ({cost.CostVariance > 0 ? "Under" : "Over"} budget)");
         }
         }
         
