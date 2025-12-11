@@ -223,6 +223,33 @@ public class Session
             Console.WriteLine($"{bounce.IsBounce}: {bounce.Count} sessions ({bounce.Percentage}%)");
         }
 
+        var geographicAnalysis = pageViews
+            .Join(visitors,
+                  pv => pv.VisitorId,
+                  v => v.Id,
+                  (pv, v) => new { pv, v })
+            .GroupBy(x => x.v.Country)
+            .Select(g => new
+            {
+                Country = g.Key,
+                Views = g.Count(),
+                UniqueVisitors = g.Select(x => x.v.Id).Distinct().Count(),
+                AvgPagesPerVisitor = Math.Round((double)g.Count() / g.Select(x => x.v.Id).Distinct().Count(), 1),
+                AvgTime = Math.Round(g.Average(x => x.pv.TimeOnPage), 1)
+            })
+            .OrderByDescending(g => g.Views)
+            .ToList();
+
+        Console.WriteLine("\n=== Geographic Analysis ===");
+        foreach (var country in geographicAnalysis)
+        {
+            Console.WriteLine($"{country.Country}:");
+            Console.WriteLine($"  Views: {country.Views}, Visitors: {country.UniqueVisitors}");
+            Console.WriteLine($"  Pages/Visitor: {country.AvgPagesPerVisitor}");
+            Console.WriteLine($"  Avg Time on Page: {country.AvgTime}s");
+        }
+
+
 
     }
 }
