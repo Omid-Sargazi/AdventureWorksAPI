@@ -96,6 +96,30 @@ public class Session
             new PageView { Id = 10, VisitorId = 5, SessionId = 6, PageUrl = "/home", 
                          PageTitle = "Home Page", ViewTime = DateTime.Now.AddHours(-1).AddMinutes(30), TimeOnPage = 20 }
         };
+
+
+        var popularPages = pageViews
+            .GroupBy(p => p.PageUrl)
+            .Select(g => new
+            {
+                PageUrl = g.Key,
+                PageTitle = g.First().PageTitle,
+                ViewCount = g.Count(),
+                UniqueVisitors = g.Select(p => p.VisitorId).Distinct().Count(),
+                AverageTimeOnPage = Math.Round(g.Average(p => p.TimeOnPage), 1),
+                TotalTime = g.Sum(p => p.TimeOnPage)
+            })
+            .OrderByDescending(p => p.ViewCount)
+            .ToList();
+
+        Console.WriteLine("=== Most Popular Pages ===");
+        foreach (var page in popularPages)
+        {
+            Console.WriteLine($"{page.PageTitle} ({page.PageUrl}):");
+            Console.WriteLine($"  Views: {page.ViewCount}, Unique Visitors: {page.UniqueVisitors}");
+            Console.WriteLine($"  Avg Time: {page.AverageTimeOnPage}s, Total Time: {page.TotalTime}s");
+        }
+
     }
 }
 
