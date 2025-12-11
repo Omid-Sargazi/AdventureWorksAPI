@@ -120,6 +120,46 @@ public class Session
             Console.WriteLine($"  Avg Time: {page.AverageTimeOnPage}s, Total Time: {page.TotalTime}s");
         }
 
+         var sessionAnalysis = sessions
+            .Select(s => new
+            {
+                SessionId = s.Id,
+                s.VisitorId,
+                s.StartTime,
+                s.EndTime,
+                SessionDuration = s.EndTime.HasValue ? 
+                    (s.EndTime.Value - s.StartTime).TotalMinutes : 0,
+                PageViews = pageViews.Count(p => p.SessionId == s.Id),
+                IsBounce = pageViews.Count(p => p.SessionId == s.Id) == 1 // یک صفحه دیده
+            })
+            .Join(visitors,
+                  session => session.VisitorId,
+                  visitor => visitor.Id,
+                  (session, visitor) => new
+                  {
+                      session.SessionId,
+                      VisitorCountry = visitor.Country,
+                      visitor.DeviceType,
+                      visitor.Browser,
+                      session.StartTime,
+                      session.SessionDuration,
+                      session.PageViews,
+                      session.IsBounce
+                  })
+            .OrderByDescending(s => s.SessionDuration)
+            .ToList();
+
+        Console.WriteLine("\n=== Session Analysis ===");
+        foreach (var session in sessionAnalysis.Take(5))
+        {
+            Console.WriteLine($"Session {session.SessionId}:");
+            Console.WriteLine($"  Duration: {session.SessionDuration:F1} minutes");
+            Console.WriteLine($"  Page Views: {session.PageViews}");
+            Console.WriteLine($"  From: {session.VisitorCountry}, Device: {session.DeviceType}");
+            Console.WriteLine($"  Bounce: {(session.IsBounce ? "Yes" : "No")}");
+        }
+
+
     }
 }
 
