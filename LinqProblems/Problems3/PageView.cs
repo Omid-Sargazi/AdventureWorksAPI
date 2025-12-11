@@ -249,6 +249,29 @@ public class Session
             Console.WriteLine($"  Avg Time on Page: {country.AvgTime}s");
         }
 
+         var deviceAnalysis = pageViews
+            .Join(visitors,
+                  pv => pv.VisitorId,
+                  v => v.Id,
+                  (pv, v) => new { pv, v })
+            .GroupBy(x => x.v.DeviceType)
+            .Select(g => new
+            {
+                Device = g.Key,
+                Views = g.Count(),
+                Percentage = Math.Round((double)g.Count() / pageViews.Count * 100, 1),
+                AvgTime = Math.Round(g.Average(x => x.pv.TimeOnPage), 1)
+            })
+            .OrderByDescending(g => g.Views)
+            .ToList();
+
+        Console.WriteLine("\n=== Device Analysis ===");
+        foreach (var device in deviceAnalysis)
+        {
+            Console.WriteLine($"{device.Device}: {device.Views} views ({device.Percentage}%)");
+            Console.WriteLine($"  Avg Time on Page: {device.AvgTime}s");
+        }
+
 
 
     }
