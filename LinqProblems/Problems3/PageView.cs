@@ -186,6 +186,28 @@ public class Session
         }
 
 
+        var hourlyTraffic = pageViews
+            .GroupBy(p => p.ViewTime.Hour)
+            .Select(g => new
+            {
+                Hour = g.Key,
+                Views = g.Count(),
+                UniqueVisitors = g.Select(p => p.VisitorId).Distinct().Count(),
+                AvgTimeOnSite = Math.Round(g.Average(p => p.TimeOnPage), 1)
+            })
+            .OrderByDescending(h => h.Views)
+            .ToList();
+
+        Console.WriteLine("\n=== Hourly Traffic Analysis ===");
+        foreach (var hour in hourlyTraffic)
+        {
+            string peakIndicator = hour.Views == hourlyTraffic.Max(h => h.Views) ? " (PEAK)" : "";
+            Console.WriteLine($"{hour.Hour:00}:00 - {hour.Views} views{peakIndicator}");
+            Console.WriteLine($"  Unique Visitors: {hour.UniqueVisitors}");
+            Console.WriteLine($"  Avg Time on Page: {hour.AvgTimeOnSite}s");
+        }
+
+
     }
 }
 
