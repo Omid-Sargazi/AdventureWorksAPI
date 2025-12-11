@@ -160,6 +160,32 @@ public class Session
         }
 
 
+        var trafficSources = sessions
+            .GroupBy(s => s.Referrer)
+            .Select(g => new
+            {
+                Source = g.Key,
+                SessionCount = g.Count(),
+                UniqueVisitors = g.Select(s => s.VisitorId).Distinct().Count(),
+                AverageDuration = g.Average(s => s.EndTime.HasValue ? 
+                    (s.EndTime.Value - s.StartTime).TotalMinutes : 0),
+                BounceRate = Math.Round((double)g.Count(s => 
+                    pageViews.Count(p => p.SessionId == s.Id) == 1) / g.Count() * 100, 1)
+            })
+            .OrderByDescending(s => s.SessionCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Traffic Sources ===");
+        foreach (var source in trafficSources)
+        {
+            Console.WriteLine($"{source.Source}:");
+            Console.WriteLine($"  Sessions: {source.SessionCount}");
+            Console.WriteLine($"  Unique Visitors: {source.UniqueVisitors}");
+            Console.WriteLine($"  Avg Duration: {source.AverageDuration:F1} minutes");
+            Console.WriteLine($"  Bounce Rate: {source.BounceRate}%");
+        }
+
+
     }
 }
 
