@@ -207,6 +207,22 @@ public class Session
             Console.WriteLine($"  Avg Time on Page: {hour.AvgTimeOnSite}s");
         }
 
+         var bounceRate = sessionAnalysis
+            .GroupBy(s => s.IsBounce)
+            .Select(g => new
+            {
+                IsBounce = g.Key ? "Bounced" : "Engaged",
+                Count = g.Count(),
+                Percentage = Math.Round((double)g.Count() / sessionAnalysis.Count * 100, 1)
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Bounce Rate Analysis ===");
+        foreach (var bounce in bounceRate)
+        {
+            Console.WriteLine($"{bounce.IsBounce}: {bounce.Count} sessions ({bounce.Percentage}%)");
+        }
+
 
     }
 }
