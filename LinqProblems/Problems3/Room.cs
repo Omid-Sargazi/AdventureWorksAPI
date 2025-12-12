@@ -271,6 +271,40 @@ public class Payment
             Console.WriteLine($"  Estimated Occupancy: {room.OccupancyRate}%");
         }
 
+        var currentReservations = reservations
+            .Where(r => r.Status == "Confirmed" &&
+                       r.CheckInDate <= DateTime.Now &&
+                       r.CheckOutDate > DateTime.Now)
+            .Join(rooms,
+                  r => r.RoomId,
+                  room => room.Id,
+                  (r, room) => new { r, room })
+            .Join(guests,
+                  x => x.r.GuestId,
+                  guest => guest.Id,
+                  (x, guest) => new
+                  {
+                      GuestName = guest.Name,
+                      RoomNumber = x.room.RoomNumber,
+                      RoomType = x.room.Type,
+                      x.r.CheckInDate,
+                      x.r.CheckOutDate,
+                      NightsLeft = (x.r.CheckOutDate - DateTime.Now).Days,
+                      x.r.NumberOfGuests,
+                      x.r.TotalPrice
+                  })
+            .OrderBy(r => r.NightsLeft)
+            .ToList();
+
+        Console.WriteLine("\n=== Current Reservations ===");
+        foreach (var reservation in currentReservations)
+        {
+            Console.WriteLine($"{reservation.GuestName} in Room {reservation.RoomNumber}");
+            Console.WriteLine($"  Stay: {reservation.CheckInDate:MMM dd} - {reservation.CheckOutDate:MMM dd}");
+            Console.WriteLine($"  Nights Left: {reservation.NightsLeft}, Guests: {reservation.NumberOfGuests}");
+            Console.WriteLine($"  Total: ${reservation.TotalPrice}");
+        }
+
                 }
     }
 }
