@@ -211,6 +211,28 @@ public class Payment
             Console.WriteLine($"  First Stay: {guest.FirstStay:yyyy-MM-dd}, Last Stay: {guest.LastStay:yyyy-MM-dd}");
         }
 
+        var dailyRevenue = payments
+            .Where(p => p.IsPaid)
+            .GroupBy(p => p.PaymentDate.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                TotalRevenue = g.Sum(p => p.Amount),
+                PaymentCount = g.Count(),
+                PaymentMethods = string.Join(", ", g.Select(p => p.PaymentMethod).Distinct())
+            })
+            .OrderByDescending(d => d.Date)
+            .Take(7) // 7 روز گذشته
+            .ToList();
+
+        Console.WriteLine("\n=== Daily Revenue (Last 7 Days) ===");
+        foreach (var day in dailyRevenue)
+        {
+            Console.WriteLine($"{day.Date:yyyy-MM-dd}: ${day.TotalRevenue}");
+            Console.WriteLine($"  Payments: {day.PaymentCount}, Methods: {day.PaymentMethods}");
+        }
+
+
                 }
     }
 }
