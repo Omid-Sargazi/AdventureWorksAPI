@@ -233,6 +233,44 @@ public class Payment
         }
 
 
+         var popularRooms = reservations
+            .Where(r => r.Status != "Cancelled")
+            .GroupBy(r => r.RoomId)
+            .Select(g => new
+            {
+                RoomId = g.Key,
+                ReservationCount = g.Count(),
+                TotalNights = g.Sum(r => (r.CheckOutDate - r.CheckInDate).Days),
+                TotalRevenue = g.Sum(r => r.TotalPrice),
+                AverageStay = Math.Round(g.Average(r => (r.CheckOutDate - r.CheckInDate).Days), 1)
+            })
+            .Join(rooms,
+                  stats => stats.RoomId,
+                  room => room.Id,
+                  (stats, room) => new
+                  {
+                      room.RoomNumber,
+                      room.Type,
+                      room.PricePerNight,
+                      stats.ReservationCount,
+                      stats.TotalNights,
+                      stats.TotalRevenue,
+                      stats.AverageStay,
+                      OccupancyRate = Math.Round((double)stats.TotalNights / 365 * 100, 1) // تخمین سالانه
+                  })
+            .OrderByDescending(r => r.ReservationCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Popular Rooms ===");
+        foreach (var room in popularRooms)
+        {
+            Console.WriteLine($"Room {room.RoomNumber} ({room.Type}):");
+            Console.WriteLine($"  Reservations: {room.ReservationCount}, Total Nights: {room.TotalNights}");
+            Console.WriteLine($"  Total Revenue: ${room.TotalRevenue}");
+            Console.WriteLine($"  Average Stay: {room.AverageStay} days");
+            Console.WriteLine($"  Estimated Occupancy: {room.OccupancyRate}%");
+        }
+
                 }
     }
 }
