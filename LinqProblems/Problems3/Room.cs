@@ -305,6 +305,26 @@ public class Payment
             Console.WriteLine($"  Total: ${reservation.TotalPrice}");
         }
 
+        var hotelStats = new
+        {
+            TotalRooms = rooms.Count,
+            OccupiedRooms = currentReservations.Select(r => r.RoomNumber).Distinct().Count(),
+            TotalGuests = guests.Count,
+            ActiveReservations = reservations.Count(r => r.Status == "Confirmed"),
+            MonthlyRevenue = payments
+                .Where(p => p.IsPaid && p.PaymentDate >= DateTime.Now.AddMonths(-1))
+                .Sum(p => p.Amount),
+            CancellationRate = Math.Round((double)reservations.Count(r => r.Status == "Cancelled") / 
+                                         reservations.Count * 100, 1)
+        };
+
+        Console.WriteLine("\n=== Hotel Statistics ===");
+        Console.WriteLine($"Total Rooms: {hotelStats.TotalRooms}");
+        Console.WriteLine($"Currently Occupied: {hotelStats.OccupiedRooms}");
+        Console.WriteLine($"Total Guests: {hotelStats.TotalGuests}");
+        Console.WriteLine($"Active Reservations: {hotelStats.ActiveReservations}");
+        Console.WriteLine($"Monthly Revenue: ${hotelStats.MonthlyRevenue}");
+        Console.WriteLine($"Cancellation Rate: {hotelStats.CancellationRate}%");
                 }
     }
 }
