@@ -104,6 +104,42 @@ public class Payment
             new Payment { Id = 5, ReservationId = 5, Amount = 360, PaymentDate = DateTime.Now.AddDays(0), 
                          PaymentMethod = "Online", IsPaid = false }
         };
+
+         DateTime checkDate = DateTime.Now.AddDays(2);
+        var bookedRooms = reservations
+            .Where(r => r.Status != "Cancelled" &&
+                       r.CheckInDate <= checkDate &&
+                       r.CheckOutDate > checkDate)
+            .Select(r => r.RoomId)
+            .Distinct()
+            .ToList();
+
+        var availableRooms = rooms
+            .Where(r => !bookedRooms.Contains(r.Id))
+            .Select(r => new
+            {
+                r.RoomNumber,
+                r.Type,
+                r.PricePerNight,
+                Features = $"{(r.HasSeaView ? "Sea View " : "")}{(r.HasBalcony ? "Balcony" : "")}".Trim()
+            })
+            .OrderBy(r => r.PricePerNight)
+            .ToList();
+
+        Console.WriteLine($"=== Available Rooms on {checkDate:yyyy-MM-dd} ===");
+        if (availableRooms.Any())
+        {
+            foreach (var room in availableRooms)
+            {
+                Console.WriteLine($"Room {room.RoomNumber} ({room.Type}): ${room.PricePerNight}/night");
+                Console.WriteLine($"  Features: {room.Features}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No rooms available on this date.");
+        }
+
                 }
     }
 }
