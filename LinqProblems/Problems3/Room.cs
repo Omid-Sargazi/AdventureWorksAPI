@@ -166,6 +166,50 @@ public class Payment
             Console.WriteLine($"Average Reservation Price: ${stayAnalysis.AveragePrice}");
             Console.WriteLine($"Total Completed Reservations: {stayAnalysis.TotalReservations}");
         }
+        var loyalGuests = reservations
+            .Where(r => r.Status != "Cancelled")
+            .GroupBy(r => r.GuestId)
+            .Select(g => new
+            {
+                GuestId = g.Key,
+                ReservationCount = g.Count(),
+                TotalNights = g.Sum(r => (r.CheckOutDate - r.CheckInDate).Days),
+                TotalSpent = g.Sum(r => r.TotalPrice),
+                FirstStay = g.Min(r => r.CheckInDate),
+                LastStay = g.Max(r => r.CheckInDate)
+            })
+            .Where(g => g.ReservationCount > 1)
+            .Join(guests,
+                  stats => stats.GuestId,
+                  guest => guest.Id,
+                  (stats, guest) => new
+                  {
+                      guest.Name,
+                      guest.Country,
+                      guest.MemberSince,
+                      stats.ReservationCount,
+                      stats.TotalNights,
+                      stats.TotalSpent,
+                      stats.FirstStay,
+                      stats.LastStay,
+                      LoyaltyLevel = stats.ReservationCount switch
+                      {
+                          >= 5 => "Platinum",
+                          >= 3 => "Gold",
+                          _ => "Silver"
+                      }
+                  })
+            .OrderByDescending(g => g.ReservationCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Loyal Guests ===");
+        foreach (var guest in loyalGuests)
+        {
+            Console.WriteLine($"{guest.Name} ({guest.Country}): {guest.LoyaltyLevel} Member");
+            Console.WriteLine($"  Reservations: {guest.ReservationCount}, Total Nights: {guest.TotalNights}");
+            Console.WriteLine($"  Total Spent: ${guest.TotalSpent}");
+            Console.WriteLine($"  First Stay: {guest.FirstStay:yyyy-MM-dd}, Last Stay: {guest.LastStay:yyyy-MM-dd}");
+        }
 
                 }
     }
