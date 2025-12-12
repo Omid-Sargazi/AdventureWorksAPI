@@ -140,6 +140,33 @@ public class Payment
             Console.WriteLine("No rooms available on this date.");
         }
 
+         var stayAnalysis = reservations
+            .Where(r => r.Status == "Completed")
+            .Select(r => new
+            {
+                StayDuration = (r.CheckOutDate - r.CheckInDate).Days,
+                r.NumberOfGuests,
+                r.TotalPrice
+            })
+            .GroupBy(r => 1) // همه در یک گروه
+            .Select(g => new
+            {
+                AverageStay = Math.Round(g.Average(r => r.StayDuration), 1),
+                AverageGuests = Math.Round(g.Average(r => r.NumberOfGuests), 1),
+                AveragePrice = Math.Round(g.Average(r => r.TotalPrice), 2),
+                TotalReservations = g.Count()
+            })
+            .FirstOrDefault();
+
+        Console.WriteLine("\n=== Stay Analysis ===");
+        if (stayAnalysis != null)
+        {
+            Console.WriteLine($"Average Stay Duration: {stayAnalysis.AverageStay} days");
+            Console.WriteLine($"Average Number of Guests: {stayAnalysis.AverageGuests}");
+            Console.WriteLine($"Average Reservation Price: ${stayAnalysis.AveragePrice}");
+            Console.WriteLine($"Total Completed Reservations: {stayAnalysis.TotalReservations}");
+        }
+
                 }
     }
 }
