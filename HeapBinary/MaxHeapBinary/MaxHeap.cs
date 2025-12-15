@@ -81,7 +81,7 @@ namespace HeapBinary.MaxHeapBinary
     
     public void Print()
     {
-        Console.WriteLine("Heap: " + string.Join(", ", heap));
+        Console.WriteLine("Heap: " + string.Join(", ", _heap));
     }
     }
 }
