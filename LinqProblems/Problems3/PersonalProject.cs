@@ -224,6 +224,31 @@ public class ManageProjects
             }
         }
 
+         var projectProgress = projects
+            .Select(p => new
+            {
+                p.Title,
+                p.Status,
+                TotalTasks = tasks.Count(t => t.ProjectId == p.Id),
+                CompletedTasks = tasks.Count(t => t.ProjectId == p.Id && t.Status == "Done"),
+                Progress = tasks.Count(t => t.ProjectId == p.Id) > 0 ?
+                    Math.Round((double)tasks.Count(t => t.ProjectId == p.Id && t.Status == "Done") / 
+                              tasks.Count(t => t.ProjectId == p.Id) * 100, 1) : 0
+            })
+            .OrderByDescending(p => p.Progress)
+            .ToList();
+
+        Console.WriteLine("\n=== Project Progress ===");
+        foreach (var project in projectProgress)
+        {
+            //string progressBar = GenerateProgressBar(project.Progress);
+            Console.WriteLine($"{project.Title} ({project.Status}):");
+            Console.WriteLine($"  Tasks: {project.CompletedTasks}/{project.TotalTasks} completed");
+            Console.WriteLine($"  Progress: {project.Progress}%");
+            //Console.WriteLine($"  {progressBar}");
+        }
+
+
         }
     }
 }
