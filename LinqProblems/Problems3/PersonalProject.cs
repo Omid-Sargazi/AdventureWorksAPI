@@ -161,6 +161,36 @@ public class ManageProjects
             Console.WriteLine($"  Tasks: {project.CompletedTasks}/{project.TaskCount} completed");
         }
 
+        var overdueTasks = tasks
+            .Where(t => t.DueDate < DateTime.Now && t.Status != "Done")
+            .OrderBy(t => t.DueDate)
+            .Select(t => new
+            {
+                t.Title,
+                Project = projects.First(p => p.Id == t.ProjectId).Title,
+                DaysOverdue = (DateTime.Now - t.DueDate).Days,
+                t.Status,
+                t.EstimatedHours,
+                t.ActualHours
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Overdue Tasks ===");
+        if (overdueTasks.Any())
+        {
+            foreach (var task in overdueTasks)
+            {
+                Console.WriteLine($"{task.Title} ({task.Project}):");
+                Console.WriteLine($"  Overdue by: {task.DaysOverdue} days");
+                Console.WriteLine($"  Status: {task.Status}");
+                Console.WriteLine($"  Estimated: {task.EstimatedHours}h, Actual: {task.ActualHours}h");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No overdue tasks! Good job!");
+        }
+
         }
     }
 }
