@@ -132,6 +132,35 @@ public class ManageProjects
             new TimeLog { Id = 8, TaskId = 9, StartTime = DateTime.Now.AddDays(-5).AddHours(15), 
                         EndTime = DateTime.Now.AddDays(-5).AddHours(16), Description = "Created meal plan draft" }
         };
+
+        var activeProjects = projects
+            .Where(p => p.Status == "In Progress")
+            .OrderByDescending(p => p.Priority)
+            .ThenBy(p => p.DueDate)
+            .Select(p => new
+            {
+                p.Title,
+                p.Category,
+                p.Priority,
+                DaysSinceStart = (DateTime.Now - p.StartDate).Days,
+                DaysUntilDue = p.DueDate.HasValue ? (p.DueDate.Value - DateTime.Now).Days : (int?)null,
+                TaskCount = tasks.Count(t => t.ProjectId == p.Id),
+                CompletedTasks = tasks.Count(t => t.ProjectId == p.Id && t.Status == "Done")
+            })
+            .ToList();
+
+        Console.WriteLine("=== Active Projects ===");
+        foreach (var project in activeProjects)
+        {
+            string priorityStars = new string('★', project.Priority) + new string('☆', 5 - project.Priority);
+            Console.WriteLine($"{project.Title} ({project.Category})");
+            Console.WriteLine($"  Priority: {priorityStars}");
+            Console.WriteLine($"  Started: {project.DaysSinceStart} days ago");
+            if (project.DaysUntilDue.HasValue)
+                Console.WriteLine($"  Due in: {project.DaysUntilDue} days");
+            Console.WriteLine($"  Tasks: {project.CompletedTasks}/{project.TaskCount} completed");
+        }
+
         }
     }
 }
