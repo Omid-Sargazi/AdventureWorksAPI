@@ -248,6 +248,29 @@ public class ManageProjects
             //Console.WriteLine($"  {progressBar}");
         }
 
+        var recentNotes = notes
+            .OrderByDescending(n => n.UpdatedDate ?? n.CreatedDate)
+            .Take(5)
+            .Select(n => new
+            {
+                Content = n.Content.Length > 50 ? n.Content.Substring(0, 47) + "..." : n.Content,
+                Project = projects.First(p => p.Id == n.ProjectId).Title,
+                LastUpdated = n.UpdatedDate ?? n.CreatedDate,
+                Tags = string.Join(", ", n.Tags)
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Recent Notes ===");
+        foreach (var note in recentNotes)
+        {
+            Console.WriteLine($"Project: {note.Project}");
+            Console.WriteLine($"Content: {note.Content}");
+            Console.WriteLine($"Tags: {note.Tags}");
+            Console.WriteLine($"Last Updated: {note.LastUpdated:yyyy-MM-dd HH:mm}");
+            Console.WriteLine();
+        }
+
+
 
         }
     }
