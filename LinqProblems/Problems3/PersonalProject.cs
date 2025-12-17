@@ -270,6 +270,31 @@ public class ManageProjects
             Console.WriteLine();
         }
 
+        var dailyActivity = timeLogs
+            .GroupBy(tl => tl.StartTime.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                TotalHours = Math.Round(g.Sum(tl => (tl.EndTime - tl.StartTime).TotalHours), 1),
+                SessionCount = g.Count(),
+                Projects = g.Select(tl => 
+                    projects.First(p => p.Id == tasks.First(t => t.Id == tl.TaskId).ProjectId).Title)
+                    .Distinct()
+                    .ToList()
+            })
+            .OrderByDescending(d => d.Date)
+            .Take(7)
+            .ToList();
+
+        Console.WriteLine("\n=== Daily Activity (Last 7 Days) ===");
+        foreach (var day in dailyActivity)
+        {
+            Console.WriteLine($"{day.Date:yyyy-MM-dd}:");
+            Console.WriteLine($"  Total Hours: {day.TotalHours}h");
+            Console.WriteLine($"  Sessions: {day.SessionCount}");
+            Console.WriteLine($"  Projects: {string.Join(", ", day.Projects)}");
+        }
+
 
 
         }
