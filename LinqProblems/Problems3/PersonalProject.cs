@@ -191,6 +191,39 @@ public class ManageProjects
             Console.WriteLine("No overdue tasks! Good job!");
         }
 
+          var projectTimeSpent = projects
+            .Select(p => new
+            {
+                p.Title,
+                TotalTimeSpent = timeLogs
+                    .Where(tl => tasks.Any(t => t.Id == tl.TaskId && t.ProjectId == p.Id))
+                    .Sum(tl => (tl.EndTime - tl.StartTime).TotalHours),
+                TaskTimeSpent = tasks
+                    .Where(t => t.ProjectId == p.Id)
+                    .Sum(t => t.ActualHours),
+                EstimatedTime = tasks
+                    .Where(t => t.ProjectId == p.Id)
+                    .Sum(t => t.EstimatedHours)
+            })
+            .Where(p => p.TotalTimeSpent > 0 || p.EstimatedTime > 0)
+            .OrderByDescending(p => p.TotalTimeSpent)
+            .ToList();
+
+        Console.WriteLine("\n=== Time Spent on Projects ===");
+        foreach (var project in projectTimeSpent)
+        {
+            Console.WriteLine($"{project.Title}:");
+            Console.WriteLine($"  Logged Time: {project.TotalTimeSpent:F1}h");
+            Console.WriteLine($"  Task Time: {project.TaskTimeSpent}h");
+            Console.WriteLine($"  Estimated: {project.EstimatedTime}h");
+            
+            if (project.EstimatedTime > 0)
+            {
+                var progress = Math.Round(project.TaskTimeSpent / (double)project.EstimatedTime * 100, 1);
+                Console.WriteLine($"  Progress: {progress}% of estimated time");
+            }
+        }
+
         }
     }
 }
