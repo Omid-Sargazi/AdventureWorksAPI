@@ -241,11 +241,11 @@ public class ManageProjects
         Console.WriteLine("\n=== Project Progress ===");
         foreach (var project in projectProgress)
         {
-            //string progressBar = GenerateProgressBar(project.Progress);
+            string progressBar = GenerateProgressBar(project.Progress);
             Console.WriteLine($"{project.Title} ({project.Status}):");
             Console.WriteLine($"  Tasks: {project.CompletedTasks}/{project.TotalTasks} completed");
             Console.WriteLine($"  Progress: {project.Progress}%");
-            //Console.WriteLine($"  {progressBar}");
+            Console.WriteLine($"  {progressBar}");
         }
 
         var recentNotes = notes
@@ -295,6 +295,36 @@ public class ManageProjects
             Console.WriteLine($"  Projects: {string.Join(", ", day.Projects)}");
         }
 
+         var stats = new
+        {
+            TotalProjects = projects.Count,
+            ActiveProjects = projects.Count(p => p.Status == "In Progress"),
+            TotalTasks = tasks.Count,
+            CompletedTasks = tasks.Count(t => t.Status == "Done"),
+            OverdueTasks = tasks.Count(t => t.DueDate < DateTime.Now && t.Status != "Done"),
+            TotalTimeLogged = Math.Round(timeLogs.Sum(tl => (tl.EndTime - tl.StartTime).TotalHours), 1),
+            AverageTaskCompletion = Math.Round((double)tasks.Count(t => t.Status == "Done") / tasks.Count * 100, 1)
+        };
+
+        Console.WriteLine("\n=== Personal Projects Statistics ===");
+        Console.WriteLine($"Projects: {stats.TotalProjects} ({stats.ActiveProjects} active)");
+        Console.WriteLine($"Tasks: {stats.TotalTasks} ({stats.CompletedTasks} completed)");
+        Console.WriteLine($"Overdue Tasks: {stats.OverdueTasks}");
+        Console.WriteLine($"Total Time Logged: {stats.TotalTimeLogged}h");
+        Console.WriteLine($"Task Completion Rate: {stats.AverageTaskCompletion}%");
+    }
+
+    static string GenerateProgressBar(double percentage)
+    {
+        int width = 20;
+        int filledWidth = (int)(percentage / 100 * width);
+        int emptyWidth = width - filledWidth;
+        
+        string filled = new string('█', filledWidth);
+        string empty = new string('░', emptyWidth);
+        
+        return $"[{filled}{empty}]";
+    }
 
 
         }
