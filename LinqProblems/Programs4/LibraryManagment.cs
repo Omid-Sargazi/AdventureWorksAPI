@@ -97,6 +97,28 @@ public class Bookshelf
             new Bookshelf { Id = 2, Name = "Currently Reading", Category = "Currently Reading" },
             new Bookshelf { Id = 3, Name = "To Read Next", Category = "To Read" }
         };
+
+        var currentlyReading = books
+            .Where(b => b.Status == "Reading")
+            .Select(b => new
+            {
+                b.Title,
+                b.Author,
+                Progress = Math.Round((double)b.CurrentPage / b.PageCount * 100, 1),
+                PagesLeft = b.PageCount - b.CurrentPage,
+                ReadingTime = readingSessions
+                    .Where(rs => rs.BookId == b.Id)
+                    .Sum(rs => (rs.EndTime - rs.StartTime).TotalHours)
+            })
+            .ToList();
+
+        Console.WriteLine("=== Currently Reading ===");
+        foreach (var book in currentlyReading)
+        {
+            Console.WriteLine($"{book.Title} by {book.Author}");
+            Console.WriteLine($"  Progress: {book.Progress}% ({book.PagesLeft} pages left)");
+            Console.WriteLine($"  Time spent: {book.ReadingTime:F1} hours");
+        }
         }
     }
 }
