@@ -233,6 +233,26 @@ public class Bookshelf
             Console.WriteLine($"  Speed: {speed.PagesPerMinute} pages/minute");
             Console.WriteLine($"  Avg Session: {speed.MinutesPerSession} minutes");
         }
+         var libraryStats = new
+        {
+            TotalBooks = books.Count,
+            ReadBooks = books.Count(b => b.Status == "Read"),
+            ReadingBooks = books.Count(b => b.Status == "Reading"),
+            ToReadBooks = books.Count(b => b.Status == "To Read"),
+            TotalPages = books.Sum(b => b.PageCount),
+            PagesRead = books.Where(b => b.Status == "Read").Sum(b => b.PageCount) +
+                       books.Where(b => b.Status == "Reading").Sum(b => b.CurrentPage),
+            TotalReadingTime = Math.Round(readingSessions.Sum(rs => (rs.EndTime - rs.StartTime).TotalHours), 1),
+            AverageRating = reviews.Any() ? Math.Round(reviews.Average(r => r.Rating), 1) : 0
+        };
+
+        Console.WriteLine("\n=== Library Statistics ===");
+        Console.WriteLine($"Total Books: {libraryStats.TotalBooks}");
+        Console.WriteLine($"Read: {libraryStats.ReadBooks}, Reading: {libraryStats.ReadingBooks}, To Read: {libraryStats.ToReadBooks}");
+        Console.WriteLine($"Total Pages: {libraryStats.TotalPages}");
+        Console.WriteLine($"Pages Read: {libraryStats.PagesRead} ({Math.Round((double)libraryStats.PagesRead / libraryStats.TotalPages * 100, 1)}%)");
+        Console.WriteLine($"Total Reading Time: {libraryStats.TotalReadingTime} hours");
+        Console.WriteLine($"Average Rating: {libraryStats.AverageRating}/5");
 
         }
     }
