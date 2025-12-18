@@ -148,6 +148,28 @@ public class Bookshelf
             Console.WriteLine($"  Days to finish: {book.DaysToFinish}");
         }
 
+         var weeklyReading = readingSessions
+            .Where(rs => rs.StartTime >= DateTime.Now.AddDays(-7))
+            .GroupBy(rs => rs.StartTime.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                TotalMinutes = Math.Round(g.Sum(rs => (rs.EndTime - rs.StartTime).TotalMinutes), 0),
+                TotalPages = g.Sum(rs => rs.PagesRead),
+                Books = g.Select(rs => books.First(b => b.Id == rs.BookId).Title).Distinct().ToList()
+            })
+            .OrderBy(d => d.Date)
+            .ToList();
+
+        Console.WriteLine("\n=== Weekly Reading Activity ===");
+        foreach (var day in weeklyReading)
+        {
+            Console.WriteLine($"{day.Date:ddd, MMM dd}:");
+            Console.WriteLine($"  Time: {day.TotalMinutes} minutes");
+            Console.WriteLine($"  Pages: {day.TotalPages}");
+            Console.WriteLine($"  Books: {string.Join(", ", day.Books)}");
+        }
+
         }
     }
 }
