@@ -119,6 +119,35 @@ public class Bookshelf
             Console.WriteLine($"  Progress: {book.Progress}% ({book.PagesLeft} pages left)");
             Console.WriteLine($"  Time spent: {book.ReadingTime:F1} hours");
         }
+
+         var readBooksWithRatings = books
+            .Where(b => b.Status == "Read")
+            .Select(b => new
+            {
+                b.Title,
+                b.Author,
+                b.Genre,
+                Rating = reviews.FirstOrDefault(r => r.BookId == b.Id)?.Rating ?? 0,
+                Review = reviews.FirstOrDefault(r => r.BookId == b.Id)?.Comment ?? "No review yet",
+                DaysToFinish = readingSessions
+                    .Where(rs => rs.BookId == b.Id)
+                    .Select(rs => rs.StartTime.Date)
+                    .Distinct()
+                    .Count()
+            })
+            .OrderByDescending(b => b.Rating)
+            .ToList();
+
+        Console.WriteLine("\n=== Read Books with Ratings ===");
+        foreach (var book in readBooksWithRatings)
+        {
+            string stars = new string('★', book.Rating) + new string('☆', 5 - book.Rating);
+            Console.WriteLine($"{book.Title} ({book.Genre})");
+            Console.WriteLine($"  Author: {book.Author}, Rating: {stars}");
+            Console.WriteLine($"  Review: {book.Review}");
+            Console.WriteLine($"  Days to finish: {book.DaysToFinish}");
+        }
+
         }
     }
 }
