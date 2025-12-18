@@ -204,6 +204,36 @@ public class Bookshelf
             }
         }
 
+
+        var readingSpeed = readingSessions
+            .GroupBy(rs => rs.BookId)
+            .Select(g => new
+            {
+                Book = books.First(b => b.Id == g.Key).Title,
+                TotalMinutes = g.Sum(rs => (rs.EndTime - rs.StartTime).TotalMinutes),
+                TotalPages = g.Sum(rs => rs.PagesRead),
+                Sessions = g.Count()
+            })
+            .Where(x => x.TotalMinutes > 0 && x.TotalPages > 0)
+            .Select(x => new
+            {
+                x.Book,
+                x.Sessions,
+                PagesPerMinute = Math.Round(x.TotalPages / x.TotalMinutes, 2),
+                MinutesPerSession = Math.Round(x.TotalMinutes / x.Sessions, 1)
+            })
+            .OrderByDescending(x => x.PagesPerMinute)
+            .ToList();
+
+        Console.WriteLine("\n=== Reading Speed Analysis ===");
+        foreach (var speed in readingSpeed)
+        {
+            Console.WriteLine($"{speed.Book}:");
+            Console.WriteLine($"  Sessions: {speed.Sessions}");
+            Console.WriteLine($"  Speed: {speed.PagesPerMinute} pages/minute");
+            Console.WriteLine($"  Avg Session: {speed.MinutesPerSession} minutes");
+        }
+
         }
     }
 }
