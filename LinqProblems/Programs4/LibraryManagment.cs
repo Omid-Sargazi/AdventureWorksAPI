@@ -254,6 +254,29 @@ public class Bookshelf
         Console.WriteLine($"Total Reading Time: {libraryStats.TotalReadingTime} hours");
         Console.WriteLine($"Average Rating: {libraryStats.AverageRating}/5");
 
+
+          var booksByGenre = books
+            .GroupBy(b => b.Genre)
+            .Select(g => new
+            {
+                Genre = g.Key,
+                Count = g.Count(),
+                ReadCount = g.Count(b => b.Status == "Read"),
+                ReadingCount = g.Count(b => b.Status == "Reading"),
+                TotalPages = g.Sum(b => b.PageCount)
+            })
+            .OrderByDescending(g => g.Count)
+            .ToList();
+
+        Console.WriteLine("\n=== Books by Genre ===");
+        foreach (var genre in booksByGenre)
+        {
+            Console.WriteLine($"{genre.Genre}:");
+            Console.WriteLine($"  Total: {genre.Count} books");
+            Console.WriteLine($"  Read: {genre.ReadCount}, Reading: {genre.ReadingCount}");
+            Console.WriteLine($"  Total Pages: {genre.TotalPages}");
+        }
+
         }
     }
 }
