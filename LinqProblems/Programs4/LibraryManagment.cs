@@ -169,6 +169,40 @@ public class Bookshelf
             Console.WriteLine($"  Pages: {day.TotalPages}");
             Console.WriteLine($"  Books: {string.Join(", ", day.Books)}");
         }
+        var genreRecommendations = books
+            .Where(b => b.Status == "Read")
+            .GroupBy(b => b.Genre)
+            .Select(g => new
+            {
+                Genre = g.Key,
+                FavoriteBooks = g
+                    .Join(reviews,
+                          book => book.Id,
+                          review => review.BookId,
+                          (book, review) => new { book, review })
+                    .Where(x => x.review.Rating >= 4)
+                    .Select(x => x.book.Title)
+                    .Take(3)
+                    .ToList(),
+                AverageRating = Math.Round(g
+                    .Select(b => reviews.FirstOrDefault(r => r.BookId == b.Id)?.Rating ?? 0)
+                    .Average(), 1)
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Book Recommendations by Genre ===");
+        foreach (var genre in genreRecommendations)
+        {
+            Console.WriteLine($"{genre} (Avg Rating: {genre.AverageRating}/5):");
+            if (genre.FavoriteBooks.Any())
+            {
+                Console.WriteLine($"  Recommended: {string.Join(", ", genre.FavoriteBooks)}");
+            }
+            else
+            {
+                Console.WriteLine("  No highly rated books in this genre yet");
+            }
+        }
 
         }
     }
