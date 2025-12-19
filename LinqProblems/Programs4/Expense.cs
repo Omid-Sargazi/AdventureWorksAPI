@@ -146,6 +146,44 @@ public class ManageIncome
             Console.WriteLine($"  Budget: {category.Budget:C0}, Used: {category.BudgetUsed}%");
             Console.WriteLine($"  Status: {category.Status}");
         }
+
+        var budgetRemaining = categories
+            .Select(c => new
+            {
+                c.Name,
+                c.MonthlyBudget,
+                Spent = expenses
+                    .Where(e => e.Category == c.Name && 
+                               e.Date.Month == currentMonth && 
+                               e.Date.Year == currentYear)
+                    .Sum(e => e.Amount),
+                DailyBudget = c.MonthlyBudget / DateTime.DaysInMonth(currentYear, currentMonth),
+                DaysPassed = DateTime.Now.Day,
+                DaysRemaining = DateTime.DaysInMonth(currentYear, currentMonth) - DateTime.Now.Day
+            })
+            .Select(x => new
+            {
+                x.Name,
+                x.MonthlyBudget,
+                x.Spent,
+                Remaining = x.MonthlyBudget - x.Spent,
+                DailyAverageSpent = Math.Round(x.Spent / x.DaysPassed, 0),
+                ProjectedMonthEnd = Math.Round(x.Spent / x.DaysPassed * DateTime.DaysInMonth(currentYear, currentMonth), 0)
+            })
+            .OrderBy(x => x.Remaining)
+            .ToList();
+
+        Console.WriteLine("\n=== Budget Remaining ===");
+        foreach (var budget in budgetRemaining)
+        {
+            string trend = budget.ProjectedMonthEnd > budget.MonthlyBudget ? "📈 OVER" : "📉 UNDER";
+            Console.WriteLine($"{budget.Name}:");
+            Console.WriteLine($"  Budget: {budget.MonthlyBudget:C0}, Spent: {budget.Spent:C0}");
+            Console.WriteLine($"  Remaining: {budget.Remaining:C0}");
+            Console.WriteLine($"  Daily Avg: {budget.DailyAverageSpent:C0}");
+            Console.WriteLine($"  Projected: {budget.ProjectedMonthEnd:C0} {trend}");
+        }
+
         }
 
 
