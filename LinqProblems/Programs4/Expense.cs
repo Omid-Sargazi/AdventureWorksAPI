@@ -29,7 +29,9 @@ public class Income
 
 public class ManageIncome
     {
-        var categories = new List<Category>
+       public static void Execute()
+        {
+             var categories = new List<Category>
         {
             new Category { Name = "Food", MonthlyBudget = 3000000, Color = "Green" },
             new Category { Name = "Transport", MonthlyBudget = 1000000, Color = "Blue" },
@@ -84,5 +86,8 @@ public class ManageIncome
             new Expense { Id = 14, Description = "Water bill", Category = "Bills", Amount = 90000, 
                          Date = DateTime.Now.AddDays(-1), PaymentMethod = "Online", IsRecurring = true }
         };
+        }
+
+
     }
 }
