@@ -159,6 +159,29 @@ namespace LinqProblems.Programs4
             Console.WriteLine($"  Protein: {day.TotalProtein}g, Carbs: {day.TotalCarbs}g, Fat: {day.TotalFat}g");
             Console.WriteLine($"  Meals: {day.MealCount}, Most Caloric: {day.MostCaloricMeal}");
         }
+
+         var weeklyGoalsCheck = new List<(string Goal, bool IsMet, string Details)>
+        {
+            ("Workout 3 times", 
+             workouts.Count(w => w.Date >= startOfWeek && w.Date < endOfWeek) >= 3,
+             $"Workouts this week: {workouts.Count(w => w.Date >= startOfWeek && w.Date < endOfWeek)}/3"),
+            
+            ("Burn 1500 calories", 
+             workouts.Where(w => w.Date >= startOfWeek && w.Date < endOfWeek).Sum(w => w.CaloriesBurned) >= 1500,
+             $"Calories burned: {workouts.Where(w => w.Date >= startOfWeek && w.Date < endOfWeek).Sum(w => w.CaloriesBurned)}/1500"),
+            
+            ("Eat 500g protein", 
+             nutritionLogs.Where(n => n.Date >= startOfWeek && n.Date < endOfWeek).Sum(n => n.Protein) >= 500,
+             $"Protein consumed: {nutritionLogs.Where(n => n.Date >= startOfWeek && n.Date < endOfWeek).Sum(n => n.Protein)}/500g")
+        };
+
+        Console.WriteLine("\n=== Weekly Goals Check ===");
+        foreach (var goal in weeklyGoalsCheck)
+        {
+            string status = goal.IsMet ? "✅" : "❌";
+            Console.WriteLine($"{status} {goal.Goal}");
+            Console.WriteLine($"  {goal.Details}");
+        }
         }
     }
 
