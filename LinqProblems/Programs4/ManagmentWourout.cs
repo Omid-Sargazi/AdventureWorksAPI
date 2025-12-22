@@ -107,6 +107,33 @@ namespace LinqProblems.Programs4
                 }
             }
         }
+
+        var exerciseProgress = exerciseRecords
+            .GroupBy(er => er.ExerciseId)
+            .Select(g => new
+            {
+                Exercise = exercises.First(e => e.Id == g.Key).Name,
+                Category = exercises.First(e => e.Id == g.Key).Category,
+                Sessions = g.Select(er => er.WorkoutId).Distinct().Count(),
+                MaxWeight = g.Max(er => er.Weight),
+                AvgReps = Math.Round(g.Average(er => er.Reps), 1),
+                TotalVolume = g.Sum(er => er.Sets * er.Reps * (double)er.Weight),
+                LastPerformed = workouts
+                    .Where(w => g.Any(er => er.WorkoutId == w.Id))
+                    .Max(w => w.Date)
+            })
+            .OrderByDescending(ep => ep.Sessions)
+            .ToList();
+
+        Console.WriteLine("\n=== Exercise Progress ===");
+        foreach (var progress in exerciseProgress)
+        {
+            Console.WriteLine($"{progress.Exercise} ({progress.Category}):");
+            Console.WriteLine($"  Sessions: {progress.Sessions}");
+            Console.WriteLine($"  Max Weight: {progress.MaxWeight}kg");
+            Console.WriteLine($"  Average Reps: {progress.AvgReps}");
+            Console.WriteLine($"  Last Performed: {progress.LastPerformed:MMM dd}");
+        }
         }
     }
 
