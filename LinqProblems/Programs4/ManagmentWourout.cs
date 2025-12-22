@@ -205,6 +205,27 @@ namespace LinqProblems.Programs4
             Console.WriteLine($"  Sessions: {balance.SessionCount}");
         }
 
+         var fitnessStats = new
+        {
+            TotalWorkouts = workouts.Count,
+            WeeklyAverageWorkouts = Math.Round(workouts.Count / 4.0, 1), // Assuming 4 weeks of data
+            TotalCaloriesBurned = workouts.Sum(w => w.CaloriesBurned),
+            AverageWorkoutDuration = Math.Round(workouts.Average(w => w.Duration), 1),
+            FavoriteWorkoutType = workouts
+                .GroupBy(w => w.Type)
+                .OrderByDescending(g => g.Count())
+                .First().Key,
+            DaysActive = workouts.Select(w => w.Date.Date).Distinct().Count()
+        };
+
+        Console.WriteLine("\n=== Fitness Statistics ===");
+        Console.WriteLine($"Total Workouts: {fitnessStats.TotalWorkouts}");
+        Console.WriteLine($"Weekly Average: {fitnessStats.WeeklyAverageWorkouts} workouts");
+        Console.WriteLine($"Total Calories Burned: {fitnessStats.TotalCaloriesBurned}");
+        Console.WriteLine($"Average Duration: {fitnessStats.AverageWorkoutDuration} min");
+        Console.WriteLine($"Favorite Workout Type: {fitnessStats.FavoriteWorkoutType}");
+        Console.WriteLine($"Active Days: {fitnessStats.DaysActive}");
+
         }
     }
 
