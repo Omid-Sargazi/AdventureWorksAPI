@@ -182,6 +182,29 @@ namespace LinqProblems.Programs4
             Console.WriteLine($"{status} {goal.Goal}");
             Console.WriteLine($"  {goal.Details}");
         }
+
+        var workoutBalance = workouts
+            .Where(w => w.Date >= startOfWeek && w.Date < endOfWeek)
+            .GroupBy(w => w.Type)
+            .Select(g => new
+            {
+                Type = g.Key,
+                TotalDuration = g.Sum(w => w.Duration),
+                SessionCount = g.Count(),
+                Percentage = Math.Round((double)g.Sum(w => w.Duration) / 
+                                       workouts.Where(w => w.Date >= startOfWeek && w.Date < endOfWeek).Sum(w => w.Duration) * 100, 1)
+            })
+            .OrderByDescending(w => w.TotalDuration)
+            .ToList();
+
+        Console.WriteLine("\n=== Workout Type Balance (This Week) ===");
+        foreach (var balance in workoutBalance)
+        {
+            Console.WriteLine($"{balance.Type}:");
+            Console.WriteLine($"  Duration: {balance.TotalDuration} min ({balance.Percentage}%)");
+            Console.WriteLine($"  Sessions: {balance.SessionCount}");
+        }
+
         }
     }
 
