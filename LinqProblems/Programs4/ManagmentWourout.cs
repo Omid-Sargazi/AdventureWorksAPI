@@ -63,6 +63,50 @@ namespace LinqProblems.Programs4
             new FitnessGoal { Id = 3, Type = "Nutrition", Target = "Eat 100g protein daily", 
                             StartDate = DateTime.Now.AddDays(-3), TargetDate = null, IsCompleted = false }
         };
+
+         var startOfWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+        var endOfWeek = startOfWeek.AddDays(7);
+        
+        var weeklyWorkouts = workouts
+            .Where(w => w.Date >= startOfWeek && w.Date < endOfWeek)
+            .OrderBy(w => w.Date)
+            .Select(w => new
+            {
+                Day = w.Date.ToString("ddd"),
+                w.Type,
+                w.Duration,
+                w.CaloriesBurned,
+                w.Notes,
+                Exercises = exerciseRecords
+                    .Where(er => er.WorkoutId == w.Id)
+                    .Select(er => new
+                    {
+                        Exercise = exercises.First(e => e.Id == er.ExerciseId).Name,
+                        er.Sets,
+                        er.Reps,
+                        er.Weight
+                    })
+                    .ToList()
+            })
+            .ToList();
+
+        Console.WriteLine("=== This Week's Workouts ===");
+        foreach (var workout in weeklyWorkouts)
+        {
+            Console.WriteLine($"{workout.Day}: {workout.Type} workout");
+            Console.WriteLine($"  Duration: {workout.Duration} min, Calories: {workout.CaloriesBurned}");
+            Console.WriteLine($"  Notes: {workout.Notes}");
+            
+            if (workout.Exercises.Any())
+            {
+                Console.WriteLine("  Exercises:");
+                foreach (var exercise in workout.Exercises)
+                {
+                    string weightInfo = exercise.Weight > 0 ? $", {exercise.Weight}kg" : "";
+                    Console.WriteLine($"    - {exercise.Exercise}: {exercise.Sets}×{exercise.Reps}{weightInfo}");
+                }
+            }
+        }
         }
     }
 
