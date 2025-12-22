@@ -134,6 +134,31 @@ namespace LinqProblems.Programs4
             Console.WriteLine($"  Average Reps: {progress.AvgReps}");
             Console.WriteLine($"  Last Performed: {progress.LastPerformed:MMM dd}");
         }
+
+         var dailyNutrition = nutritionLogs
+            .GroupBy(n => n.Date.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                TotalCalories = g.Sum(n => n.Calories),
+                TotalProtein = g.Sum(n => n.Protein),
+                TotalCarbs = g.Sum(n => n.Carbs),
+                TotalFat = g.Sum(n => n.Fat),
+                MealCount = g.Count(),
+                MostCaloricMeal = g.OrderByDescending(n => n.Calories).First().MealType
+            })
+            .OrderByDescending(d => d.Date)
+            .Take(3)
+            .ToList();
+
+        Console.WriteLine("\n=== Daily Nutrition (Last 3 Days) ===");
+        foreach (var day in dailyNutrition)
+        {
+            Console.WriteLine($"{day.Date:MMM dd}:");
+            Console.WriteLine($"  Calories: {day.TotalCalories} kcal");
+            Console.WriteLine($"  Protein: {day.TotalProtein}g, Carbs: {day.TotalCarbs}g, Fat: {day.TotalFat}g");
+            Console.WriteLine($"  Meals: {day.MealCount}, Most Caloric: {day.MostCaloricMeal}");
+        }
         }
     }
 
