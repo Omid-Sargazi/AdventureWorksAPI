@@ -226,6 +226,28 @@ namespace LinqProblems.Programs4
         Console.WriteLine($"Favorite Workout Type: {fitnessStats.FavoriteWorkoutType}");
         Console.WriteLine($"Active Days: {fitnessStats.DaysActive}");
 
+        var exercisesByCategory = exerciseRecords
+            .GroupBy(er => exercises.First(e => e.Id == er.ExerciseId).Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                TotalSets = g.Sum(er => er.Sets),
+                TotalReps = g.Sum(er => er.Reps),
+                ExercisesCount = g.Select(er => er.ExerciseId).Distinct().Count(),
+                Volume = g.Sum(er => er.Sets * er.Reps * (double)er.Weight)
+            })
+            .OrderByDescending(c => c.Volume)
+            .ToList();
+
+        Console.WriteLine("\n=== Exercises by Category ===");
+        foreach (var category in exercisesByCategory)
+        {
+            Console.WriteLine($"{category.Category}:");
+            Console.WriteLine($"  Exercises: {category.ExercisesCount}");
+            Console.WriteLine($"  Sets: {category.TotalSets}, Reps: {category.TotalReps}");
+            Console.WriteLine($"  Total Volume: {category.Volume:F1} kg");
+        }
+
         }
     }
 
