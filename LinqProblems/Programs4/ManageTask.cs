@@ -98,6 +98,34 @@ namespace LinqProblems.Programs4
                 Console.WriteLine($"  {status} {task.Title} [{task.Category}]{timeInfo}");
             }
         }
+
+        var completedToday = completionRecords
+            .Where(cr => cr.CompletionDate.Date == DateTime.Today)
+            .Select(cr => new
+            {
+                Task = dailyTasks.First(t => t.Id == cr.TaskId).Title,
+                Time = cr.ActualTime?.TotalMinutes ?? 0,
+                cr.Notes,
+                CompletedAt = cr.CompletionDate.ToString("HH:mm")
+            })
+            .OrderBy(c => c.CompletedAt)
+            .ToList();
+
+        Console.WriteLine("\n=== Completed Today ===");
+        if (completedToday.Any())
+        {
+            foreach (var task in completedToday)
+            {
+                string timeInfo = task.Time > 0 ? $" in {task.Time} min" : "";
+                Console.WriteLine($"✓ {task.Task} at {task.CompletedAt}{timeInfo}");
+                if (!string.IsNullOrEmpty(task.Notes))
+                    Console.WriteLine($"  Note: {task.Notes}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No tasks completed yet today.");
+        }
         }
     }
 
