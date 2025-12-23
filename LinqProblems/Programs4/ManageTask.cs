@@ -4,7 +4,54 @@ namespace LinqProblems.Programs4
     {
         public static void Execute()
         {
+            var dailyTasks = new List<DailyTask>
+        {
+            new DailyTask { Id = 1, Title = "Check emails", Category = "Work", 
+                          Priority = "Medium", IsRecurring = true, Recurrence = "Daily",
+                          EstimatedTime = TimeSpan.FromMinutes(30) },
             
+            new DailyTask { Id = 2, Title = "Morning exercise", Category = "Health", 
+                          Priority = "High", IsRecurring = true, Recurrence = "Daily",
+                          EstimatedTime = TimeSpan.FromMinutes(45) },
+            
+            new DailyTask { Id = 3, Title = "Grocery shopping", Category = "Home", 
+                          Priority = "High", IsRecurring = false, Recurrence = null,
+                          EstimatedTime = TimeSpan.FromHours(1) },
+            
+            new DailyTask { Id = 4, Title = "Finish project report", Category = "Work", 
+                          Priority = "High", IsRecurring = false, Recurrence = null,
+                          EstimatedTime = TimeSpan.FromHours(2) },
+            
+            new DailyTask { Id = 5, Title = "Read book", Category = "Personal", 
+                          Priority = "Low", IsRecurring = true, Recurrence = "Daily",
+                          EstimatedTime = TimeSpan.FromMinutes(30) },
+            
+            new DailyTask { Id = 6, Title = "Water plants", Category = "Home", 
+                          Priority = "Medium", IsRecurring = true, Recurrence = "Weekly",
+                          EstimatedTime = TimeSpan.FromMinutes(15) },
+            
+            new DailyTask { Id = 7, Title = "Call parents", Category = "Personal", 
+                          Priority = "Medium", IsRecurring = true, Recurrence = "Weekly",
+                          EstimatedTime = TimeSpan.FromMinutes(20) }
+        };
+
+        // سوابق انجام کارها (برای هفته گذشته)
+        var completionRecords = new List<CompletionRecord>
+        {
+            // دیروز
+            new CompletionRecord { Id = 1, TaskId = 1, CompletionDate = DateTime.Now.AddDays(-1).AddHours(9),
+                                 ActualTime = TimeSpan.FromMinutes(25), Notes = "Quick check" },
+            new CompletionRecord { Id = 2, TaskId = 2, CompletionDate = DateTime.Now.AddDays(-1).AddHours(7),
+                                 ActualTime = TimeSpan.FromMinutes(40), Notes = "Good workout" },
+            new CompletionRecord { Id = 3, TaskId = 5, CompletionDate = DateTime.Now.AddDays(-1).AddHours(21),
+                                 ActualTime = TimeSpan.FromMinutes(35), Notes = "Chapter 5" },
+            
+            // امروز
+            new CompletionRecord { Id = 4, TaskId = 1, CompletionDate = DateTime.Now.AddHours(-2),
+                                 ActualTime = TimeSpan.FromMinutes(20), Notes = "Urgent emails" },
+            new CompletionRecord { Id = 5, TaskId = 2, CompletionDate = DateTime.Now.AddHours(-4),
+                                 ActualTime = TimeSpan.FromMinutes(50), Notes = "Intense session" }
+        };
         }
     }
 
