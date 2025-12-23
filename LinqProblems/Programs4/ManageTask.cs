@@ -148,6 +148,27 @@ namespace LinqProblems.Programs4
             Console.WriteLine($"{stat.Category}: {stat.TasksCompleted} tasks, {stat.TotalTime} min");
         }
 
+        var remainingTasks = allTodayTasks
+            .Where(t => !t.IsCompleted)
+            .ToList();
+
+        Console.WriteLine("\n=== Remaining Tasks for Today ===");
+        if (remainingTasks.Any())
+        {
+            var totalEstimated = remainingTasks.Sum(t => t.Estimated);
+            Console.WriteLine($"Total: {remainingTasks.Count} tasks, ~{totalEstimated} minutes");
+            
+            foreach (var task in remainingTasks.OrderBy(t => t.Priority == "High" ? 1 : t.Priority == "Medium" ? 2 : 3))
+            {
+                Console.WriteLine($"  {task.Priority}: {task.Title} (~{task.Estimated} min)");
+            }
+        }
+        else
+        {
+            Console.WriteLine("All tasks completed! 🎉");
+        }
+
+
         }
     }
 
