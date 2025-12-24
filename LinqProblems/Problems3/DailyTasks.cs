@@ -54,6 +54,53 @@ namespace LinqProblems.Programs3
                                  ActualTime = TimeSpan.FromMinutes(50), Notes = "Intense session" }
         };
 
+         Console.WriteLine("=== Today's Tasks ===");
+        
+        // کارهای روزانه تکرارشونده
+        var dailyRecurringTasks = dailyTasks
+            .Where(t => t.IsRecurring && t.Recurrence == "Daily")
+            .Select(t => new
+            {
+                t.Title,
+                t.Category,
+                t.Priority,
+                IsCompleted = completionRecords.Any(cr => 
+                    cr.TaskId == t.Id && cr.CompletionDate.Date == DateTime.Today),
+                Estimated = t.EstimatedTime?.TotalMinutes ?? 0
+            })
+            .ToList();
+
+        // کارهای غیرتکرارشونده برای امروز
+        var nonRecurringTasks = dailyTasks
+            .Where(t => !t.IsRecurring)
+            .Select(t => new
+            {
+                t.Title,
+                t.Category,
+                t.Priority,
+                IsCompleted = completionRecords.Any(cr => 
+                    cr.TaskId == t.Id && cr.CompletionDate.Date == DateTime.Today),
+                Estimated = t.EstimatedTime?.TotalMinutes ?? 0
+            })
+            .ToList();
+
+        var allTodayTasks = dailyRecurringTasks.Concat(nonRecurringTasks).ToList();
+
+        // نمایش بر اساس اولویت
+        foreach (var priorityGroup in allTodayTasks
+            .GroupBy(t => t.Priority)
+            .OrderBy(g => g.Key == "High" ? 1 : g.Key == "Medium" ? 2 : 3))
+        {
+            Console.WriteLine($"\n{priorityGroup.Key} Priority:");
+            foreach (var task in priorityGroup)
+            {
+                string status = task.IsCompleted ? "✅" : "⏳";
+                string timeInfo = task.Estimated > 0 ? $" ({task.Estimated} min)" : "";
+                Console.WriteLine($"  {status} {task.Title} [{task.Category}]{timeInfo}");
+            }
+        }
+
+
         }
     }
 
