@@ -128,6 +128,28 @@ namespace LinqProblems.Programs3
             Console.WriteLine("No tasks completed yet today.");
         }
 
+         var startOfWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+        var weeklyStats = dailyTasks
+            .SelectMany(task => completionRecords
+                .Where(cr => cr.TaskId == task.Id && cr.CompletionDate >= startOfWeek)
+                .Select(cr => new { task.Category, task.Priority, cr.ActualTime }))
+            .GroupBy(x => x.Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                TasksCompleted = g.Count(),
+                TotalTime = Math.Round(g.Sum(x => x.ActualTime?.TotalMinutes ?? 0), 0)
+            })
+            .OrderByDescending(s => s.TasksCompleted)
+            .ToList();
+
+        Console.WriteLine("\n=== Weekly Statistics (This Week) ===");
+        foreach (var stat in weeklyStats)
+        {
+            Console.WriteLine($"{stat.Category}: {stat.TasksCompleted} tasks, {stat.TotalTime} min");
+        }
+
+
 
 
         }
