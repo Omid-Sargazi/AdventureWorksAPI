@@ -169,7 +169,33 @@ namespace LinqProblems.Programs3
             Console.WriteLine("All tasks completed! 🎉");
         }
 
+        var recurringTasks = dailyTasks
+            .Where(t => t.IsRecurring)
+            .GroupBy(t => t.Recurrence)
+            .Select(g => new
+            {
+                Frequency = g.Key,
+                Tasks = g.Select(t => new
+                {
+                    t.Title,
+                    t.Category,
+                    LastCompleted = completionRecords
+                        .Where(cr => cr.TaskId == t.Id)
+                        .OrderByDescending(cr => cr.CompletionDate)
+                        .FirstOrDefault()?.CompletionDate.ToString("MMM dd") ?? "Never"
+                }).ToList()
+            })
+            .ToList();
 
+        Console.WriteLine("\n=== Recurring Tasks ===");
+        foreach (var group in recurringTasks)
+        {
+            Console.WriteLine($"\n{group.Frequency}:");
+            foreach (var task in group.Tasks)
+            {
+                Console.WriteLine($"  {task.Title} [{task.Category}] - Last: {task.LastCompleted}");
+            }
+        }
 
 
         }
