@@ -197,7 +197,31 @@ namespace LinqProblems.Programs3
             }
         }
 
+        var todaySummary = new
+        {
+            TotalTasks = allTodayTasks.Count,
+            Completed = allTodayTasks.Count(t => t.IsCompleted),
+            Incomplete = allTodayTasks.Count(t => !t.IsCompleted),
+            EstimatedTime = allTodayTasks.Sum(t => t.Estimated),
+            ActualTime = completedToday.Sum(t => t.Time),
+            CompletionRate = allTodayTasks.Count > 0 ? 
+                Math.Round((double)allTodayTasks.Count(t => t.IsCompleted) / allTodayTasks.Count * 100, 0) : 0
+        };
 
+        Console.WriteLine("\n=== Today's Summary ===");
+        Console.WriteLine($"Tasks: {todaySummary.Completed}/{todaySummary.TotalTasks} completed");
+        Console.WriteLine($"Completion Rate: {todaySummary.CompletionRate}%");
+        Console.WriteLine($"Estimated Time: {todaySummary.EstimatedTime} min");
+        Console.WriteLine($"Actual Time: {todaySummary.ActualTime} min");
+        
+        if (todaySummary.CompletionRate == 100)
+            Console.WriteLine("Excellent! All tasks completed! 🎯");
+        else if (todaySummary.CompletionRate >= 70)
+            Console.WriteLine("Good progress! Keep going! 👍");
+        else if (todaySummary.CompletionRate >= 40)
+            Console.WriteLine("Keep working on your tasks! 💪");
+        else
+            Console.WriteLine("You can do it! Start with the high priority tasks! 🚀");
         }
     }
 
