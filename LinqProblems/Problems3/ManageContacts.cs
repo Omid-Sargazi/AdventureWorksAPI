@@ -278,6 +278,26 @@ public class ManageContacts
             Console.WriteLine($"  {string.Join(", ", company.Contacts)}");
         }
 
+        var interactionsByType = interactions
+            .GroupBy(i => i.Type)
+            .Select(g => new
+            {
+                Type = g.Key,
+                Count = g.Count(),
+                TotalDuration = g.Sum(i => i.Duration),
+                AverageDuration = g.Average(i => i.Duration)
+            })
+            .OrderByDescending(g => g.Count)
+            .ToList();
+
+        Console.WriteLine("\n=== Interactions by Type ===");
+        foreach (var interaction in interactionsByType)
+        {
+            Console.WriteLine($"{interaction.Type}:");
+            Console.WriteLine($"  Count: {interaction.Count}");
+            Console.WriteLine($"  Total Duration: {interaction.TotalDuration} min");
+            Console.WriteLine($"  Average: {Math.Round(interaction.AverageDuration, 1)} min");
+        }
 
         }
     }
