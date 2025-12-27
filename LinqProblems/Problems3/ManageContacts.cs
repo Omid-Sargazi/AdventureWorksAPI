@@ -259,6 +259,24 @@ public class ManageContacts
         Console.WriteLine($"Average groups per contact: {contactStats.AverageGroupsPerContact}");
         Console.WriteLine($"Most common company: {contactStats.MostCommonCompany}");
 
+         var contactsByCompany = contacts
+            .Where(c => !string.IsNullOrEmpty(c.Company))
+            .GroupBy(c => c.Company)
+            .Select(g => new
+            {
+                Company = g.Key,
+                ContactCount = g.Count(),
+                Contacts = g.Select(c => $"{c.FirstName} {c.LastName}").ToList()
+            })
+            .OrderByDescending(g => g.ContactCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Contacts by Company ===");
+        foreach (var company in contactsByCompany)
+        {
+            Console.WriteLine($"{company.Company}: {company.ContactCount} contacts");
+            Console.WriteLine($"  {string.Join(", ", company.Contacts)}");
+        }
 
 
         }
