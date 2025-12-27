@@ -182,6 +182,31 @@ public class ManageContacts
         }
 
 
+         var recentInteractions = contacts
+            .Select(c => new
+            {
+                ContactName = $"{c.FirstName} {c.LastName}",
+                LastInteraction = interactions
+                    .Where(i => i.ContactId == c.Id)
+                    .OrderByDescending(i => i.InteractionDate)
+                    .FirstOrDefault(),
+                InteractionCount = interactions.Count(i => i.ContactId == c.Id)
+            })
+            .Where(x => x.LastInteraction != null)
+            .OrderByDescending(x => x.LastInteraction.InteractionDate)
+            .Take(5)
+            .ToList();
+
+        Console.WriteLine("\n=== Recent Interactions ===");
+        foreach (var contact in recentInteractions)
+        {
+            Console.WriteLine($"{contact.ContactName}:");
+            Console.WriteLine($"  Last: {contact.LastInteraction.Type} on " +
+                            $"{contact.LastInteraction.InteractionDate:MMM dd}");
+            Console.WriteLine($"  Note: {contact.LastInteraction.Notes}");
+            Console.WriteLine($"  Total interactions: {contact.InteractionCount}");
+        }
+
         }
     }
 }
