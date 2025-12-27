@@ -234,6 +234,32 @@ public class ManageContacts
             Console.WriteLine("All contacts are up to date! ✅");
         }
 
+        var contactStats = new
+        {
+            TotalContacts = contacts.Count,
+            WithEmail = contacts.Count(c => !string.IsNullOrEmpty(c.Email)),
+            WithCompany = contacts.Count(c => !string.IsNullOrEmpty(c.Company)),
+            RecentlyAdded = contacts.Count(c => (DateTime.Now - c.AddedDate).Days <= 7),
+            RecentlyContacted = contacts.Count(c => c.LastContacted.HasValue && 
+                                                  (DateTime.Now - c.LastContacted.Value).Days <= 7),
+            AverageGroupsPerContact = Math.Round((double)groupMembers.Count / contacts.Count, 1),
+            MostCommonCompany = contacts
+                .Where(c => !string.IsNullOrEmpty(c.Company))
+                .GroupBy(c => c.Company)
+                .OrderByDescending(g => g.Count())
+                .FirstOrDefault()?.Key ?? "N/A"
+        };
+
+        Console.WriteLine("\n=== Contact Statistics ===");
+        Console.WriteLine($"Total Contacts: {contactStats.TotalContacts}");
+        Console.WriteLine($"With Email: {contactStats.WithEmail}");
+        Console.WriteLine($"With Company: {contactStats.WithCompany}");
+        Console.WriteLine($"Added in last 7 days: {contactStats.RecentlyAdded}");
+        Console.WriteLine($"Contacted in last 7 days: {contactStats.RecentlyContacted}");
+        Console.WriteLine($"Average groups per contact: {contactStats.AverageGroupsPerContact}");
+        Console.WriteLine($"Most common company: {contactStats.MostCommonCompany}");
+
+
 
         }
     }
