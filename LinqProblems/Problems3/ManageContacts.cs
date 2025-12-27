@@ -105,6 +105,29 @@ public class ManageContacts
             new Interaction { Id = 6, ContactId = 2, InteractionDate = DateTime.Now.AddDays(-15), 
                             Type = "Email", Notes = "Sent design files", Duration = 0 }
         };
+
+           var contactsAlphabetical = contacts
+            .OrderBy(c => c.LastName)
+            .ThenBy(c => c.FirstName)
+            .Select(c => new
+            {
+                FullName = $"{c.FirstName} {c.LastName}",
+                c.Phone,
+                c.Email,
+                c.Company,
+                DaysSinceAdded = (DateTime.Now - c.AddedDate).Days
+            })
+            .ToList();
+
+        Console.WriteLine("=== Contacts (Alphabetical Order) ===");
+        foreach (var contact in contactsAlphabetical)
+        {
+            Console.WriteLine($"{contact.FullName}");
+            Console.WriteLine($"  Phone: {contact.Phone}, Email: {contact.Email}");
+            Console.WriteLine($"  Company: {contact.Company}");
+            Console.WriteLine($"  Added {contact.DaysSinceAdded} days ago");
+        }
+
         }
     }
 }
