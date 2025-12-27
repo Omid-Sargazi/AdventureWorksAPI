@@ -207,6 +207,34 @@ public class ManageContacts
             Console.WriteLine($"  Total interactions: {contact.InteractionCount}");
         }
 
+         var contactsNeedFollowup = contacts
+            .Where(c => c.LastContacted == null || 
+                       (DateTime.Now - c.LastContacted.Value).Days > 7)
+            .OrderBy(c => c.LastContacted)
+            .Select(c => new
+            {
+                FullName = $"{c.FirstName} {c.LastName}",
+                DaysSinceContact = c.LastContacted.HasValue ? 
+                    (DateTime.Now - c.LastContacted.Value).Days : (int?)null,
+                Status = c.LastContacted.HasValue ? 
+                    $"{ (DateTime.Now - c.LastContacted.Value).Days} days ago" : "Never contacted"
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Contacts Needing Follow-up ===");
+        if (contactsNeedFollowup.Any())
+        {
+            foreach (var contact in contactsNeedFollowup)
+            {
+                Console.WriteLine($"{contact.FullName} - Last contact: {contact.Status}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("All contacts are up to date! ✅");
+        }
+
+
         }
     }
 }
