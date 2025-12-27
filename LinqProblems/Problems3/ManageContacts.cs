@@ -162,6 +162,26 @@ public class ManageContacts
             }
         }
 
+          var recentContacts = contacts
+            .OrderByDescending(c => c.AddedDate)
+            .Take(3)
+            .Select(c => new
+            {
+                c.FirstName,
+                c.LastName,
+                Added = c.AddedDate.ToString("MMM dd"),
+                DaysAgo = (DateTime.Now - c.AddedDate).Days
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Recently Added Contacts ===");
+        foreach (var contact in recentContacts)
+        {
+            Console.WriteLine($"{contact.FirstName} {contact.LastName}");
+            Console.WriteLine($"  Added: {contact.Added} ({contact.DaysAgo} days ago)");
+        }
+
+
         }
     }
 }
