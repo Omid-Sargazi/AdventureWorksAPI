@@ -128,6 +128,40 @@ public class ManageContacts
             Console.WriteLine($"  Added {contact.DaysSinceAdded} days ago");
         }
 
+         var contactsByGroup = groups
+            .Select(g => new
+            {
+                GroupName = g.Name,
+                GroupDescription = g.Description,
+                Contacts = groupMembers
+                    .Where(gm => gm.GroupId == g.Id)
+                    .Join(contacts,
+                          gm => gm.ContactId,
+                          c => c.Id,
+                          (gm, c) => new
+                          {
+                              Name = $"{c.FirstName} {c.LastName}",
+                              c.Phone,
+                              c.Company
+                          })
+                    .OrderBy(c => c.Name)
+                    .ToList()
+            })
+            .OrderBy(g => g.GroupName)
+            .ToList();
+
+        Console.WriteLine("\n=== Contacts by Group ===");
+        foreach (var group in contactsByGroup)
+        {
+            Console.WriteLine($"\n{group.GroupName}: {group.GroupDescription}");
+            Console.WriteLine($"Contacts: {group.Contacts.Count}");
+            
+            foreach (var contact in group.Contacts)
+            {
+                Console.WriteLine($"  {contact.Name} - {contact.Company} ({contact.Phone})");
+            }
+        }
+
         }
     }
 }
