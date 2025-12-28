@@ -151,6 +151,38 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  {timeliness}");
         }
 
+        var overdueReminders = reminders
+            .Where(r => !r.CompletionDate.HasValue && r.DueDate < DateTime.Now)
+            .OrderBy(r => r.DueDate)
+            .Select(r => new
+            {
+                r.Title,
+                OverdueBy = Math.Round((DateTime.Now - r.DueDate).TotalDays, 1),
+                r.Priority,
+                r.Category,
+                DueDate = r.DueDate.ToString("MMM dd, HH:mm")
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Overdue Reminders ===");
+        if (overdueReminders.Any())
+        {
+            foreach (var reminder in overdueReminders)
+            {
+                string urgency = reminder.OverdueBy > 7 ? "CRITICAL 🔴" :
+                                reminder.OverdueBy > 3 ? "HIGH 🟠" : "MEDIUM 🟡";
+                
+                Console.WriteLine($"{reminder.Title}");
+                Console.WriteLine($"  Overdue by: {reminder.OverdueBy} days - {urgency}");
+                Console.WriteLine($"  Due: {reminder.DueDate}");
+                Console.WriteLine($"  Category: {reminder.Category}, Priority: {reminder.Priority}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No overdue reminders! Great job! ✅");
+        }
+
         }
     }
 
