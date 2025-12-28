@@ -55,6 +55,41 @@ namespace LinqProblems.Problems3
             new Notification { Id = 5, ReminderId = 2, NotificationTime = DateTime.Today, 
                              IsSent = true, SentMethod = "SMS" }
         };
+
+         var todayReminders = reminders
+            .Where(r => r.DueDate.Date == DateTime.Today)
+            .OrderBy(r => r.DueDate)
+            .Select(r => new
+            {
+                r.Title,
+                Time = r.DueDate.ToString("HH:mm"),
+                r.Priority,
+                r.Category,
+                IsCompleted = r.CompletionDate.HasValue,
+                HoursUntil = Math.Round((r.DueDate - DateTime.Now).TotalHours, 1)
+            })
+            .ToList();
+
+        Console.WriteLine("=== Today's Reminders ===");
+        if (todayReminders.Any())
+        {
+            foreach (var reminder in todayReminders)
+            {
+                string status = reminder.IsCompleted ? "✅" : 
+                               reminder.HoursUntil > 0 ? "⏰" : "⚠️";
+                string timeStatus = reminder.HoursUntil > 0 ? 
+                    $"in {reminder.HoursUntil}h" : "NOW";
+                
+                Console.WriteLine($"{status} {reminder.Time} - {reminder.Title}");
+                Console.WriteLine($"  Category: {reminder.Category}, Priority: {reminder.Priority}");
+                Console.WriteLine($"  Status: {(reminder.IsCompleted ? "Completed" : $"Due {timeStatus}")}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No reminders for today! 🎉");
+        }
+
         }
     }
 
