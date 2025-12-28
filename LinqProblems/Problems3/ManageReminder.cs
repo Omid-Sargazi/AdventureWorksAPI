@@ -125,6 +125,32 @@ namespace LinqProblems.Problems3
             Console.WriteLine("No upcoming reminders in the next 7 days.");
         }
 
+        var completedReminders = reminders
+            .Where(r => r.CompletionDate.HasValue)
+            .OrderByDescending(r => r.CompletionDate)
+            .Take(5)
+            .Select(r => new
+            {
+                r.Title,
+                Completed = r.CompletionDate?.ToString("MMM dd, HH:mm"),
+                Due = r.DueDate.ToString("MMM dd, HH:mm"),
+                r.Category,
+                DaysLate = Math.Max(0, (r.CompletionDate.Value.Date - r.DueDate.Date).Days)
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Recently Completed Reminders ===");
+        foreach (var reminder in completedReminders)
+        {
+            string timeliness = reminder.DaysLate == 0 ? "On time ✅" : 
+                               $"Late by {reminder.DaysLate} day(s) ⚠️";
+            
+            Console.WriteLine($"{reminder.Title}");
+            Console.WriteLine($"  Due: {reminder.Due}, Completed: {reminder.Completed}");
+            Console.WriteLine($"  Category: {reminder.Category}");
+            Console.WriteLine($"  {timeliness}");
+        }
+
         }
     }
 
