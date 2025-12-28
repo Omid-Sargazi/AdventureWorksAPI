@@ -90,6 +90,41 @@ namespace LinqProblems.Problems3
             Console.WriteLine("No reminders for today! 🎉");
         }
 
+
+         var upcomingReminders = reminders
+            .Where(r => r.DueDate > DateTime.Now && 
+                       r.DueDate <= DateTime.Now.AddDays(7) && 
+                       !r.CompletionDate.HasValue)
+            .OrderBy(r => r.DueDate)
+            .Select(r => new
+            {
+                r.Title,
+                DueDate = r.DueDate.ToString("ddd, MMM dd"),
+                Time = r.DueDate.ToString("HH:mm"),
+                r.Priority,
+                r.Category,
+                DaysUntil = (r.DueDate.Date - DateTime.Today).Days
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Upcoming Reminders (Next 7 Days) ===");
+        if (upcomingReminders.Any())
+        {
+            foreach (var reminder in upcomingReminders)
+            {
+                string dayInfo = reminder.DaysUntil == 0 ? "Today" :
+                                reminder.DaysUntil == 1 ? "Tomorrow" :
+                                $"In {reminder.DaysUntil} days";
+                
+                Console.WriteLine($"{reminder.DueDate} {reminder.Time} - {reminder.Title}");
+                Console.WriteLine($"  {dayInfo} | Category: {reminder.Category} | Priority: {reminder.Priority}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No upcoming reminders in the next 7 days.");
+        }
+
         }
     }
 
