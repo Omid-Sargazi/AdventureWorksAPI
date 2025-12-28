@@ -230,6 +230,30 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Progress: {progressBar}");
         }
 
+        var todayNotifications = notifications
+            .Where(n => n.NotificationTime.Date == DateTime.Today)
+            .OrderBy(n => n.NotificationTime)
+            .Select(n => new
+            {
+                Reminder = reminders.First(r => r.Id == n.ReminderId).Title,
+                Time = n.NotificationTime.ToString("HH:mm"),
+                Status = n.IsSent ? "Sent ✅" : "Pending ⏳",
+                Method = n.SentMethod,
+                HoursAgo = Math.Round((DateTime.Now - n.NotificationTime).TotalHours, 1)
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Today's Notifications ===");
+        foreach (var notification in todayNotifications)
+        {
+            string timeInfo = notification.HoursAgo > 0 ? 
+                $"{notification.HoursAgo}h ago" : "Future";
+            
+            Console.WriteLine($"{notification.Time} - {notification.Reminder}");
+            Console.WriteLine($"  Status: {notification.Status} via {notification.Method}");
+            Console.WriteLine($"  {timeInfo}");
+        }
+
 
         }
     }
