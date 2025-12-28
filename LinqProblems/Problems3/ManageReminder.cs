@@ -207,6 +207,30 @@ namespace LinqProblems.Problems3
         Console.WriteLine($"Avg completion time: {Math.Round(reminderStats.AverageCompletionTime, 1)} days");
 
 
+        var remindersByCategory = reminders
+            .GroupBy(r => r.Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                Total = g.Count(),
+                Completed = g.Count(r => r.CompletionDate.HasValue),
+                Overdue = g.Count(r => !r.CompletionDate.HasValue && r.DueDate < DateTime.Now),
+                CompletionRate = Math.Round((double)g.Count(r => r.CompletionDate.HasValue) / g.Count() * 100, 1)
+            })
+            .OrderByDescending(g => g.Total)
+            .ToList();
+
+        Console.WriteLine("\n=== Reminders by Category ===");
+        foreach (var category in remindersByCategory)
+        {
+            string progressBar = GenerateProgressBar(category.CompletionRate);
+            Console.WriteLine($"{category.Category}:");
+            Console.WriteLine($"  Total: {category.Total}, Completed: {category.Completed}");
+            Console.WriteLine($"  Overdue: {category.Overdue}, Rate: {category.CompletionRate}%");
+            Console.WriteLine($"  Progress: {progressBar}");
+        }
+
+
         }
     }
 
