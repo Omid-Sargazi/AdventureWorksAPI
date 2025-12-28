@@ -254,6 +254,53 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  {timeInfo}");
         }
 
+        var recurringReminders = reminders
+            .Where(r => r.IsRecurring)
+            .GroupBy(r => r.Recurrence)
+            .Select(g => new
+            {
+                Frequency = g.Key,
+                Reminders = g.Select(r => new
+                {
+                    r.Title,
+                    NextDue = CalculateNextDueDate(r.DueDate, r.Recurrence),
+                    r.Priority
+                }).ToList()
+            })
+            .ToList();
+
+        Console.WriteLine("\n=== Recurring Reminders ===");
+        foreach (var group in recurringReminders)
+        {
+            Console.WriteLine($"\n{group.Frequency}:");
+            foreach (var reminder in group.Reminders)
+            {
+                Console.WriteLine($"  {reminder.Title} - Next: {reminder.NextDue:MMM dd} ({reminder.Priority})");
+            }
+        }
+    }
+  static string GenerateProgressBar(double percentage)
+    {
+        int width = 20;
+        int filledWidth = (int)(percentage / 100 * width);
+        int emptyWidth = width - filledWidth;
+        
+        string filled = new string('█', filledWidth);
+        string empty = new string('░', emptyWidth);
+        
+        return $"[{filled}{empty}]";
+    }
+
+    static DateTime CalculateNextDueDate(DateTime lastDue, string recurrence)
+    {
+        return recurrence switch
+        {
+            "Daily" => lastDue.AddDays(1),
+            "Weekly" => lastDue.AddDays(7),
+            "Monthly" => lastDue.AddMonths(1),
+            _ => lastDue
+        };
+    }
 
         }
     }
