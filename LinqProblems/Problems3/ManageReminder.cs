@@ -183,6 +183,30 @@ namespace LinqProblems.Problems3
             Console.WriteLine("No overdue reminders! Great job! ✅");
         }
 
+
+        var reminderStats = new
+        {
+            TotalReminders = reminders.Count,
+            Completed = reminders.Count(r => r.CompletionDate.HasValue),
+            Pending = reminders.Count(r => !r.CompletionDate.HasValue),
+            TodayCount = reminders.Count(r => r.DueDate.Date == DateTime.Today),
+            OverdueCount = reminders.Count(r => !r.CompletionDate.HasValue && r.DueDate < DateTime.Now),
+            RecurringCount = reminders.Count(r => r.IsRecurring),
+            HighPriorityCount = reminders.Count(r => r.Priority == "High"),
+            AverageCompletionTime = reminders
+                .Where(r => r.CompletionDate.HasValue)
+                .Average(r => (r.CompletionDate.Value - r.CreatedDate).TotalDays)
+        };
+
+        Console.WriteLine("\n=== Reminder Statistics ===");
+        Console.WriteLine($"Total: {reminderStats.TotalReminders}");
+        Console.WriteLine($"Completed: {reminderStats.Completed}, Pending: {reminderStats.Pending}");
+        Console.WriteLine($"Today: {reminderStats.TodayCount}, Overdue: {reminderStats.OverdueCount}");
+        Console.WriteLine($"Recurring: {reminderStats.RecurringCount}");
+        Console.WriteLine($"High Priority: {reminderStats.HighPriorityCount}");
+        Console.WriteLine($"Avg completion time: {Math.Round(reminderStats.AverageCompletionTime, 1)} days");
+
+
         }
     }
 
