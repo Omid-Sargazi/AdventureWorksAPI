@@ -4,7 +4,57 @@ namespace LinqProblems.Problems3
     {
         public static void Execute()
         {
+            var reminders = new List<Reminder>
+        {
+            new Reminder { Id = 1, Title = "Doctor appointment", Description = "Annual checkup", 
+                         Category = "Health", DueDate = DateTime.Today.AddHours(14), 
+                         CompletionDate = null, Priority = "High", IsRecurring = false, 
+                         Recurrence = null, CreatedDate = DateTime.Now.AddDays(-5) },
             
+            new Reminder { Id = 2, Title = "Pay electricity bill", Description = "Due this week", 
+                         Category = "Personal", DueDate = DateTime.Today.AddDays(2), 
+                         CompletionDate = null, Priority = "Medium", IsRecurring = true, 
+                         Recurrence = "Monthly", CreatedDate = DateTime.Now.AddDays(-30) },
+            
+            new Reminder { Id = 3, Title = "Team meeting", Description = "Weekly sync", 
+                         Category = "Work", DueDate = DateTime.Today.AddHours(10), 
+                         CompletionDate = DateTime.Today.AddHours(11), Priority = "Medium", 
+                         IsRecurring = true, Recurrence = "Weekly", CreatedDate = DateTime.Now.AddDays(-60) },
+            
+            new Reminder { Id = 4, Title = "Buy groceries", Description = "Milk, eggs, bread", 
+                         Category = "Personal", DueDate = DateTime.Today.AddDays(-1), 
+                         CompletionDate = null, Priority = "Medium", IsRecurring = false, 
+                         Recurrence = null, CreatedDate = DateTime.Now.AddDays(-3) },
+            
+            new Reminder { Id = 5, Title = "Call mom", Description = "Birthday call", 
+                         Category = "Family", DueDate = DateTime.Today.AddDays(3), 
+                         CompletionDate = null, Priority = "High", IsRecurring = false, 
+                         Recurrence = null, CreatedDate = DateTime.Now.AddDays(-2) },
+            
+            new Reminder { Id = 6, Title = "Gym session", Description = "Evening workout", 
+                         Category = "Health", DueDate = DateTime.Today.AddHours(18), 
+                         CompletionDate = null, Priority = "Low", IsRecurring = true, 
+                         Recurrence = "Daily", CreatedDate = DateTime.Now.AddDays(-15) },
+            
+            new Reminder { Id = 7, Title = "Submit report", Description = "Monthly report", 
+                         Category = "Work", DueDate = DateTime.Today.AddDays(5), 
+                         CompletionDate = null, Priority = "High", IsRecurring = true, 
+                         Recurrence = "Monthly", CreatedDate = DateTime.Now.AddDays(-90) }
+        };
+
+        var notifications = new List<Notification>
+        {
+            new Notification { Id = 1, ReminderId = 1, NotificationTime = DateTime.Today.AddHours(10), 
+                             IsSent = true, SentMethod = "App" },
+            new Notification { Id = 2, ReminderId = 1, NotificationTime = DateTime.Today.AddHours(13), 
+                             IsSent = false, SentMethod = "App" },
+            new Notification { Id = 3, ReminderId = 3, NotificationTime = DateTime.Today.AddHours(9), 
+                             IsSent = true, SentMethod = "Email" },
+            new Notification { Id = 4, ReminderId = 6, NotificationTime = DateTime.Today.AddHours(17), 
+                             IsSent = false, SentMethod = "App" },
+            new Notification { Id = 5, ReminderId = 2, NotificationTime = DateTime.Today, 
+                             IsSent = true, SentMethod = "SMS" }
+        };
         }
     }
 
