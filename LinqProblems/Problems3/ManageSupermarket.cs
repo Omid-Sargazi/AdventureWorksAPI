@@ -4,11 +4,124 @@ namespace LinqProblems.Problems3
     {
         public void  Ececute()
         {
+              var groceryItems = new List<GroceryItem>
+        {
+            new GroceryItem { Id = 1, Name = "Milk", Category = "Dairy", 
+                            UsualPrice = 45000, Unit = "liter", IsEssential = true },
+            new GroceryItem { Id = 2, Name = "Bread", Category = "Bakery", 
+                            UsualPrice = 25000, Unit = "piece", IsEssential = true },
+            new GroceryItem { Id = 3, Name = "Eggs", Category = "Dairy", 
+                            UsualPrice = 180000, Unit = "dozen", IsEssential = true },
+            new GroceryItem { Id = 4, Name = "Tomatoes", Category = "Vegetables", 
+                            UsualPrice = 80000, Unit = "kg", IsEssential = true },
+            new GroceryItem { Id = 5, Name = "Chicken", Category = "Meat", 
+                            UsualPrice = 350000, Unit = "kg", IsEssential = true },
+            new GroceryItem { Id = 6, Name = "Rice", Category = "Grains", 
+                            UsualPrice = 220000, Unit = "kg", IsEssential = true },
+            new GroceryItem { Id = 7, Name = "Potatoes", Category = "Vegetables", 
+                            UsualPrice = 60000, Unit = "kg", IsEssential = true },
+            new GroceryItem { Id = 8, Name = "Chips", Category = "Snacks", 
+                            UsualPrice = 75000, Unit = "piece", IsEssential = false },
+            new GroceryItem { Id = 9, Name = "Yogurt", Category = "Dairy", 
+                            UsualPrice = 55000, Unit = "piece", IsEssential = true }
+        };
+
+        // فروشگاه‌ها
+        var stores = new List<Store>
+        {
+            new Store { Id = 1, Name = "Hyperstar", Location = "City Center" },
+            new Store { Id = 2, Name = "Refah", Location = "North Area" },
+            new Store { Id = 3, Name = "Shahrvand", Location = "West Area" }
+        };
+
+        // قیمت‌های فروشگاه‌ها
+        var storePrices = new List<StorePrice>
+        {
+            // Hyperstar prices
+            new StorePrice { Id = 1, StoreId = 1, ItemId = 1, Price = 43000, UpdatedDate = DateTime.Now.AddDays(-1) },
+            new StorePrice { Id = 2, StoreId = 1, ItemId = 2, Price = 24000, UpdatedDate = DateTime.Now.AddDays(-2) },
+            new StorePrice { Id = 3, StoreId = 1, ItemId = 3, Price = 175000, UpdatedDate = DateTime.Now.AddDays(-1) },
+            new StorePrice { Id = 4, StoreId = 1, ItemId = 4, Price = 75000, UpdatedDate = DateTime.Now.AddDays(-3) },
             
+            // Refah prices
+            new StorePrice { Id = 5, StoreId = 2, ItemId = 1, Price = 45000, UpdatedDate = DateTime.Now.AddDays(-2) },
+            new StorePrice { Id = 6, StoreId = 2, ItemId = 2, Price = 26000, UpdatedDate = DateTime.Now.AddDays(-1) },
+            new StorePrice { Id = 7, StoreId = 2, ItemId = 3, Price = 185000, UpdatedDate = DateTime.Now.AddDays(-2) },
+            new StorePrice { Id = 8, StoreId = 2, ItemId = 4, Price = 85000, UpdatedDate = DateTime.Now.AddDays(-1) },
+            
+            // Shahrvand prices
+            new StorePrice { Id = 9, StoreId = 3, ItemId = 1, Price = 42000, UpdatedDate = DateTime.Now.AddDays(-1) },
+            new StorePrice { Id = 10, StoreId = 3, ItemId = 2, Price = 23000, UpdatedDate = DateTime.Now.AddDays(-3) },
+            new StorePrice { Id = 11, StoreId = 3, ItemId = 3, Price = 170000, UpdatedDate = DateTime.Now.AddDays(-2) },
+            new StorePrice { Id = 12, StoreId = 3, ItemId = 4, Price = 78000, UpdatedDate = DateTime.Now.AddDays(-1) }
+        };
+        
+        var todayShoppingList = new List<ShoppingList>
+        {
+            new ShoppingList { Id = 1, ItemId = 1, Quantity = 2, IsPurchased = true, 
+                             ListDate = DateTime.Today, Priority = 3 },
+            new ShoppingList { Id = 2, ItemId = 2, Quantity = 1, IsPurchased = true, 
+                             ListDate = DateTime.Today, Priority = 3 },
+            new ShoppingList { Id = 3, ItemId = 3, Quantity = 1, IsPurchased = false, 
+                             ListDate = DateTime.Today, Priority = 2 },
+            new ShoppingList { Id = 4, ItemId = 4, Quantity = 2, IsPurchased = false, 
+                             ListDate = DateTime.Today, Priority = 2 },
+            new ShoppingList { Id = 5, ItemId = 5, Quantity = 1, IsPurchased = false, 
+                             ListDate = DateTime.Today, Priority = 1 },
+            new ShoppingList { Id = 6, ItemId = 8, Quantity = 1, IsPurchased = false, 
+                             ListDate = DateTime.Today, Priority = 1 }
+        };
+
+        // خریدهای قبلی
+        var purchases = new List<Purchase>
+        {
+            new Purchase { Id = 1, StoreId = 1, PurchaseDate = DateTime.Now.AddDays(-7), 
+                         TotalAmount = 285000, PaymentMethod = "Card" },
+            new Purchase { Id = 2, StoreId = 2, PurchaseDate = DateTime.Now.AddDays(-3), 
+                         TotalAmount = 320000, PaymentMethod = "Cash" }
+        };
+
+        var purchaseItems = new List<PurchaseItem>
+        {
+            // Purchase 1 items
+            new PurchaseItem { Id = 1, PurchaseId = 1, ItemId = 1, Quantity = 2, UnitPrice = 43000 },
+            new PurchaseItem { Id = 2, PurchaseId = 1, ItemId = 2, Quantity = 1, UnitPrice = 24000 },
+            new PurchaseItem { Id = 3, PurchaseId = 1, ItemId = 6, Quantity = 2, UnitPrice = 220000 },
+            
+            // Purchase 2 items
+            new PurchaseItem { Id = 4, PurchaseId = 2, ItemId = 1, Quantity = 1, UnitPrice = 45000 },
+            new PurchaseItem { Id = 5, PurchaseId = 2, ItemId = 3, Quantity = 1, UnitPrice = 185000 },
+            new PurchaseItem { Id = 6, PurchaseId = 2, ItemId = 4, Quantity = 1, UnitPrice = 85000 }
+        };
+
+          Console.WriteLine("=== Today's Shopping List ===");
+        
+        var todayList = todayShoppingList
+            .Where(sl => sl.ListDate.Date == DateTime.Today)
+            .Select(sl => new
+            {
+                Item = groceryItems.First(i => i.Id == sl.ItemId),
+                sl.Quantity,
+                sl.IsPurchased,
+                sl.Priority
+            })
+            .OrderByDescending(x => x.Priority)
+            .ThenBy(x => x.Item.Category)
+            .ToList();
+
+        foreach (var item in todayList)
+        {
+            string status = item.IsPurchased ? "✅" : "📝";
+            string priorityStars = new string('⭐', item.Priority);
+            string essential = item.Item.IsEssential ? " (Essential)" : "";
+            
+            Console.WriteLine($"{status} {priorityStars} {item.Item.Name}");
+            Console.WriteLine($"  Category: {item.Item.Category}, Quantity: {item.Quantity} {item.Item.Unit}{essential}");
+            Console.WriteLine($"  Usual Price: {item.Item.UsualPrice?.ToString("C0") ?? "Unknown"}");
         }
     }
 
-    ublic class GroceryItem
+    public class GroceryItem
 {
     public int Id { get; set; }
     public string Name { get; set; }
