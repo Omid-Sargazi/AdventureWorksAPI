@@ -129,6 +129,34 @@ namespace LinqProblems.Problems3
             .ToList();
 
         Console.WriteLine($"\nPurchased: {purchasedItems.Count}/{todayList.Count} items");
+
+        Console.WriteLine("\n=== Price Comparison ===");
+        
+        // برای آیتم‌های خریداری نشده، بهترین قیمت را پیدا کن
+        foreach (var item in notPurchasedItems.Take(3)) // فقط 3 آیتم اول
+        {
+            var itemPrices = storePrices
+                .Where(sp => sp.ItemId == item.Item.Id)
+                .Select(sp => new
+                {
+                    Store = stores.First(s => s.Id == sp.StoreId).Name,
+                    sp.Price,
+                    DaysOld = (DateTime.Now - sp.UpdatedDate).Days
+                })
+                .OrderBy(p => p.Price)
+                .ToList();
+
+            if (itemPrices.Any())
+            {
+                Console.WriteLine($"\n{item.Item.Name}:");
+                foreach (var price in itemPrices)
+                {
+                    string freshness = price.DaysOld <= 1 ? "🟢" : price.DaysOld <= 3 ? "🟡" : "🔴";
+                    Console.WriteLine($"  {freshness} {price.Store}: {price.Price:C0} ({price.DaysOld} days old)");
+                }
+            }
+        }
+
     }
 
     public class GroceryItem
