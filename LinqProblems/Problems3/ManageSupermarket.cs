@@ -186,6 +186,42 @@ namespace LinqProblems.Problems3
                 Console.WriteLine($"    - {item.Item}: {item.Quantity} × {item.UnitPrice:C0}");
             }
         }
+
+         Console.WriteLine("\n=== Today's Purchase Estimate ===");
+        
+        var estimatedCost = notPurchasedItems
+            .Sum(item => 
+            {
+                var minPrice = storePrices
+                    .Where(sp => sp.ItemId == item.Item.Id)
+                    .Min(sp => sp.Price);
+                
+                return (decimal?)minPrice * item.Quantity ?? 
+                       item.Item.UsualPrice * item.Quantity ?? 0;
+            });
+
+        var essentialCost = notPurchasedItems
+            .Where(item => item.Item.IsEssential)
+            .Sum(item => 
+            {
+                var minPrice = storePrices
+                    .Where(sp => sp.ItemId == item.Item.Id)
+                    .Min(sp => sp.Price);
+                
+                return (decimal?)minPrice * item.Quantity ?? 
+                       item.Item.UsualPrice * item.Quantity ?? 0;
+            });
+
+        Console.WriteLine($"Remaining items: {notPurchasedItems.Count}");
+        Console.WriteLine($"Estimated total cost: {estimatedCost:C0}");
+        Console.WriteLine($"Essential items cost: {essentialCost:C0}");
+        
+        if (notPurchasedItems.Any(item => !item.Item.IsEssential))
+        {
+            var nonEssentialCost = estimatedCost - essentialCost;
+            Console.WriteLine($"Non-essential items cost: {nonEssentialCost:C0}");
+            Console.WriteLine($"You can save {nonEssentialCost:C0} by skipping non-essentials!");
+        }
         }
 
     }
