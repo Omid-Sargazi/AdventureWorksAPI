@@ -155,6 +155,37 @@ namespace LinqProblems.Problems3
                     Console.WriteLine($"  {freshness} {price.Store}: {price.Price:C0} ({price.DaysOld} days old)");
                 }
             }
+
+            var weeklyPurchases = purchases
+            .Where(p => p.PurchaseDate >= DateTime.Now.AddDays(-7))
+            .Select(p => new
+            {
+                Store = stores.First(s => s.Id == p.StoreId).Name,
+                p.PurchaseDate,
+                p.TotalAmount,
+                Items = purchaseItems
+                    .Where(pi => pi.PurchaseId == p.Id)
+                    .Select(pi => new
+                    {
+                        Item = groceryItems.First(i => i.Id == pi.ItemId).Name,
+                        pi.Quantity,
+                        pi.UnitPrice
+                    })
+                    .ToList()
+            })
+            .OrderByDescending(p => p.PurchaseDate)
+            .ToList();
+
+        Console.WriteLine("\n=== Weekly Purchases ===");
+        foreach (var purchase in weeklyPurchases)
+        {
+            Console.WriteLine($"{purchase.PurchaseDate:MMM dd} at {purchase.Store}: {purchase.TotalAmount:C0}");
+            Console.WriteLine("  Items:");
+            foreach (var item in purchase.Items)
+            {
+                Console.WriteLine($"    - {item.Item}: {item.Quantity} × {item.UnitPrice:C0}");
+            }
+        }
         }
 
     }
