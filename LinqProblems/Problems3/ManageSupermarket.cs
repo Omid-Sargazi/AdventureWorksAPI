@@ -119,6 +119,16 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Category: {item.Item.Category}, Quantity: {item.Quantity} {item.Item.Unit}{essential}");
             Console.WriteLine($"  Usual Price: {item.Item.UsualPrice?.ToString("C0") ?? "Unknown"}");
         }
+
+          var purchasedItems = todayList
+            .Where(x => x.IsPurchased)
+            .ToList();
+
+        var notPurchasedItems = todayList
+            .Where(x => !x.IsPurchased)
+            .ToList();
+
+        Console.WriteLine($"\nPurchased: {purchasedItems.Count}/{todayList.Count} items");
     }
 
     public class GroceryItem
