@@ -222,6 +222,36 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"Non-essential items cost: {nonEssentialCost:C0}");
             Console.WriteLine($"You can save {nonEssentialCost:C0} by skipping non-essentials!");
         }
+
+         var itemsByCategory = todayList
+            .GroupBy(x => x.Item.Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                ItemCount = g.Count(),
+                PurchasedCount = g.Count(x => x.IsPurchased),
+                TotalQuantity = g.Sum(x => x.Quantity),
+                EstimatedCost = g.Sum(item => 
+                {
+                    var minPrice = storePrices
+                        .Where(sp => sp.ItemId == item.Item.Id)
+                        .Min(sp => sp.Price);
+                    
+                    return (decimal?)minPrice * item.Quantity ?? 
+                           item.Item.UsualPrice * item.Quantity ?? 0;
+                })
+            })
+            .OrderByDescending(c => c.ItemCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Items by Category ===");
+        foreach (var category in itemsByCategory)
+        {
+            string progress = $"{category.PurchasedCount}/{category.ItemCount}";
+            Console.WriteLine($"{category.Category}: {progress} items");
+            Console.WriteLine($"  Quantity: {category.TotalQuantity}, Est. Cost: {category.EstimatedCost:C0}");
+        }
+
         }
 
     }
