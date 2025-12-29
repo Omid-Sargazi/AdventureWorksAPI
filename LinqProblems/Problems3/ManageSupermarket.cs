@@ -291,6 +291,21 @@ namespace LinqProblems.Problems3
             }
         }
 
+        var stats = new
+        {
+            TotalItems = todayList.Count,
+            EssentialItems = todayList.Count(x => x.Item.IsEssential),
+            CompletedRate = todayList.Count > 0 ? 
+                Math.Round((double)todayList.Count(x => x.IsPurchased) / todayList.Count * 100, 0) : 0,
+            AvgWeeklySpend = purchases.Count > 0 ? 
+                purchases.Average(p => p.TotalAmount) : 0
+        };
+
+        Console.WriteLine("\n=== Quick Stats ===");
+        Console.WriteLine($"Today's list: {stats.TotalItems} items ({stats.EssentialItems} essentials)");
+        Console.WriteLine($"Completion: {stats.CompletedRate}%");
+        Console.WriteLine($"Average weekly spend: {stats.AvgWeeklySpend:C0}");
+
         }
 
     }
