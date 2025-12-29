@@ -252,6 +252,45 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Quantity: {category.TotalQuantity}, Est. Cost: {category.EstimatedCost:C0}");
         }
 
+         Console.WriteLine("\n=== Shopping Recommendations ===");
+        
+        // آیتم‌های ضروری که موجود نیستند
+        var missingEssentials = notPurchasedItems
+            .Where(item => item.Item.IsEssential && item.Priority >= 2)
+            .Select(item => item.Item.Name)
+            .ToList();
+
+        if (missingEssentials.Any())
+        {
+            Console.WriteLine("🚨 Must buy:");
+            foreach (var item in missingEssentials)
+            {
+                Console.WriteLine($"  • {item}");
+            }
+        }
+
+        // آیتم‌های غیرضروری که می‌توان حذف کرد
+        var optionalItems = notPurchasedItems
+            .Where(item => !item.Item.IsEssential)
+            .Select(item => new
+            {
+                item.Item.Name,
+                EstimatedPrice = storePrices
+                    .Where(sp => sp.ItemId == item.Item.Id)
+                    .Min(sp => sp.Price) * item.Quantity
+            })
+            .OrderByDescending(item => item.EstimatedPrice)
+            .ToList();
+
+        if (optionalItems.Any())
+        {
+            Console.WriteLine("\n💡 Consider skipping (to save money):");
+            foreach (var item in optionalItems.Take(2)) // فقط 2 آیتم گران
+            {
+                Console.WriteLine($"  • {item.Name} (~{item.EstimatedPrice:C0})");
+            }
+        }
+
         }
 
     }
