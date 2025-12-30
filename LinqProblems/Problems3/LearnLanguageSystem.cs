@@ -211,6 +211,40 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Words practiced: {day.TotalWords}, Accuracy: {day.Accuracy}%");
         }
 
+         var difficultWords = words
+            .Select(w => new
+            {
+                Word = w,
+                Reviews = wordReviews.Where(wr => wr.WordId == w.Id).ToList()
+            })
+            .Where(x => x.Reviews.Any())
+            .Select(x => new
+            {
+                x.Word.ForeignWord,
+                x.Word.Translation,
+                TotalReviews = x.Reviews.Count,
+                CorrectReviews = x.Reviews.Count(r => r.WasCorrect),
+                SuccessRate = Math.Round((double)x.Reviews.Count(r => r.WasCorrect) / x.Reviews.Count * 100, 1),
+                LastAttempt = x.Reviews.Max(r => r.ReviewDate),
+                CommonMistake = x.Reviews
+                    .Where(r => !r.WasCorrect && !string.IsNullOrEmpty(r.Notes))
+                    .Select(r => r.Notes)
+                    .FirstOrDefault() ?? "No notes"
+            })
+            .Where(x => x.SuccessRate < 70) // کمتر از ۷۰٪ موفقیت
+            .OrderBy(x => x.SuccessRate)
+            .Take(3)
+            .ToList();
+
+        Console.WriteLine("\n=== Difficult Words (Needs Focus) ===");
+        foreach (var word in difficultWords)
+        {
+            Console.WriteLine($"{word.ForeignWord} = {word.Translation}");
+            Console.WriteLine($"  Success Rate: {word.SuccessRate}% ({word.CorrectReviews}/{word.TotalReviews})");
+            Console.WriteLine($"  Last attempted: {word.LastAttempt:MMM dd}");
+            Console.WriteLine($"  Note: {word.CommonMistake}");
+        }
+
 
 
         }
