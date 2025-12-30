@@ -164,6 +164,32 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Last reviewed: {word.LastReview}");
         }
 
+          var lessonProgress = lessons
+            .Select(l => new
+            {
+                l.Title,
+                l.Language,
+                l.Progress,
+                Status = l.CompletedDate.HasValue ? "✅ Completed" : "📚 In Progress",
+                DaysActive = (DateTime.Now - l.StartDate).Days,
+                EstimatedCompletion = l.CompletedDate?.ToString("MMM dd") ?? 
+                    (l.Progress > 0 ? $"~{DateTime.Now.AddDays((100 - l.Progress) / 5).ToString("MMM dd")}" : "Unknown")
+            })
+            .OrderByDescending(l => l.Progress)
+            .ToList();
+
+        Console.WriteLine("\n=== Lesson Progress ===");
+        foreach (var lesson in lessonProgress)
+        {
+            string progressBar = GenerateProgressBar(lesson.Progress);
+            Console.WriteLine($"{lesson.Title} ({lesson.Language})");
+            Console.WriteLine($"  {progressBar} {lesson.Progress}%");
+            Console.WriteLine($"  Status: {lesson.Status}, Active for {lesson.DaysActive} days");
+            if (!lesson.Status.Contains("Completed"))
+                Console.WriteLine($"  Estimated completion: {lesson.EstimatedCompletion}");
+        }
+
+
         }
     }
 
