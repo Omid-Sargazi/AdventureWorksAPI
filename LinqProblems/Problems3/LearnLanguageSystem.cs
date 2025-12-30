@@ -269,6 +269,26 @@ var practiceByType = practiceSessions
             Console.WriteLine($"  Average Accuracy: {practice.AverageAccuracy}%");
             Console.WriteLine($"  Most common time: {practice.FavoriteTime}:00");
         }
+ var wordsByCategory = words
+            .GroupBy(w => w.Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                WordCount = g.Count(),
+                AverageMastery = Math.Round(g.Average(w => w.MasteryLevel), 1),
+                MostDifficult = g.OrderByDescending(w => w.Difficulty).First().ForeignWord,
+                NewestWord = g.OrderByDescending(w => w.AddedDate).First().ForeignWord
+            })
+            .OrderByDescending(c => c.WordCount)
+            .ToList();
+
+        Console.WriteLine("\n=== Words by Category ===");
+        foreach (var category in wordsByCategory)
+        {
+            Console.WriteLine($"{category.Category}:");
+            Console.WriteLine($"  Words: {category.WordCount}, Avg Mastery: {category.AverageMastery}%");
+            Console.WriteLine($"  Hardest: {category.MostDifficult}, Newest: {category.NewestWord}");
+        }
 
         }
     }
