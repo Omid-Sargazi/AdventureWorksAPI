@@ -112,6 +112,7 @@ namespace LinqProblems.Problems3
                 w.ForeignWord,
                 w.Translation,
                 w.Language,
+                
                 w.Category,
                 w.Difficulty,
                 Added = (DateTime.Now - w.AddedDate).Days,
