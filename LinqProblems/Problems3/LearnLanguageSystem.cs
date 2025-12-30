@@ -245,7 +245,30 @@ namespace LinqProblems.Problems3
             Console.WriteLine($"  Note: {word.CommonMistake}");
         }
 
+var practiceByType = practiceSessions
+            .GroupBy(p => p.PracticeType)
+            .Select(g => new
+            {
+                Type = g.Key,
+                TotalSessions = g.Count(),
+                TotalMinutes = g.Sum(p => p.Duration),
+                AverageAccuracy = Math.Round(g.Average(p => (double)p.CorrectAnswers / p.WordsPracticed * 100), 1),
+                FavoriteTime = g.GroupBy(p => p.SessionDate.Hour)
+                               .OrderByDescending(hg => hg.Count())
+                               .First()
+                               .Key
+            })
+            .OrderByDescending(p => p.TotalMinutes)
+            .ToList();
 
+        Console.WriteLine("\n=== Practice by Type ===");
+        foreach (var practice in practiceByType)
+        {
+            Console.WriteLine($"{practice.Type}:");
+            Console.WriteLine($"  Sessions: {practice.TotalSessions}, Time: {practice.TotalMinutes} min");
+            Console.WriteLine($"  Average Accuracy: {practice.AverageAccuracy}%");
+            Console.WriteLine($"  Most common time: {practice.FavoriteTime}:00");
+        }
 
         }
     }
