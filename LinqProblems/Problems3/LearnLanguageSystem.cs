@@ -290,7 +290,86 @@ var practiceByType = practiceSessions
             Console.WriteLine($"  Hardest: {category.MostDifficult}, Newest: {category.NewestWord}");
         }
 
+           var stats = new
+        {
+            TotalWords = words.Count,
+            TotalLanguages = words.Select(w => w.Language).Distinct().Count(),
+            AverageMastery = Math.Round(words.Average(w => w.MasteryLevel), 1),
+            TotalPracticeTime = practiceSessions.Sum(p => p.Duration),
+            AverageDailyPractice = Math.Round(practiceSessions.Sum(p => p.Duration) / 7.0, 1), // هفته گذشته
+            StreakDays = CalculateStreakDays(practiceSessions),
+            MostPracticedCategory = wordsByCategory.FirstOrDefault()?.Category ?? "None"
+        };
+
+        Console.WriteLine("\n=== Overall Statistics ===");
+        Console.WriteLine($"Words learned: {stats.TotalWords} ({stats.TotalLanguages} languages)");
+        Console.WriteLine($"Average mastery: {stats.AverageMastery}%");
+        Console.WriteLine($"Total practice time: {stats.TotalPracticeTime} min");
+        Console.WriteLine($"Daily average: {stats.AverageDailyPractice} min/day");
+        Console.WriteLine($"Current streak: {stats.StreakDays} days");
+        Console.WriteLine($"Most practiced category: {stats.MostPracticedCategory}");
+
         }
+
+        static int CalculateReviewPriority(Word word)
+    {
+        if (!word.LastReviewed.HasValue) return 5; // هرگز مرور نشده
+        
+        int daysSinceReview = (DateTime.Now - word.LastReviewed.Value).Days;
+        double mastery = word.MasteryLevel;
+        
+        if (mastery < 30) return 5; // تسلط کم
+        if (mastery < 50 && daysSinceReview > 1) return 5;
+        if (mastery < 70 && daysSinceReview > 3) return 4;
+        if (mastery < 85 && daysSinceReview > 7) return 3;
+        if (daysSinceReview > 14) return 2;
+        
+        return 1;
+    }
+
+    // تابع کمکی برای نوار پیشرفت
+    static string GenerateProgressBar(double percentage)
+    {
+        int width = 20;
+        int filledWidth = (int)(percentage / 100 * width);
+        int emptyWidth = width - filledWidth;
+        
+        string filled = new string('█', filledWidth);
+        string empty = new string('░', emptyWidth);
+        
+        return $"[{filled}{empty}]";
+    }
+
+    // تابع کمکی برای محاسبه روزهای متوالی تمرین
+    static int CalculateStreakDays(List<PracticeSession> sessions)
+    {
+        if (!sessions.Any()) return 0;
+        
+        var distinctDates = sessions
+            .Select(s => s.SessionDate.Date)
+            .Distinct()
+            .OrderByDescending(d => d)
+            .ToList();
+        
+        int streak = 0;
+        DateTime expectedDate = DateTime.Today;
+        
+        foreach (var date in distinctDates)
+        {
+            if (date == expectedDate || 
+                (streak == 0 && date == DateTime.Today.AddDays(-1)))
+            {
+                streak++;
+                expectedDate = date.AddDays(-1);
+            }
+            else
+            {
+                break;
+            }
+        }
+        
+        return streak;
+    }
     }
 
     public class Word
