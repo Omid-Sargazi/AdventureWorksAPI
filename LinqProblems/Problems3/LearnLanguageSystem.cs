@@ -102,6 +102,68 @@ namespace LinqProblems.Problems3
                            WasCorrect = true, Notes = "Spanish hello" }
         };
 
+        var newWordsToday = words
+            .Where(w => w.AddedDate >= DateTime.Today.AddDays(-2))
+            .OrderByDescending(w => w.AddedDate)
+            .Select(w => new
+            {
+                w.ForeignWord,
+                w.Translation,
+                w.Language,
+                w.Category,
+                w.Difficulty,
+                Added = (DateTime.Now - w.AddedDate).Days,
+                Mastery = w.MasteryLevel > 0 ? $"{w.MasteryLevel}%" : "Not practiced"
+            })
+            .ToList();
+
+        Console.WriteLine("=== New Words (Last 2 Days) ===");
+        foreach (var word in newWordsToday)
+        {
+            string difficulty = new string('★', word.Difficulty) + new string('☆', 5 - word.Difficulty);
+            Console.WriteLine($"{word.ForeignWord} = {word.Translation}");
+            Console.WriteLine($"  Language: {word.Language}, Category: {word.Category}");
+            Console.WriteLine($"  Difficulty: {difficulty}, Added {word.Added} days ago");
+            Console.WriteLine($"  Mastery: {word.Mastery}");
+        }
+
+        // 2. کلمات نیازمند مرور (بر اساس Spaced Repetition)
+        var wordsForReview = words
+            .Select(w => new
+            {
+                Word = w,
+                DaysSinceReview = w.LastReviewed.HasValue ? 
+                    (DateTime.Now - w.LastReviewed.Value).Days : int.MaxValue,
+                ReviewPriority = CalculateReviewPriority(w)
+            })
+            .Where(x => x.ReviewPriority >= 3) // اولویت ۳ یا بالاتر
+            .OrderByDescending(x => x.ReviewPriority)
+            .ThenBy(x => x.DaysSinceReview)
+            .Select(x => new
+            {
+                x.Word.ForeignWord,
+                x.Word.Translation,
+                x.Word.MasteryLevel,
+                LastReview = x.Word.LastReviewed?.ToString("MMM dd") ?? "Never",
+                x.Word.ReviewCount,
+                Priority = x.ReviewPriority switch
+                {
+                    >= 5 => "🚨 HIGH",
+                    >= 4 => "⚠️ MEDIUM",
+                    _ => "📝 LOW"
+                }
+            })
+            .Take(5) // فقط ۵ کلمه اول
+            .ToList();
+
+        Console.WriteLine("\n=== Words Needing Review ===");
+        foreach (var word in wordsForReview)
+        {
+            Console.WriteLine($"{word.Priority} {word.ForeignWord} = {word.Translation}");
+            Console.WriteLine($"  Mastery: {word.MasteryLevel}%, Reviews: {word.ReviewCount}");
+            Console.WriteLine($"  Last reviewed: {word.LastReview}");
+        }
+
         }
     }
 
