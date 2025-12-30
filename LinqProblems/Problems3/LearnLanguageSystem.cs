@@ -189,6 +189,29 @@ namespace LinqProblems.Problems3
                 Console.WriteLine($"  Estimated completion: {lesson.EstimatedCompletion}");
         }
 
+        var weeklyPractice = practiceSessions
+            .Where(p => p.SessionDate >= DateTime.Now.AddDays(-7))
+            .GroupBy(p => p.SessionDate.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                TotalMinutes = g.Sum(p => p.Duration),
+                TotalSessions = g.Count(),
+                TotalWords = g.Sum(p => p.WordsPracticed),
+                Accuracy = Math.Round((double)g.Sum(p => p.CorrectAnswers) / g.Sum(p => p.WordsPracticed) * 100, 1)
+            })
+            .OrderByDescending(d => d.Date)
+            .ToList();
+
+        Console.WriteLine("\n=== Weekly Practice Summary ===");
+        foreach (var day in weeklyPractice)
+        {
+            Console.WriteLine($"{day.Date:ddd, MMM dd}:");
+            Console.WriteLine($"  Sessions: {day.TotalSessions}, Time: {day.TotalMinutes} min");
+            Console.WriteLine($"  Words practiced: {day.TotalWords}, Accuracy: {day.Accuracy}%");
+        }
+
+
 
         }
     }
