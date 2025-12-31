@@ -72,4 +72,41 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
             return "Push Notification";
         }
     }
+
+     public class NotificationFactory
+    {
+        public INotification CreateNotification(string type, string recipient)
+        {
+            return type.ToLower() switch
+            {
+                "email" => new EmailNotification(recipient),
+                "sms" => new SmsNotification(recipient),
+                "push" => new PushNotification(recipient),
+                _ => throw new ArgumentException($"Invalid notification type: {type}")
+            };
+        }
+    }
+
+    public class NotificationExecute
+    {
+        public static void Execute()
+        {
+             NotificationFactory factory = new NotificationFactory();
+
+            // Send different types of notifications
+            var notifications = new List<INotification>
+            {
+                factory.CreateNotification("email", "user@example.com"),
+                factory.CreateNotification("sms", "+989121234567"),
+                factory.CreateNotification("push", "device-12345")
+            };
+
+            foreach (var notification in notifications)
+            {
+                Console.WriteLine($"\n=== {notification.GetNotificationType()} ===");
+                notification.Send("Hello! This is a test message.");
+            }
+        
+        }
+    }
 }
