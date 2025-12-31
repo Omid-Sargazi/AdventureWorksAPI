@@ -70,4 +70,27 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
             return 0.5 * Base * Height;
         }
     }
+
+    public class ShapeFactory
+    {
+        public IShape CreateShape(string shapeType, params double[] dimensions)
+        {
+            return shapeType.ToLower() switch
+            {
+                "circle" => dimensions.Length >= 1 
+                    ? new Circle(dimensions[0]) 
+                    : throw new ArgumentException("Circle requires radius"),
+                    
+                "rectangle" => dimensions.Length >= 2 
+                    ? new Rectangle(dimensions[0], dimensions[1]) 
+                    : throw new ArgumentException("Rectangle requires width and height"),
+                    
+                "triangle" => dimensions.Length >= 2 
+                    ? new Triangle(dimensions[0], dimensions[1]) 
+                    : throw new ArgumentException("Triangle requires base and height"),
+                    
+                _ => throw new ArgumentException($"Unknown shape type: {shapeType}")
+            };
+        }
+    }
 }
