@@ -93,4 +93,25 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
             };
         }
     }
+
+    public class ShapeExcute
+    {
+        public static void Execute()
+        {
+             ShapeFactory factory = new ShapeFactory();
+
+            // Create different shapes using factory
+            IShape circle = factory.CreateShape("circle", 5);
+            circle.Draw();
+            Console.WriteLine($"Area: {circle.CalculateArea():F2}");
+
+            IShape rectangle = factory.CreateShape("rectangle", 4, 6);
+            rectangle.Draw();
+            Console.WriteLine($"Area: {rectangle.CalculateArea():F2}");
+
+            IShape triangle = factory.CreateShape("triangle", 3, 4);
+            triangle.Draw();
+            Console.WriteLine($"Area: {triangle.CalculateArea():F2}");
+        }
+    }
 }
