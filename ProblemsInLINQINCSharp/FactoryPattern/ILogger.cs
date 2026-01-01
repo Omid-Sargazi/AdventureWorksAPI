@@ -151,4 +151,33 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
         }
     }
 
+    public class LoggerExecute
+    {
+        public static void execute()
+        {
+            LoggerFactory factory = new LoggerFactory();
+
+            // Create different loggers
+            var loggers = new List<ILogger>
+            {
+                factory.CreateLogger("console"),
+                factory.CreateLogger("file", "application.log"),
+                factory.CreateLogger("database", "Server=localhost;Database=Logs;Trusted_Connection=True;")
+            };
+
+            // Test all loggers
+            foreach (var logger in loggers)
+            {
+                Console.WriteLine($"\n=== Testing {logger.GetType().Name} ===");
+                
+                logger.LogInfo("Application started");
+                logger.LogWarning("Low disk space");
+                logger.LogError("Failed to connect to database", 
+                    new Exception("Connection timeout"));
+            }
+        }
+    
+        
+    }
+
 }
