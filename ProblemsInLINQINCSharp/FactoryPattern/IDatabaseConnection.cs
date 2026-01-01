@@ -141,4 +141,30 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
         }
     }
 
+    public class DatabaseExecute
+    {
+        public static void Execute()
+        {
+             DatabaseConnectionFactory factory = new DatabaseConnectionFactory();
+
+            // Create different database connections
+            var connections = new List<IDatabaseConnection>
+            {
+                factory.CreateConnection("sqlserver", "Server=localhost;Database=TestDB;Trusted_Connection=True;"),
+                factory.CreateConnection("mysql", "Server=localhost;Database=TestDB;Uid=root;Pwd=password;"),
+                factory.CreateConnection("postgresql", "Host=localhost;Database=TestDB;Username=postgres;Password=password;")
+            };
+
+            foreach (var connection in connections)
+            {
+                Console.WriteLine($"\n=== {connection.GetType().Name} ===");
+                
+                connection.Connect();
+                connection.ExecuteQuery("SELECT * FROM Users");
+                connection.Disconnect();
+            }
+        
+        }
+    }
+
 }
