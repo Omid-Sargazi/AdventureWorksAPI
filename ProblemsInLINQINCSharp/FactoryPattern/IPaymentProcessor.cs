@@ -144,4 +144,30 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
         }
     }
 
+     public class PaymentProcessorFactory
+    {
+        public IPaymentProcessor CreatePaymentProcessor(string paymentMethod, Dictionary<string, string> paymentDetails)
+        {
+            return paymentMethod.ToLower() switch
+            {
+                "creditcard" => new CreditCardPayment(
+                    paymentDetails["cardNumber"],
+                    paymentDetails["cvv"],
+                    paymentDetails["expiryDate"]
+                ),
+                
+                "paypal" => new PayPalPayment(
+                    paymentDetails["email"]
+                ),
+                
+                "banktransfer" => new BankTransferPayment(
+                    paymentDetails["accountNumber"],
+                    paymentDetails["bankName"]
+                ),
+                
+                _ => throw new ArgumentException($"Unsupported payment method: {paymentMethod}")
+            };
+        }
+    }
+
 }
