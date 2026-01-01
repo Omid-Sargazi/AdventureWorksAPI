@@ -170,4 +170,57 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
         }
     }
 
+    public class PaymentProcessorExecute
+    {
+        public static void Execute()
+        {
+            PaymentProcessorFactory factory = new PaymentProcessorFactory();
+
+            // Payment details for different methods
+            var paymentMethods = new List<(string method, Dictionary<string, string> details)>
+            {
+                ("creditcard", new Dictionary<string, string>
+                {
+                    { "cardNumber", "4111111111111111" },
+                    { "cvv", "123" },
+                    { "expiryDate", "12/25" }
+                }),
+                
+                ("paypal", new Dictionary<string, string>
+                {
+                    { "email", "customer@example.com" }
+                }),
+                
+                ("banktransfer", new Dictionary<string, string>
+                {
+                    { "accountNumber", "1234567890" },
+                    { "bankName", "Melli Bank" }
+                })
+            };
+
+            // Process payments using different methods
+            foreach (var (method, details) in paymentMethods)
+            {
+                Console.WriteLine($"\n=== Processing {method.ToUpper()} Payment ===");
+                
+                try
+                {
+                    IPaymentProcessor processor = factory.CreatePaymentProcessor(method, details);
+                    
+                    bool success = processor.ProcessPayment(100.50m, "USD");
+                    
+                    if (success)
+                    {
+                        Console.WriteLine($"Transaction ID: {processor.GetTransactionId()}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+        
+        }
+    }
+
 }
