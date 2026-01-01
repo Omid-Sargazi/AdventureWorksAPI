@@ -1,0 +1,129 @@
+namespace ProblemsInLINQINCSharp.FactoryPattern
+{
+    public interface IDatabaseConnection
+    {
+        void Connect();
+        void Disconnect();
+        void ExecuteQuery(string query);
+        bool IsConnected { get; }
+    }
+
+    // Concrete Products
+    public class SqlServerConnection : IDatabaseConnection
+    {
+        private string _connectionString;
+        public bool IsConnected { get; private set; }
+
+        public SqlServerConnection(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public void Connect()
+        {
+            Console.WriteLine($"Connecting to SQL Server: {_connectionString}");
+            // Simulate connection logic
+            IsConnected = true;
+            Console.WriteLine("Connected to SQL Server successfully!");
+        }
+
+        public void Disconnect()
+        {
+            if (IsConnected)
+            {
+                Console.WriteLine("Disconnecting from SQL Server...");
+                IsConnected = false;
+                Console.WriteLine("Disconnected successfully!");
+            }
+        }
+
+        public void ExecuteQuery(string query)
+        {
+            if (!IsConnected)
+                throw new InvalidOperationException("Not connected to database");
+
+            Console.WriteLine($"Executing SQL Server query: {query}");
+            // Simulate query execution
+            Console.WriteLine("Query executed successfully!");
+        }
+    }
+
+    public class MySqlConnection : IDatabaseConnection
+    {
+        private string _connectionString;
+        public bool IsConnected { get; private set; }
+
+        public MySqlConnection(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public void Connect()
+        {
+            Console.WriteLine($"Connecting to MySQL: {_connectionString}");
+            // Simulate connection logic
+            IsConnected = true;
+            Console.WriteLine("Connected to MySQL successfully!");
+        }
+
+        public void Disconnect()
+        {
+            if (IsConnected)
+            {
+                Console.WriteLine("Disconnecting from MySQL...");
+                IsConnected = false;
+                Console.WriteLine("Disconnected successfully!");
+            }
+        }
+
+        public void ExecuteQuery(string query)
+        {
+            if (!IsConnected)
+                throw new InvalidOperationException("Not connected to database");
+
+            Console.WriteLine($"Executing MySQL query: {query}");
+            // Simulate query execution
+            Console.WriteLine("Query executed successfully!");
+        }
+    }
+
+    public class PostgreSqlConnection : IDatabaseConnection
+    {
+        private string _connectionString;
+        public bool IsConnected { get; private set; }
+
+        public PostgreSqlConnection(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public void Connect()
+        {
+            Console.WriteLine($"Connecting to PostgreSQL: {_connectionString}");
+            // Simulate connection logic
+            IsConnected = true;
+            Console.WriteLine("Connected to PostgreSQL successfully!");
+        }
+
+        public void Disconnect()
+        {
+            if (IsConnected)
+            {
+                Console.WriteLine("Disconnecting from PostgreSQL...");
+                IsConnected = false;
+                Console.WriteLine("Disconnected successfully!");
+            }
+        }
+
+        public void ExecuteQuery(string query)
+        {
+            if (!IsConnected)
+                throw new InvalidOperationException("Not connected to database");
+
+            Console.WriteLine($"Executing PostgreSQL query: {query}");
+            // Simulate query execution
+            Console.WriteLine("Query executed successfully!");
+        }
+    }
+
+}
