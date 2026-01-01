@@ -126,4 +126,19 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
         }
     }
 
+
+     public class DatabaseConnectionFactory
+    {
+        public IDatabaseConnection CreateConnection(string databaseType, string connectionString)
+        {
+            return databaseType.ToLower() switch
+            {
+                "sqlserver" => new SqlServerConnection(connectionString),
+                "mysql" => new MySqlConnection(connectionString),
+                "postgresql" => new PostgreSqlConnection(connectionString),
+                _ => throw new ArgumentException($"Unsupported database type: {databaseType}")
+            };
+        }
+    }
+
 }
