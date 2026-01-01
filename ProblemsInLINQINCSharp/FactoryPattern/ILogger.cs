@@ -134,4 +134,21 @@ namespace ProblemsInLINQINCSharp.FactoryPattern
             Log(message, LogLevel.Warning);
         }
     }
+
+     public class LoggerFactory
+    {
+        public ILogger CreateLogger(string loggerType, string parameter = null)
+        {
+            return loggerType.ToLower() switch
+            {
+                "file" => new FileLogger(parameter),
+                "console" => new ConsoleLogger(),
+                "database" => parameter != null 
+                    ? new DatabaseLogger(parameter) 
+                    : throw new ArgumentException("Database logger requires connection string"),
+                _ => throw new ArgumentException($"Unknown logger type: {loggerType}")
+            };
+        }
+    }
+
 }
