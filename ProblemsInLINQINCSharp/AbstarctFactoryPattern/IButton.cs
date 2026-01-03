@@ -92,4 +92,45 @@ namespace ProblemsInLINQINCSharp.AbstarctFactoryPattern
         ICheckBox CreateCheckBox();
     }
 
+
+    public class LightThemeFactory : IUIThemeFactory
+    {
+        public IButton CreateButton() => new LightButton();
+        public ITextBox CreateTextBox() => new LightTextBox();
+        public ICheckBox CreateCheckBox() => new LightCheckBox();
+    }
+
+    public class DarkThemeFactory : IUIThemeFactory
+    {
+        public IButton CreateButton() => new DarkButton();
+        public ITextBox CreateTextBox() => new DarkTextBox();
+        public ICheckBox CreateCheckBox() => new DarkCheckBox();
+    }
+
+    // Client Code
+    class Application
+    {
+        private IUIThemeFactory _themeFactory;
+
+        public Application(IUIThemeFactory themeFactory)
+        {
+            _themeFactory = themeFactory;
+        }
+
+        public void RenderUI()
+        {
+            Console.WriteLine("\n=== Rendering UI Components ===");
+            
+            var button = _themeFactory.CreateButton();
+            var textBox = _themeFactory.CreateTextBox();
+            var checkBox = _themeFactory.CreateCheckBox();
+
+            button.Render();
+            textBox.Render();
+            textBox.SetText("Hello World!");
+            checkBox.Render();
+            checkBox.Check();
+        }
+    }
+
 }
