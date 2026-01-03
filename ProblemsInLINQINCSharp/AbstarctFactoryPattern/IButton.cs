@@ -85,4 +85,11 @@ namespace ProblemsInLINQINCSharp.AbstarctFactoryPattern
         }
     }
 
+    public interface IUIThemeFactory
+    {
+        IButton CreateButton();
+        ITextBox CreateTextBox();
+        ICheckBox CreateCheckBox();
+    }
+
 }
