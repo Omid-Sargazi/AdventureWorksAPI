@@ -344,4 +344,55 @@ namespace ProblemsInLINQINCSharp.AbstarctFactoryPattern
             return new EcoBicycle();
         }
     }
+
+
+     class VehicleDealership
+    {
+        private IVehicleFactory _factory;
+        private string _dealershipType;
+
+        public VehicleDealership(IVehicleFactory factory, string dealershipType)
+        {
+            _factory = factory;
+            _dealershipType = dealershipType;
+        }
+
+        public void ShowVehicleRange()
+        {
+            Console.WriteLine($"\n=== {_dealershipType} Dealership ===");
+            
+            var car = _factory.CreateCar();
+            var motorcycle = _factory.CreateMotorcycle();
+            var bicycle = _factory.CreateBicycle();
+
+            Console.WriteLine("Available Vehicles:");
+            Console.WriteLine($"1. Car: {car.GetModel()} ({car.GetSeatCount()} seats)");
+            Console.WriteLine($"2. Motorcycle: {motorcycle.GetModel()} ({motorcycle.GetEngineCC()}cc)");
+            Console.WriteLine($"3. Bicycle: {bicycle.GetModel()} ({bicycle.GetGearCount()} gears)");
+        }
+
+        public void TestDriveAllVehicles()
+        {
+            Console.WriteLine("\n=== Test Drive ===");
+            
+            var car = _factory.CreateCar();
+            var motorcycle = _factory.CreateMotorcycle();
+            var bicycle = _factory.CreateBicycle();
+
+            Console.WriteLine("Testing Car:");
+            car.Drive();
+            Console.WriteLine($"Fuel Type: {car.GetFuelType()}");
+            Console.WriteLine($"Fuel Efficiency for 100km: {car.CalculateFuelEfficiency(100):F1} liters");
+
+            Console.WriteLine("\nTesting Motorcycle:");
+            motorcycle.Ride();
+            Console.WriteLine($"Storage: {(motorcycle.HasStorage() ? "Yes" : "No")}");
+            Console.WriteLine($"Mileage for 100km: {motorcycle.CalculateMileage(100):F1} liters");
+
+            Console.WriteLine("\nTesting Bicycle:");
+            bicycle.Pedal();
+            Console.WriteLine($"Basket: {(bicycle.HasBasket() ? "Yes" : "No")}");
+            Console.WriteLine($"Speed for 10km in 0.5h: {bicycle.CalculateSpeed(0.5, 10):F1} km/h");
+        }
+    }
 }
