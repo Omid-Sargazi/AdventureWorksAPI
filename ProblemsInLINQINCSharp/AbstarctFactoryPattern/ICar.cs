@@ -289,4 +289,59 @@ namespace ProblemsInLINQINCSharp.AbstarctFactoryPattern
         IMotorcycle CreateMotorcycle();
         IBicycle CreateBicycle();
     }
+
+
+     public class SportsVehicleFactory : IVehicleFactory
+    {
+        public ICar CreateCar()
+        {
+            return new SportsCar();
+        }
+
+        public IMotorcycle CreateMotorcycle()
+        {
+            return new SportsMotorcycle();
+        }
+
+        public IBicycle CreateBicycle()
+        {
+            return new SportsBicycle();
+        }
+    }
+
+    public class FamilyVehicleFactory : IVehicleFactory
+    {
+        public ICar CreateCar()
+        {
+            return new FamilyCar();
+        }
+
+        public IMotorcycle CreateMotorcycle()
+        {
+            return new FamilyMotorcycle();
+        }
+
+        public IBicycle CreateBicycle()
+        {
+            return new FamilyBicycle();
+        }
+    }
+
+    public class EcoVehicleFactory : IVehicleFactory
+    {
+        public ICar CreateCar()
+        {
+            return new EcoCar();
+        }
+
+        public IMotorcycle CreateMotorcycle()
+        {
+            return new EcoMotorcycle();
+        }
+
+        public IBicycle CreateBicycle()
+        {
+            return new EcoBicycle();
+        }
+    }
 }
