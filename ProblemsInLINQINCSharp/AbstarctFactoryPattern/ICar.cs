@@ -281,4 +281,12 @@ namespace ProblemsInLINQINCSharp.AbstarctFactoryPattern
             return time > 0 ? distance / time * 3.0 : 0; // km/h
         }
     }
+
+
+    public interface IVehicleFactory
+    {
+        ICar CreateCar();
+        IMotorcycle CreateMotorcycle();
+        IBicycle CreateBicycle();
+    }
 }
