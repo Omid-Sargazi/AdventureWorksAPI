@@ -84,4 +84,26 @@ public class EmailConnectionValidator : IConnectionValidator
     }
 }
 
+public interface ICommunicationFactory
+{
+    IMessageSender CreateMessageSender();
+    IMessageReceiver CreateMessageReceiver();
+    IConnectionValidator CreateConnectionValidator();
+}
+
+
+public class SmsCommunicationFactory : ICommunicationFactory
+{
+    public IMessageSender CreateMessageSender() => new SmsSender();
+    public IMessageReceiver CreateMessageReceiver() => new SmsReceiver();
+    public IConnectionValidator CreateConnectionValidator() => new SmsConnectionValidator();
+}
+
+public class EmailCommunicationFactory : ICommunicationFactory
+{
+    public IMessageSender CreateMessageSender() => new EmailSender();
+    public IMessageReceiver CreateMessageReceiver() => new EmailReceiver();
+    public IConnectionValidator CreateConnectionValidator() => new EmailConnectionValidator();
+}
+
 }
