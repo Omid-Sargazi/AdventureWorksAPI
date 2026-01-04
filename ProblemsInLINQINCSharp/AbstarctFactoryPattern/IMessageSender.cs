@@ -106,4 +106,26 @@ public class EmailCommunicationFactory : ICommunicationFactory
     public IConnectionValidator CreateConnectionValidator() => new EmailConnectionValidator();
 }
 
+public class CommunicationService
+{
+    private readonly IMessageSender _sender;
+    private readonly IMessageReceiver _receiver;
+    private readonly IConnectionValidator _validator;
+
+    public CommunicationService(ICommunicationFactory factory)
+    {
+        _sender = factory.CreateMessageSender();
+        _receiver = factory.CreateMessageReceiver();
+        _validator = factory.CreateConnectionValidator();
+    }
+
+    public async Task<bool> SendMessage(string message, string recipient)
+    {
+        var isValid = await _validator.ValidateConnectionAsync();
+        if (!isValid) return false;
+        
+        return await _sender.SendAsync(message, recipient);
+    }
+}
+
 }
