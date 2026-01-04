@@ -39,4 +39,11 @@ public class PdfReportFooter : IReportFooter
     public string Generate(DateTime generatedTime) 
         => $"PDF Footer - Generated at: {generatedTime}\n========================";
 }
+
+public interface IReportFactory
+{
+    IReportHeader CreateHeader();
+    IReportBody CreateBody();
+    IReportFooter CreateFooter();
+}
 }
