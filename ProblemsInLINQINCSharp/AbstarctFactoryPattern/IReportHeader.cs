@@ -87,4 +87,26 @@ public class ExcelReportFactory : IReportFactory
     public IReportBody CreateBody() => new ExcelReportBody();
     public IReportFooter CreateFooter() => new ExcelReportFooter();
 }
+
+public class ReportGenerator
+{
+    private readonly IReportHeader _header;
+    private readonly IReportBody _body;
+    private readonly IReportFooter _footer;
+
+    public ReportGenerator(IReportFactory factory)
+    {
+        _header = factory.CreateHeader();
+        _body = factory.CreateBody();
+        _footer = factory.CreateFooter();
+    }
+
+    public string GenerateReport(List<object> data)
+    {
+        var report = _header.Generate() + "\n";
+        report += _body.Generate(data) + "\n";
+        report += _footer.Generate(DateTime.Now);
+        return report;
+    }
+}
 }
