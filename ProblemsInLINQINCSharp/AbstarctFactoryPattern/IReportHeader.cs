@@ -40,10 +40,51 @@ public class PdfReportFooter : IReportFooter
         => $"PDF Footer - Generated at: {generatedTime}\n========================";
 }
 
+
+
+// Concrete Products for Excel
+public class ExcelReportHeader : IReportHeader
+{
+    public string Generate() => "Excel Header: --------------------";
+}
+
+public class ExcelReportBody : IReportBody
+{
+    public string Generate(List<object> data)
+    {
+        var body = "Excel Body:\n";
+        foreach (var item in data)
+        {
+            body += $"- {item}\n";
+        }
+        return body;
+    }
+}
+
+public class ExcelReportFooter : IReportFooter
+{
+    public string Generate(DateTime generatedTime) 
+        => $"Excel Footer - Created: {generatedTime}\n--------------------";
+}
+
 public interface IReportFactory
 {
     IReportHeader CreateHeader();
     IReportBody CreateBody();
     IReportFooter CreateFooter();
+}
+
+public class PdfReportFactory : IReportFactory
+{
+    public IReportHeader CreateHeader() => new PdfReportHeader();
+    public IReportBody CreateBody() => new PdfReportBody();
+    public IReportFooter CreateFooter() => new PdfReportFooter();
+}
+
+public class ExcelReportFactory : IReportFactory
+{
+    public IReportHeader CreateHeader() => new ExcelReportHeader();
+    public IReportBody CreateBody() => new ExcelReportBody();
+    public IReportFooter CreateFooter() => new ExcelReportFooter();
 }
 }
